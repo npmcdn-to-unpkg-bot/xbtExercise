@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>2016-06-20 demo7</title>
+    <link rel="stylesheet" href="css/demo7.css" type="text/css"/>
+</head>
+<body>
+<h2>修改个人信息</h2>
+<form method="post">
+    <table border="1" width="400px" height="200px" cellspacing="0" cellpadding="0">
+        <tr>
+            <td>姓名：</td>
+            <td><input type="text" name="userName" /></td>
+        </tr>
+        <tr>
+            <td>性别：</td>
+            <td><input type="radio" name="sex"/>帅哥<input type="radio"name="sex"/>美女<input type="radio"name="sex"/>其他</td>
+        </tr>
+        <tr>
+            <td>学历:</td>
+            <td>
+                <select name="xueli" id="xueli" style="width:80px">
+                    <option value="opt1" selected>本科</option>
+                    <option value="opt2">硕士</option>
+                    <option value="opt3">博士</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>意向工作城市：</td>
+            <td>
+                <select name="city" id="city"  multiple size="6">
+                    <option value="city1">北京</option>
+                    <option value="city2">上海</option>
+                    <option value="city3">南京</option>
+                    <option value="city4">深圳</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>个人描述：</td>
+            <td><textarea name="description" id="description" cols="30" rows="10">什么都没有简写</textarea></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="checkbox" name="prives"/>不要公开我的个人信息</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit"/> &nbsp; &nbsp; &nbsp;<input type="reset"/></td>
+        </tr>>
+    </table>
+</form>
+   <fieldset style="width:400px">
+       <legend>这是我的复习demo</legend>
+       <input type="text" name="name"/> 用户名 <br/><br/>
+       <input type="password" name="password"/> 密码<br/><br/>
+       <input type="submit"/>提交
+   </fieldset>
+</body>
+</html>

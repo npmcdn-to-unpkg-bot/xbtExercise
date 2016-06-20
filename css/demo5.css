@@ -1,0 +1,12 @@
+@charset "UTF-8";
+li {
+    width:100px;
+    height:30px;
+    border: 1px dashed #ffaaaa;
+}
+.ol {
+    display: none;
+}
+.li {
+    cursor: pointer;
+}

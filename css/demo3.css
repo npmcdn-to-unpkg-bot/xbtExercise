@@ -1,0 +1,28 @@
+@charset "UTF-8";
+* {
+    margin:0;
+    padding: 0;
+}
+#box {
+    width:90%;
+    height:2200px;
+}
+.box {
+    width:80%;
+    border:1px solid #221133;
+    height:200px;
+    margin:0 auto;
+    text-align: center;
+}
+.box1 {
+    width:50%;
+    border:1px dashed #34f;
+    float:left;
+    height:100px;
+}
+.box2 {
+    width: 30px;
+    border:1px solid #87f;
+    float:left;
+    height: 150px;
+}
