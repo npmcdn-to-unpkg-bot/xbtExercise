@@ -1,0 +1,32 @@
+@charset "UTF-8";
+* {
+    margin:0;
+    padding: 0;
+
+}
+body {
+    background-color: #f2f2f2;
+    font-size: 12px;
+}
+.header {
+    width: 992px;
+    height: 64px;
+    margin: 15px 120px;
+    border:1px solid #333;
+    padding:10px;
+    display:table;
+    vertical-align: middle;
+}
+#logo {
+    width:170px;
+    height:60px;
+}
+#welc {
+    width:118px;
+    height:47px;
+}
+#line {
+    width:1px;
+    height:20px;
+    border:1px solid #000;
+}
