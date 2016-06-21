@@ -2,31 +2,80 @@
 * {
     margin:0;
     padding: 0;
-
+    list-style: none;
+    text-decoration: none;
 }
 body {
     background-color: #f2f2f2;
     font-size: 12px;
 }
+header {
+    width:100%;
+}
+.outer {
+    width: 992px;
+    height: 64px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
 .header {
     width: 992px;
     height: 64px;
-    margin: 15px 120px;
-    border:1px solid #333;
-    padding:10px;
-    display:table;
+    display: table-cell;
+    vertical-align: middle;
+    border: 1px solid #ffaaaa;
+
+}
+img {
     vertical-align: middle;
 }
-#logo {
-    width:170px;
-    height:60px;
-}
 #welc {
-    width:118px;
-    height:47px;
+    border-left : 1px solid #aaaaaa;
 }
-#line {
-    width:1px;
-    height:20px;
-    border:1px solid #000;
+footer {
+    width:500px;
+    height:500px;
+    border :1px solid #9f8;
+    margin:0 auto;
+    display:table;
+    overflow:hidden;
+    background: #eee;
+    margin-top: 100px;
+}
+.lorem {
+    /*如果是多行文字却使用line-height属性，则会每行文字之间的距离都有line-height所设置的高度*/
+    /*line-height: 500px;*/
+    display:table-cell;
+    vertical-align:middle;
+}
+/*.k1 {*/
+    /*width:666px;*/
+    /*height:528px;*/
+    /*border:1px solid #d0e4c2;*/
+    /*margin: 0 auto;*/
+    /*margin-bottom: 100px;*/
+    /*position: relative;*/
+/*}*/
+/*.k2 {*/
+    /*width:200px;*/
+    /*height:200px;*/
+    /*border:1px solid #ffaaaa;*/
+    /*position: absolute;*/
+    /*left:50%;*/
+    /*top:50%;*/
+    /*margin:-100px 0 0 -100px;*/
+/*}*/
+.k1 {
+    width:666px;
+    height:528px;
+    border:1px solid #d0e4c2;
+    display: table-cell;
+    vertical-align: middle;
+}
+.k2 {
+    width:200px;
+    height:200px;
+    border:1px solid #ffaaaa;
+    margin: 0 auto;
+    /*display: table-cell;*/
 }

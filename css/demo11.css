@@ -1,0 +1,55 @@
+@charset "UTF-8";
+header img {
+    width:106px;
+    height:43px;
+}
+article {
+    width:100%;
+}
+.outer {
+    width:70%;
+    height:500px;
+    margin: 0 auto;
+    position: relative;
+}
+.divLeft {
+    width:100%;
+    height:500px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+
+}
+.img1 {
+    float: left;
+    width:360px;
+    height:290px;
+    vertical-align: middle;
+
+}
+.divRight {
+    position: absolute;
+    left:470px;
+    top:120px;
+    border-top:1px solid #ffaaaa;
+    border-bottom: 1px solid #d0e4c2;
+    border-left: 1px solid #d0e4c2;
+    border-right: 1px solid #d0e4c2;
+    line-height: 30px;
+}
+.divRight td {
+    border-bottom: 1px dotted #aaaaff;
+    padding-left: 20px;
+}
+.imgma {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.user  input {
+    width:200px;
+    height:18px;
+    color:#999;
+    border:1px solid #d0e4c2;
+    background: url(../img/user.png) no-repeat 0px center;
+}

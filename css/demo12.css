@@ -1,0 +1,93 @@
+@charset "UTF-8";
+.outer {
+    width:550px;
+    height:100px;
+    border:1px solid #d0e4c2;
+    margin:0 auto;
+    position: relative;
+}
+img {
+    position: absolute;
+    top:0;
+    left:-70px;
+}
+.img7 {
+    z-index: 7;
+    -webkit-animation:img7 4s linear forwards;
+}
+@-webkit-keyframes   img7 {
+    from { left: -70px;} to { left: 480px;}
+ }
+
+.img6 {
+    z-index: 6;
+    -webkit-animation:img6 3.418s linear forwards;
+}
+@-webkit-keyframes   img6{
+    from { left: -70px;} to { left: 400px;}
+}
+.img5 {
+    z-index: 5;
+    -webkit-animation:img5 2.836s linear forwards;
+}
+@-webkit-keyframes   img5 {
+    from { left: -70px;} to { left: 320px;}
+}
+.img4 {
+    z-index: 4;
+    -webkit-animation:img4 2.255s linear forwards;
+}
+@-webkit-keyframes   img4{
+    from { left: -70px;} to { left: 240px;}
+}
+.img3 {
+    z-index: 3;
+    -webkit-animation:img3 1.672s linear forwards;
+}
+@-webkit-keyframes   img3 {
+    from { left: -70px;} to { left: 160px;}
+}
+.img2 {
+    z-index: 2;
+    -webkit-animation:img2 1.091s linear forwards;
+}
+@-webkit-keyframes   img2 {
+    from { left: -70px;} to { left: 80px;}
+}
+.img1 {
+    z-index: 1;
+    -webkit-animation:img1 0.509s linear forwards;
+}
+@-webkit-keyframes   img1 {
+    from { left: -70px;} to { left: 0px;}
+}
+.outer1 {
+    width:70px;
+    height:70px;
+    border:1px solid #d0e4c2;
+    margin:0 auto;
+    -webkit-animation: powerPoint 20s linear forwards infinite;
+}
+@-webkit-keyframes   powerPoint{
+    from {
+        background: url(../img/p_small_001.jpg) no-repeat ;
+    }
+    20% {
+        background: url(../img/p_small_002.jpg) no-repeat ;
+    }
+    40% {
+        background: url(../img/p_small_003.jpg) no-repeat ;
+    }
+    50% {
+        background: url(../img/p_small_004.jpg) no-repeat ;
+    }
+    70% {
+        background: url(../img/p_small_005.jpg) no-repeat ;
+    }
+    85% {
+        background: url(../img/p_small_006.jpg) no-repeat ;
+    }
+    to {
+        background: url(../img/p_small_007.jpg) no-repeat ;
+    }
+ }

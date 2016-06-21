@@ -1,0 +1,99 @@
+@charset "UTF-8";
+.box1, .box2 ,.box3,.box4 {
+    font-size: 10px;
+    width: 200px;
+    height: 200px;
+    padding: 20px;
+    float:left;
+    margin-right: 5px;
+    background-color: #a4edae;
+    position: relative;
+}
+.square1 {
+    background-color: #FFF;
+    width: 120px;
+    height: 60px;
+    display: block;
+    -webkit-cursor: grab;
+}
+.arrow1 {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    zoom: 1;
+    border: 8px solid transparent;
+    _border-color:tomato;
+    _filter:chroma(color=tomato);
+    border-top-color: #FFF;
+    vertical-align: -7px;
+    *vertical-align: 0;
+    margin-left: 10px;
+}
+.square2 {
+    background-color: #FFF;
+    border: 1px solid #AAA;
+    width: 120px;
+    height: 60px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    -webkit-cursor: grabbing;
+}
+.arrow2 {
+    width: 10px;
+    height: 10px;
+    overflow:hidden;
+    zoom: 1;
+    position: absolute;
+    top: 76px;
+    left: 40px;
+    border-right: 1px solid #AAA;
+    border-bottom: 1px solid #AAA;
+    transform: rotate(45deg);
+    /*-o-transform: rotate(45deg);*/
+    /*-moz-transform: rotate(45deg);*/
+    /*-webkit-transform: rotate(45deg);*/
+    background-color: #FFF;
+}
+.ltie9 .arrow2  {
+    transform: rotate(0deg);
+    top: 75px;
+    filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865474, M12=-0.7071067811865477, M21=0.7071067811865477, M22=0.7071067811865474, SizingMethod='auto expand');
+}
+.square3 {
+    width:100px;
+    height:100px;
+    position: absolute;
+    left:30px;
+    top:30px;
+    background-color: #fdedd2;
+    cursor: zoom-in;
+}
+.arrow3 {
+    /*制作三角形的关键两步，*/
+    border: 18px solid transparent;
+    border-top-color: #fdedd2;
+    position: absolute;
+    top:130px;
+    left:40px;
+
+}
+.square4 {
+    width:100px;
+    height:100px;
+    position: absolute;
+    left:30px;
+    top:30px;
+    background-color: #f49;
+    cursor: zoom-out;
+}
+.arrow4 {
+    width:10px;
+    height:10px;
+    position: absolute;
+    background-color: #f49;
+    top: 125px;
+    left:40px;
+    transform: rotate(45deg);
+}
+
