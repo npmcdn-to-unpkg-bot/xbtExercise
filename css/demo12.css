@@ -6,7 +6,7 @@
     margin:0 auto;
     position: relative;
 }
-img {
+.outer img {
     position: absolute;
     top:0;
     left:-70px;
@@ -91,3 +91,56 @@ img {
         background: url(../img/p_small_007.jpg) no-repeat ;
     }
  }
+.outer2 {
+    width:550px;
+    height:70px;
+    border:1px solid #d0e4c2;
+    margin:0 auto;
+}
+
+.img11 {
+    -webkit-animation: movedown 1s linear  infinite;
+}
+.img22 {
+    -webkit-animation: movedown 1s linear .1s infinite;
+}
+.img33 {
+    -webkit-animation: movedown 1s linear .2s infinite;
+}
+.img44 {
+    -webkit-animation: movedown 1s linear .3s infinite;
+}
+.img55 {
+    -webkit-animation: movedown 1s linear .4s infinite;
+}
+.img66 {
+    -webkit-animation: movedown 1s linear .5s infinite;
+}
+.img77 {
+    -webkit-animation: movedown 1s linear .6s infinite;
+}
+@-webkit-keyframes movedown {
+    from {
+        transform:translateY(0px)
+    }
+    50% {
+        transform:translateY(30px)
+    }
+    to {
+        transform:translateY(0px)
+    }
+
+ }
+.outer3 {
+    padding-top: 60px;
+    width:350px;
+    height:440px;
+    border:1px solid #d0e4c2;
+    margin:0 auto;
+}
+.imgRotate {
+    transition: transform 1s linear;
+}
+.imgRotate:hover {
+   transform: rotate(30deg) ;
+}
