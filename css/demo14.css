@@ -82,3 +82,9 @@
 .removecolor {
     background-color: #fff;
 }
+.btnGroup {
+    margin-top: 50px;
+}
+.btnGroup input {
+    margin-left :20px;
+}

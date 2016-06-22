@@ -59,4 +59,17 @@ window.onload =function () {
 
 
     });
+    var btnGroup =document.getElementsByClassName('btnGroup')[0];
+    btnGroup.addEventListener('click',function(event) {
+        var src = event.srcElement||event.target;
+        //console.log(src.getAttribute('value'));
+    });
+    var btns = document.getElementsByTagName('input');
+    for (var i=0;i<btns.length;i++) {
+        (function (i) {
+            return btns[i].addEventListener('click',function() {
+                console.log(i);
+            })
+        })(i)
+    }
 }
