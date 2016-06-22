@@ -1,0 +1,167 @@
+@charset "UTF-8";
+* {
+    margin:0;
+    padding:0;
+}
+.div1 {
+    width:100px;
+    /*border:1px solid #ffaaaa;*/
+    margin: auto;
+}
+.outer1 {
+    /*border:1px solid #d0e4c2;*/
+}
+.outer2 {
+    margin-top: 20px;
+    text-align: center;
+}
+.inner2 {
+    /*overflow: hidden;*/
+}
+.outer2 p {
+    width:100px;
+    height:50px;
+    margin-right: 10px;
+    border:1px solid #000;
+    display: inline-block;
+}
+.outer3 {
+    margin: 0 auto;
+    width: 410px;
+}
+.ul1 {
+    list-style: none;
+    overflow: hidden;
+    counter-reset: ul1  -2.08;
+}
+
+.li1 {
+    float:left;
+    width:80px;
+    height:80px;
+    border:1px solid #aaa;
+    counter-increment: ul1 3;
+}
+.li1:before {
+    content: counters(ul1, '-') '. ';
+}
+.ul2 {
+    list-style: none;
+    float: left;
+    position: relative;
+    left:50%;
+
+}
+.li2 {
+    float:left;
+    width:80px;
+    height:80px;
+    border:1px solid #aaa;
+    position: relative;
+    left: -50%;
+}
+.outer5 {
+    width:100px;
+    height:100px;
+    border:1px solid #a4edae;
+    position:absolute;
+    top:10px;
+    left:10px;
+}
+.inner5 {
+    width:50px;
+    height:50px;
+    border:1px solid #ffaaaa;
+    position: relative;
+    left:50%;
+    top:50%;
+}
+.outer6 {
+    width:100px;
+    height:100px;
+    border:1px solid #a4edae;
+    padding: 100px;
+}
+.inner6 {
+    width:50px;
+    height:50px;
+    border:1px solid #ffaaaa;
+    /*padding:100px;*/
+}
+.Outer1 {
+    width:1000px;
+    height:300px;
+    border:1px solid #d0e4c2;
+    float:left;
+}
+.Outer2 {
+    width:100px;
+    height:100px;
+    border:1px solid #d0e4c2;
+    float:left;
+}
+/*.outer7:after {*/
+    /*content: '.';*/
+    /*clear:both;*/
+    /*display:block;*/
+    /*width: 0;*/
+    /*height: 0;*/
+    /*visibility:hidden;*/
+
+
+/*}*/
+.outer7 {
+    display: table;
+}
+.Outer3 {
+
+    /*clear: both;*/
+    width:100px;
+    height:100px;
+    border:1px solid #ff4499;
+}
+
+.reset {
+    padding-left: 20px;
+    counter-reset: wangxiaoer;
+    line-height: 1.6;
+    color: #666;
+}
+.counter:before {
+    content: counters(wangxiaoer, '-') '. ';
+    counter-increment: wangxiaoer;
+    font-family: arial black;
+}
+.outer8 {
+    width:800px;
+    height:800px;
+    border:1px solid #99ff88;
+    margin: 0 auto;
+    position: relative;
+}
+.inner8 {
+    width:200px;
+    height:200px;
+    border:1px solid #ff4499;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    /*left:50%;*/
+    /*top:50%;*/
+    /*transform: translate(-50%,-50%);*/
+}
+.float1 {
+    width:600px;
+    height:600px;
+    border:1px solid #99ff88;
+    float:left;
+}
+.float2 {
+    width:200px;
+    height:200px;
+    border:1px solid #99ff88;
+    float:right;
+}
