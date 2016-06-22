@@ -1,0 +1,84 @@
+@charset "UTF-8";
+.outer {
+    width:100px;
+    height:100px;
+    margin:0 auto;
+    border:1px solid #666666;
+}
+.inner {
+    width:100px;
+    height:100px;
+    overflow: hidden;
+    margin: 0 auto;
+    position:relative;
+}
+.inner i {
+    position: absolute;
+}
+.inner img {
+    position:absolute;
+    top: 0;
+    left:5px;
+}
+
+.product_02_m {
+    display: none;
+}
+.product_03_m {
+    display: none;
+}
+.product_04_m {
+    display: none;
+}
+.product_05_m {
+    display: none;
+}
+.left {
+    background: url(../img/iconlist_1.png) no-repeat  0 -140px;
+    width:18px;
+    height:55px;
+    left:0;
+    top:20px;
+    z-index: 999;
+    display: none;
+}
+.right {
+    background: url(../img/iconlist_1.png) no-repeat -18px -140px ;
+    display: block;
+    width:18px;
+    height:55px;
+    right:0;
+    top:20px;
+    z-index: 999;
+}
+.ul {
+    position :absolute;
+    top:72px;
+    left:-14px;
+    list-style: none;
+    z-index: 999;
+}
+.ul li {
+    float:left;
+    width: 5px;
+    height:5px;
+    border:1px solid #000000;
+    margin-right: 5px;
+}
+.product_01_m1 {
+    background-color:#ff4;
+}
+.show {
+    display: block;
+    transition: display 2s linear;
+}
+.hide {
+    display: none;
+    transition: display 2s linear;
+}
+.addcolor {
+    background-color: #ff4499;
+}
+.removecolor {
+    background-color: #fff;
+}
