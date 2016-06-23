@@ -1,14 +1,106 @@
 @charset "UTF-8";
+* {
+    margin:0;
+    padding:0;
+    list-style: none;
+}
 .father {
     width:500px;
-    height:500px;
-    border:1px solid #292;
+    /*border:1px solid #292;*/
+    position:relative;
+    left:50%;
+    /*display: flex;*/
+    /*display:inline-flex;*/
+    /*flex-direction: row-reverse; 感觉上像浮动过之后的样子横向的倒过来排序*/
+    /*flex-direction: row; 正常情况也是这样显示的*/
+    /*flex-direction: column;实际上展示出来的就是多个div独占一行的现象*/
+    /*flex-direction: column-reverse;*/
+    /*所有的倒序排列都是紧挨相对的那个边框展示*/
+}
+.father:after {
+    content: '.';
+    clear:both;
+    visibility: hidden;
+    display:block;
+    width:0px;
+    height: 0px;
 
 }
 .father div {
-    display: block;
     width:100px;
     height:100px;
     border:1px solid #3344ff;
     margin:10px;
+    float:left;
+    position:relative;
+    left:-50%;
+}
+.father1 {
+    margin-top: 30px;
+    width:500px;
+    height:200px;
+    border:1px solid #292;
+    display: flex;
+    /*display:inline-flex;*/
+    /*flex-direction: row-reverse; 感觉上像浮动过之后的样子横向的倒过来排序*/
+    /*flex-direction: row;*/
+    flex-direction: column;/*实际上展示出来的就是多个div独占一行的现象*/
+    /*flex-direction: column-reverse;*/
+    /*所有的倒序排列都是紧挨相对的那个边框展示*/
+    /*position:relative;此处还是可以利用相对定位来实现居中的显示效果*/
+    /*left:50%;*/
+    /*flex-wrap属性解释，如果没有设置此属性，就算内容超出父框，也还是经过计算按照等比例的宽度来呈现，高度方向上如果超出父元素的高度就会要溢出*/
+    /*wrap是以上边框开始从上到下展示。wrap-reverse是以下边框从下往上展示*/
+    flex-wrap: wrap;
+    /*flex-flow: column;*/
+
+}
+.father1 div {
+    width:300px;
+    height:100px;
+    border:1px solid #3344ff;
+    margin:10px;
+    /*position:relative;*/
+    /*left:-50%;*/
+}
+/*利用flex可以对不同的孩子进行设置不同的宽度来呈现比例的效果，值越小则在生成的框的宽度越小*/
+/*#box11 {*/
+    /*flex:1;*/
+/*}*/
+/*#box21 {*/
+    /*flex:2;*/
+/*}*/
+/*#box31 {*/
+    /*flex:3;*/
+/*}*/
+#ul {
+    width:600px;
+    margin-top: 50px;
+    display: flex;
+}
+#ul li {
+    padding: 2px 5px;
+    background-color: #99ff88;
+    border:1px solid #a61;
+    flex:1;
+    min-width: 100px;
+}
+.li2:hover {
+    flex:2;
+
+}
+.a a{
+    text-decoration: none;
+}
+.a a:link {
+    color: red;
+}
+.a a:visited {
+    color:#000;
+}
+.a a:hover {
+    color:#aa6611;
+}
+.a a:active {
+    color:#99ff88;
 }
