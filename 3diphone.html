@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>3dIphone</title>
+    <style type="text/css">
+        #outer {
+            position:relative;
+            top:50px;
+            left:50px;
+            width:256px;
+            height:526px;
+            perspective: 800px;
+        }
+        #inner {
+            position: absolute;
+            width:256px;
+            height: 526px;
+            /*让当前元素下的子元素以3d效果展示，此属性必须要加*/
+            transform-style: preserve-3d;
+            -webkit-animation: iphone 2s linear infinite alternate;
+        }
+        #inner:hover {
+            -webkit-animation-play-state: paused;
+        }
+        #front,#back {
+            /*正面展示成这样就可以了，不需要其他多余的设置*/
+            position: absolute;
+            width:256px;
+            height:526px;
+            background: url(img/iphone6.jpg) no-repeat;
+        }
+        #back {
+            background-position: -287px 0;
+            transform: translateZ(-26px) rotateY(180deg);
+
+        }
+        #left {
+            position: absolute;
+            width:27px;
+            height:526px;
+            background-image: url(img/iphone6.jpg);
+            background-position: -566px 0;
+            /*先向里推28再以左边的轴旋转90deg*/
+            transform-origin: left 50%;
+            transform: translateZ(-28px) rotateY(-90deg);
+
+        }
+        @-webkit-keyframes iphone {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(180deg);
+            }
+         }
+    </style>
+</head>
+<body>
+<div id="outer">
+    <div id="inner">
+        <!-- inner框是一个类似橱窗的效果-->
+        <div id="front"></div>
+        <div id="back"></div>
+        <div id="left"></div>
+    </div>
+</div>
+
+</body>
+</html>
