@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>左侧固定宽度，高度自适应右侧</title>
+    <style type="text/css">
+        .main{
+            position: relative;
+            color: #fff;
+        }
+        .left{
+            /*对做容器的一系列绝对定位是关键的步骤*/
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 300px;
+            background: #f00;
+        }
+        .right{
+            /*对右侧的框设置高度就是要撑开父容器，左侧定位时的bottom为0 即为任何情况都贴着父容器*/
+            height: 200px;
+            margin-left: 300px;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="left">left</div>
+    <div class="right">right</div>
+</div>
+</body>
+</html>

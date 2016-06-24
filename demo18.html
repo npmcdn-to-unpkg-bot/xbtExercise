@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>左侧宽度高度固定，右侧自适应宽高利用padding补偿方法，主要是对自适应的那个区块设置很大的padding-bottom和相应负值的marging-bottom</title>
+    <style>
+        .main{
+            overflow: hidden;
+            color: #fff;
+        }
+        .left{
+            float: left;
+            width: 300px;
+            height: 200px;
+            background: #f00;
+        }
+        .right{
+            /*左侧定高定宽，右侧则要利用padding补偿的方法来实现宽高自适应*/
+            padding-bottom: 9999px;
+            margin-bottom: -9999px;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="left">left</div>
+    <div class="right">right</div>
+</div>
+</body>
+</html>
