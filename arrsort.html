@@ -8,13 +8,9 @@
 
 </body>
 <script>
-    var arr = [-1,1,false,true,[],'',null,undefined,24,25,116,'True']
+    var arr = [-1,1,false,true,[],'',null,undefined,24,25,116,'True'];
     arr.sort(function (a,b) {return a-b;});
     console.log(arr);
-
-
-
-
     function a () {
         return 2;
     }
@@ -36,6 +32,22 @@
     };
     console.log(b());
     var b= 100;
-    console.log(b());
+    console.log(b);
+var provs = ['江苏省','浙江省','安徽省','山东省']
+var cities = [['盐城市','扬州市','苏州市'],['杭州市','萧山市','义乌市'],['芜湖市','合肥市','马鞍山市'],['临沂市','廊坊市','青岛市'],['','','']];
+//通过给定的省份，找省份下包含的所有的市
+    function getCitiesByProvide (prov) {
+        for(var i =0;i<provs.length;i++) {
+            if(provs[i] ==prov ) {
+                break;//找到了之后就退出
+            }
+        }
+        if(i != prov.length) {
+           console.log(cities[i]);
+        }else {
+            console.log('未找到匹配省份');
+        }
+    }
+    getCitiesByProvide(prompt('请输入一个省份名称：'))
 </script>
 </html>
