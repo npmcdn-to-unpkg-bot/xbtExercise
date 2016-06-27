@@ -39,8 +39,48 @@
         }
     }
 //统计一个字符串中，每个字符出现的次数
-    var  code3 = 'HelloWorld';
+    var  code3 = 'xubaoting';
     //遍历字符串中每个字符
+    var xbt = [];
+    for (var i = 0;i<code3.length;i++) {
+        if(xbt[code3.charAt(i)]) {
+            xbt[code3.charAt(i)] += 1;
+        }else {
+            xbt[code3.charAt(i)] =1;
+        }
+    }
+    console.log(xbt);
+    function decode (codes) {
+        var code5 = [];
+        for(var i = 0;i<codes.length;i+=5) {
+            var sss = codes.slice(i,i+5);
+           code5.push(String.fromCharCode(sss)) ;
+        }
+        return code5;
+    }
+    console.log(decode('24464244642446424464'));
+    var str11 = 'you can you up no can no bi bi';
+    //按空格切开字符串
+   var str111 =  str11.split(' ');
+    var str1111 = [];
+    for (var i = 0;i<str111.length;i++) {
+             str1111.push(str111[i][0].toUpperCase()+str111[i].slice(1));
+    }
+    console.log(str1111.join(' '));
+    var cnm  = 'woquwocaocaocaocao';
+    console.log(cnm.replace('cao','gun'));
+    console.log(cnm.match(/cao/gi));
+    var reg = new RegExp('[0-9,a-z,A-Z]{6}','ig');
+    reg.test('abcd123');
+//实现功能：从字母和数字中随机挑选四个字符组成验证码返回，请用户反复输入验证码，如果输入不正确，提示输入错误，重新生成4位验证码，重新输入，如果输入正确，退出循环，提示成功
+    var chars = [];
+    //将所有数字字符的unicode码存入数组
+    //将所有小写字母的unicode码存入数组
+    //将所有大写字母的unicode码存入数组
+    for(var i =48 ;i<=57;chars.push(i),i++) ;
+    for(var i =65 ;i<=90;chars.push(i),i++) ;
+    for(var i =97 ;i<=122;chars.push(i),i++) ;
+    console.log(chars.length);
 
 </script>
 </html>
