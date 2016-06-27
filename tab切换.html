@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>无js的tab切换问题</title>
+    <link rel="stylesheet" href="css/tab切换.css" type="text/css"/>
+</head>
+<body>
+<div class="tablist">
+    <ul class="tabmenu">
+        <li><a href="#tab1">标签一</a></li>
+        <li><a href="#tab2">标签二</a></li>
+        <li><a href="#tab3">标签三</a></li>
+    </ul>
+    <div id="tab1" class="tab_content">欢迎加设计达人Q群：50063010<br />设计达人以原创和分享一些高质量的设计文章为主，希望喜欢！
+        <!-- end tab1 content --></div>
+    <div id="tab2" class="tab_content"><p>本Tab切换效果纯CSS3制作，无任何JavaScript</p>最新Q群：50063010<br />爱设计，爱分享——设计达人（http://www.shejidaren.com）
+        <!-- end tab2 content--></div>
+    <div id="tab3" class="tab_content"><p style="font-size:24px;">高质量设计文章分享平台</p><p>欢迎加设计达人Q群：50063010<br />设计达人以原创和分享一些高质量的设计文章为主，希望喜欢</p>
+        <!-- end tab3 content--></div>
+</div>
+<script>
+  var a = {
+      name:'xbt'
+  }
+    var hmm = {
+        name : 'hmm',
+        intro : function(school) {//此处是为了扩展入参个数，写在此处的入参要和调用时的顺序个数保持一致
+            console.log ('say my name is ' +this.name+'===='+school);
+        }
+    }
+    hmm.intro.bind(hmm,'好好努力，让世界看到最好的你')();
+  hmm.intro.call(a,'实验小学');
+//    var xbt = hmm.intro;
+//    xbt();
+  var b = {
+      name:'wgd'
+  };
+    hmm.intro.call(b,'山东狗狗')
+
+
+
+
+    //下面代码是实现call,apply的关系与区别
+//var name = 'xbt',gender = '女',age = 26;
+var xw = {
+    name : "小王",
+    gender : "男",
+    age : 24,
+//    school:'111',
+    say : function(school) {//此处的入参school是在调用的时候后期传入的，所以在函数里面千万不能用this.school
+        console.log(this.name + " , " + this.gender + " ,今年" + this.age +'在哪里上学'+school);
+    }
+}
+var xh = {
+    name : "小红",
+    gender : "女",
+    age : 18
+}
+var xh1 = {
+    name : "小huang",
+    gender : "女",
+    age : 18
+}
+var xh21= {
+    name : "小hei",
+    gender : "女",
+    age : 18
+}
+//    xw.say();//原来对象里的属性用来输出
+//    var xbt = xw.say;//定义一个变量来接住方法，再调用的时候就是会指向全局对象window
+//    xbt();
+    xw.say.call(xh,'盐城一中');
+    xw.say.apply(xh1,['盐城中学']);
+    xw.say.bind(xh21,'山东狗狗')();
+
+
+
+  var xw2 = {
+      name : "小王",
+      gender : "男",
+      age : 24,
+      say : function(school,grade) {
+          console.log(this.name + " , " + this.gender + " ,今年" + this.age + " ,在" + school + "上" + grade);
+      }
+  }
+  var xh2 = {
+      name : "小红",
+      gender : "女",
+      age : 18
+  }
+  xw2.say.call(xh2,"实验小学","六年级call");
+  xw2.say.apply(xh2,["实验小学","六年级郑州牛皮癣医院"]);
+  xw2.say.bind(xh2,"实验小学","六年级bind1")();
+  xw2.say.bind(xh2)("实验小学","六年级bind2");
+    ///////////////////////////////////////////////////
+    var n = 100;
+    function a1(n) {
+        var n = 10;
+        this.n++;//此处的函数调用是用window来调用的，因此它是指向全局，在函数调用的时候他在全局里查找值
+        console.log(this.n);
+    }
+    window.a1(n);
+    console.log(n);
+</script>
+</body>
+</html>

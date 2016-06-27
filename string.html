@@ -13,5 +13,34 @@
     console.log(encodeURIComponent("http://www.w3school.com.cn/p#username=xbt"));
     var str = '\tjs是一门基于对象的语言，\tjs\n是互联网\'第一\'大语言';
     console.log(str);
+    var path ='C:\\windows\\temp';
+    console.log(path);
+    var code = 'aEs5';
+    console.log(code.toLowerCase());
+    var code1 = '32090219910821302徐2';
+    console.log(code1.charAt(code1.length-2));
+    console.log(code1.charCodeAt(code1.length-2));
+//    var ss= window.prompt('请输入一段字符串');
+//      for(var i = 0,newSS=[];i<ss.length;i++) {
+//           newSS[newSS.length] = ss[i].charCodeAt();
+//      }
+//    console.log(newSS.join(','));
+    console.log('在位置'+code1.indexOf('20')+'处发现了不应该发现的字眼 ');
+    console.log('这是使用lastIndexOf来从后向前寻找'+code1.lastIndexOf('02'));
+    var code2 = 'no zuo no die';
+    console.log(code2.indexOf('noz'));
+    console.log(code2.lastIndexOf('die'));
+    for (var i = -1;i<code1.length;) {
+        if(code1.indexOf('2',i+1) !=-1) {
+            i = code1.indexOf('2',i+1);
+            console.log(i);
+        }else {
+            break;
+        }
+    }
+//统计一个字符串中，每个字符出现的次数
+    var  code3 = 'HelloWorld';
+    //遍历字符串中每个字符
+
 </script>
 </html>
