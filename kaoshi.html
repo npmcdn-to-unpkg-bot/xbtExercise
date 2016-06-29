@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .Avatar {
+            width:386px;
+            height:386px;
+            background-color: #fff;
+            border-radius: 50%;
+            border:5px solid red;
+            box-shadow: 0 0  0  10px #fff inset ;
+        }
+    </style>
+</head>
+<body>
+<div style="background-image:url('http://7d9o0k.com1.z0.glb.clouddn.com/cowboy_bebop.jpg')" class="Avatar"></div>
+</body>
+<script>
+    function arr (arr) {
+        //最大值
+        var max = Math.max.apply(Math,arr);
+        var sum = 0;
+        //循环遍历，把其他的都加起来，只有这种情况下才能
+        for(var i = 0;i<arr.length;i++) {
+            if(arr[i]!=max)
+            sum+=arr[i];
+        };
+        if(sum == max) {
+            return true;
+        }else {
+            return false ;
+        }
+
+    }
+    arr([1,2,3]);
+
+
+</script>
+</html>
