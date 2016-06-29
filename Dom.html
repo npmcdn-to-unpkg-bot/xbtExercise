@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Dom复习</title>
+</head>
+<body>
+  <!-- 注释-->
+  
+  <a href="tarena.com">我的连接1</a>
+<h1>我的标题</h1>
+  <script>
+
+      console.log('nodeName\t\tnodeType\t\tnodeValue');
+      console.log('nodeName\t\tnodeType\t\tnodeValue');
+      console.log('nodeName\t\tnodeType\t\tnodeValue');
+      console.log('nodeName\t\tnodeType\t\tnodeValue');
+      console.log('nodeName\t\tnodeType\t\tnodeValue');
+      console.log('nodeName\t\tnodeType\t\tnodeValue');
+      console.log(document.nodeName+'\t\t'+document.nodeType+'\t\t\t\t'+document.nodeValue);
+      var list = document.childNodes;//此处的list是类数组对象，不是array的实例化
+      console.log(list);
+      var child = list[0];//doctype,文档类型声明
+      console.log('doctype节点'+child.nodeName+'\t\t\t'+child.nodeType+'\t\t'+child.nodeValue);
+      var child1 = child.nextSibling;
+      console.log('html节点'+child.nodeName+'\t\t\t'+child.nodeType+'\t\t'+child.nodeValue);
+      var head = child1.childNodes[1];
+      console.log(head.innerHTML);
+      //创建对象的第一种方式
+      var name = '全局调用hmm1';
+      var hmm = {
+          name:'hmm',
+          intr:function(age,score) {//如果在这里加上调用时要传进来的参数，可以区分改变this指针的不同情形所需要的入参格式
+              console.log('我的名字叫：'+this.name+'\t年龄：'+age+'\t期末考试成绩：'+score);
+          }
+      }
+      hmm.intr(10,100);//hmm来调用自己内部的函数
+      var hmm1 = hmm.intr;
+      hmm1(20,200);//全局对象window来调用函数
+//下面来利用call，bind，apply来改变函数this的指向,那就要定义别的对象，好让hmm的this指针可以指向他
+      var xbt = {name:'xbtcall'}
+      var xbt1 = {name:'xbt1bind'}
+      var xbt2 = {name:'xbt2apply'}
+      hmm1.call(xbt,30,300);
+      hmm1.bind(xbt1,40,400)();
+      hmm1.apply(xbt2,[50,500]);
+
+
+//创建对象的 第二种方式,后续再为每个属性定义他们对应的数值，一般作为了解，此种方法并不直观
+      var obj = new Object();
+ //创建对象的第三种方式，利用模板函数或者叫构造函数,写在模板函数里的东西每次new的时候都在内存空间复制出一份一模一样的，因此我们可以把这些一样的东西放到构造函数的原型上去，这样就是变成大家共用的东西
+      function Student (name,age,score) {
+          this.name = name;
+          this.age = age;
+          this.score = score;
+          this.intr  = function (school) {
+              console.log('我的名字叫：'+this.name+'\t年龄：'+this.age+'\t期末考试成绩：'+this.score+school);
+          }
+      }
+      //第二步new出新的对象，并按照模板函数进行赋值装修
+      var wgd = new Student('吴广东',18,100);
+      //执行wgd这个新对象，可以得到房子
+      wgd.intr('南京邮电大学');
+      function wgdcall (name,age,score) {
+          return  Student.call(this,name,age,score)
+      }
+      var wgdcall1 = new wgdcall('wgdcall',11,22);
+      wgdcall1.intr('北京邮电大学');
+
+
+      function wgdcall2 (name,age,score) {
+          return  Student.apply(this,[name,age,score])
+      }
+      var wgdcall22 = new wgdcall2('wgdapply',111,222);
+      wgdcall22.intr('上海交大');
+
+      function wgdcall3 (name,age,score) {//这里是用来改变函数运行时的指向
+          return  Student.bind(this,name,age,score)();
+      }
+      var wgdcall33 = new wgdcall3('wgdbind',1111,2222);//新建一个对象
+      wgdcall33.intr('清华大学');
+      //改写模板函数。利用原型，来减少每次创建时的内存占用
+      function Student1 (name) {
+          this.name = name;
+      }
+      //这两行相当于定义初始化的值
+      Student1.prototype.age = 20;
+      Student1.prototype.score = 200;
+      Student1.prototype.intr = function() {
+          console.log('我的名字叫：'+this.name+'\t年龄：'+this.age+'\t期末考试成绩：'+this.score);
+      }
+      //利用new的方法声明新的对象
+      var wgd1 = new Student1('wgd1');
+      wgd1.intr();
+      //通过构造函数的原型方法去获得属性并对其进行操作
+//      Student1.prototype.age -=1;
+      console.log(wgd1);
+      console.log(Student1.prototype.age);
+      //获得对象属性，我们可以修改原型函数上的属性Object.getPrototypeOf()的方式去修改。记得括号里传入的是对象函数名而不是字符串
+      Object.getPrototypeOf(wgd1).age -= 1;
+      console.log(Student1.prototype.age);
+      //修改单个对象的原型
+      var Student2 = {
+          name:1111,
+          age:2222,
+          intr:function() {
+              console.log('我是改变继承对象后输出的内容');
+          }
+      };
+     Object.setPrototypeOf(wgd1,Student2);
+     console.log(wgd1.age);
+      wgd1.intr();
+      //修改对个对象的原型,有两种情况，1，新对象是以花括号定义的，2.新对象是写成原型函数的形式用此方法曲调用的时候一定要带上prototype属性去查找，不然会找不到
+      function Student4 () {
+
+      }
+      Student4.prototype.age = 10000;
+      Student4.prototype.max  = 100000000000;
+      Student4.prototype.intr = function() {
+          console.log('我是修改多个原型的方法4');
+      }
+      function Student3 () {
+
+      }
+      Student3.prototype.age = 100003;
+      Student3.prototype.max  = 100000000000;
+      Student3.prototype.intr = function() {
+          console.log('我是修改多个原型的方法3');
+      }
+      var Student5 = {
+          name:'草尼玛',
+          age :'你大爷',
+          intr:function() {
+              console.log(111222);
+          }
+      }
+      Student4.prototype = Student3;
+      var wgd3 = new Student4();
+//      wgd3.age = '拉皮狗'
+//      wgd3.intr();
+      console.log(wgd3.age);
+      var wgd2 = new Student1('wgd2');
+      wgd2.intr();//到此我们会发现在没有声明自己内部的age和score属性时，他们会自动向上搜索到模板函数的原型上，也就是说他会根据链式向上搜索
+//实验原型函数的call，bind，apply函数的使用
+//map函数的运用
+      var a  = function (str) {
+          return str +='111';
+      }
+     console.log([1,2,3,4].map(a)) ;
+      //apply函数的使用
+      var a1= [1,2,3],b = [4,5,6]
+      console.log(Math.max.apply(Math,b));
+      console.log(Math.min.apply(Math,a1));
+      //说明一下，这里的数组拼接类似于数组api的concat,但是此种方式不修改原值，但是利用原型修改的方法会直接体现在原值上。
+      var c = Array.prototype.push.apply(a1,b);
+      console.log(a1 );
+      //昨天内容学习之url转换成数字字典，我们一般都要用到正则表达式来匹配出最干净纯粹的字符片段
+      function urldecode (str) {
+          var search;
+//          console.log(str);
+          var obj = {};//用于接受函数执行完毕后返回的key,value
+          //1.先判断函数调用的时候有没有去传参数，如果没有传参数，我们就手动的获取当前页面的查询字符串的查询部分
+          if(typeof(str) =='null'||str == ''||typeof (str) == 'undefined') {
+               search = window.location.search;
+          }else {
+               search = str.substring(str.lastIndexOf('?')+1);
+          }
+          var reg = /([^?&=]+)=([^?&=]*)/g;
+          var search1=search.replace(reg,function(a1,$1,$2){
+              var key = decodeURIComponent($1);
+              var value = decodeURIComponent($2);
+              obj[key] =String(value);
+              return '123';//这是利用回调函数去执行replace函数 ，如果我返回的是‘123’那么我就会把所有匹配的都换掉,如果是进行这样的操作我们就只要知道用replace就好
+          } )
+          console.log(obj);
+          console.log(search1);
+      }
+//      urldecode('https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=1&rsv_idx=1&tn=baidu&wd=js%E5%A3%B0%E6%98%8Euse%20strict&oq=%E6%80%8E%E4%B9%88%E5%A3%B0%E6%98%8Ehtml%E6%96%87%E6%A1%A3%E6%98%AFxhtml%E6%A0%BC%E5%BC%8F&rsv_pq=d72c9a9000190c85&rsv_t=567axAiu6Ohx2tTk%2B7xPjZFKGpRTK0H2WqtU5rkUlm0zKVhxMnlZLGkFzIA&rqlang=cn&rsv_enter=0&inputT=21750&rsv_sug3=106&rsv_sug1=34&rsv_sug7=100&rsv_sug4=21751');
+        urldecode('https://www.baidu.com/s?ie=utf-8&f=3&rsv_bp=1&rsv_idx=1&tn=baidu&wd=js%E5%A3%B0%E6%98%8E%E6%95%B0%E7%BB%84&oq=js%E5%A3%B0%E6%98%8Euse%20strict&rsv_pq=ba8330a4000074d1&rsv_t=3fb0%2Fe2X9qHFa9x1j2fYMaB0ooOXVxPaw5AHSV04Aa4jkIGz9tp4sfIb4FA&rqlang=cn&rsv_enter=1&rsv_sug3=2&rsv_sug1=2&rsv_sug2=1&rsv_slog=sug_click&rsp=1&inputT=2202&rsv_sug4=2767&rsv_sug=1')
+  </script>
+</body>
+</html>
