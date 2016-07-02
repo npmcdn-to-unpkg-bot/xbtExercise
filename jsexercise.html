@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>ja编程练习</title>
+    <style>
+        #div2 {
+            position: fixed;
+            bottom:0;
+            right:0;
+            width:100px;
+            height:100px;
+            background-color: #669900;
+        }
+    </style>
+</head>
+<body>
+<input type="text"/>
+<input type="checkbox"/>
+<input type="checkbox"/>
+<div id="div1">
+
+</div>
+<span class="ul"></span>
+<div id="div2">
+    这里是广告
+</div>
+<script>
+    /*1.判断某变量是否为数组类型*/
+    //1.instance of
+    var arr = [1,4,3];
+    console.log(arr instanceof Array );
+    //2.改变全局对象的指向来判断toString()方法
+    var shuxing = Object.prototype.toString.call(arr);
+    console.log(shuxing)
+    //3.利用isArray这个方法，但是要考虑到兼容性问题，因此一般做出如下的判断
+    function foo (str) {
+        if(  typeof (Array.isArray)==='undefined'){
+            return  Object.prototype.toString.call(str)=='[object Array]';
+        }else {
+            return  Array.isArray(str)  ;
+        }
+    }
+    console.log(foo(arr));
+    /*希望获取到页面上所有属性为checkbox的input*/
+    var input = document.getElementsByTagName('input');
+    for(var i = 0,inputs =[];i<input.length;i++) {
+        if(input[i].type == 'checkbox') {
+            inputs.push(input[i]);
+        }
+    }
+    console.log(inputs);
+    /*设置一个已知div的html内容，字体颜色为黑色*/
+    var div1 = document.getElementById('div1');
+    div1.innerHTML = 'div1';
+    div1.style.color = '#1a0'
+    /*当一个dom被点击的时候，我们希望能够执行一个函数，应该怎么做*/
+    div1.addEventListener('click',function() {
+        console.log('div1被点击了')
+    })
+    /*
+    * 什么是Ajax，Json他们的优缺点
+    * Ajax是异步加载的js和xml,用于在web页面的实现异步数据的交互
+    * 优点：
+    * 缺点：
+    * JSON是一种轻量级的数据交换格式，易于人的阅读和编写，便于机器解析，支持符合型的数据类型
+    * */
+    /*
+    * 将一段英文的每个单词的首字母转换成大写字母并加以输出
+    *
+    * */
+    function change (str) {
+         var reg = /\-(\w)/g;
+        return   str.replace(reg,function(all,d) {
+            return d.toUpperCase();
+        })
+    }
+    console.log(change('get-element-by-id'))
+    /*
+    * 对一个数组进行倒叙展示
+    * */
+    console.log(arr.reverse());
+    console.log(arr.sort(function(a,b) {
+        return -(a-b)
+    }))
+    /*
+    * 输出今天的日期，以固定的格式
+    *
+    * */
+    var date1 = '2016-07-02'.replace(/\-/g,'');
+    var reg1 = /(\d{4})(\d{2})(\d{2})/g
+    console.log(date1.replace(reg1,function(all,$1,$2,$3) {
+        return  $1+'年'+$2+'月'+$3+'日'
+    }))
+    //题目真正的意思
+    function trans () {
+        var data= new Date();
+        var year = data.getFullYear();
+        console.log(year)
+        var month = data.getMonth()+1;
+        month = month<10?'0'+month:month
+        console.log(month)
+        var date = data.getDate();
+        date= date<10?'0'+date:date
+        console.log(date)
+        return  year+'-'+month+'-'+date
+
+    }
+    console.log(trans());
+    /*
+    * 同样是一道正则表达式匹配的问题
+    * */
+    var child = '<tr><td>{id}</td><td>{name}</td><td>{age}</td><td>{score}</td></tr>';
+    console.log(child.replace(/\{id\}/g,'10').replace(/\{name\}/g,'Tony').replace(/\{age\}/g,'18').replace(/\{score\}/g,'100'))
+    /*
+    * 原生的js的操作dom树的方法
+    * document.creatElement()
+    * document.createDocumentFragment()
+    * ceateTextnode
+    * creatAttrbuteNode
+    * createComment
+    * .removeChild()
+    * appendChlid
+    * insertBefore
+    * replaceChild()
+    * cloneNode(true/false)
+    * 接受一个布尔值作为参数
+    * 如果传值为true，则表示深复制，会将其下的所有的字节点及其自身都给赋值
+    * 如果传值为false，则表示只会复制自己的本身，不会带动其下的子节点
+    * */
+/*
+* 正则表达式匹配url地址问题
+* */
+    var reg2 = /([^?&=]+)=([^?&=]*)/g
+    function url(str) {
+        var search = '',obj = [];
+       if(arguments.length == 0 ) {
+           search = Location.href;
+       }else {
+           search = str
+       }
+        search = search.slice(str.indexOf('?')).replace(reg2,function(all,$1,$2) {
+            var value = $2;
+            var key = $1;
+            obj[key] = value;
+            return all
+        })
+        return obj
+    }
+    console.log(url('https://www.baidu.com/s?wd=cloneNode&rsv_spt=1&rsv_iqid=0xeb99414e0026f2df&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&rqlang=cn&tn=baiduhome_pg&rsv_enter=1&oq=dom%E5%A4%8D%E5%88%B6%E8%8A%82%E7%82%B9&inputT=4414&rsv_t=6bb9DIN2VHJsrmUMUFE0IKO8sRwNDPm9keHHNoJLsLodH%2F2qAufACuKGGaFzDB5I8KyJ&rsv_pq=cb90de550024f3f6&rsv_n=2&rsv_sug3=20&bs=dom%E5%A4%8D%E5%88%B6%E8%8A%82%E7%82%B9'));
+
+    function url1 (str) {
+        var result = {};
+        str1 = str.split('?')[1];
+        var map = str1.split('&');
+        for(var i = 0;i<map.length;i++) {
+            result[map[i].split('=')[0]] = map[i].split('=')[1];
+        }
+        return result;
+    }
+    console.log(url1('https://www.baidu.com/s?wd=cloneNode&rsv_spt=1&rsv_iqid=0xeb99414e0026f2df&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&rqlang=cn&tn=baiduhome_pg&rsv_enter=1&oq=dom%E5%A4%8D%E5%88%B6%E8%8A%82%E7%82%B9&inputT=4414&rsv_t=6bb9DIN2VHJsrmUMUFE0IKO8sRwNDPm9keHHNoJLsLodH%2F2qAufACuKGGaFzDB5I8KyJ&rsv_pq=cb90de550024f3f6&rsv_n=2&rsv_sug3=20&bs=dom%E5%A4%8D%E5%88%B6%E8%8A%82%E7%82%B9'));
+/*
+* 生兔子的题目看不懂，就直接实现斐波那契数列
+*
+* */
+    var result = [];
+    function fn (n) {
+        if(n == 1 ) {
+            return 1;
+        }else if(n == 2) {
+            return 1
+        }else {
+            result[n] = arguments.callee(n-1)+arguments.callee(n-2);
+            return result[n];
+        }
+    }
+    console.log(fn(5));
+    /*
+    * 实现克隆函数来克隆js主要的5种数据类型,这个问题的精髓在于赋值的时候一定要先判断它的类型如果还是对象或者数组这要进一步拨开外层继续调用当前循环进行判断，
+    * 知道取出来的值经过判断是原始类型或者是函数，就可以终止递归
+    * */
+
+    function deepClone(obj){
+        var result,oClass=isClass(obj);
+        //确定result的类型
+        if(oClass==="Object"){
+            result={};
+        }else if(oClass==="Array"){
+            result=[];
+        }else{
+            return obj;
+        }
+        for(key in obj){
+            var copy=obj[key];
+            if(isClass(copy)=="Object"){
+                result[key]=arguments.callee(copy);//递归调用
+            }else if(isClass(copy)=="Array"){
+                result[key]=arguments.callee(copy);
+            }else{
+                result[key]=obj[key];
+            }
+        }
+        return result;
+    }
+    //返回传递给他的任意对象的类
+    function isClass(o){
+        if(o===null) return "Null";
+        if(o===undefined) return "Undefined";
+        return Object.prototype.toString.call(o).slice(8,-1);
+    }
+    console.log(deepClone([[],[]]));
+    /*
+    * 数组去重
+    * */
+    function deRepeat (arr) {
+        var arr = arr.sort(function(a,b) {
+            return a-b
+        });
+        for (var i = 0,arr1=[];i<arr.length;i++) {
+            if(arr1.indexOf(arr[i]) == -1) {
+                arr1.push(arr[i]);
+            }
+        }
+        return arr1
+    }
+    console.log(deRepeat([1,1,4,4,2,2,3,3]));
+    /*
+    * 函数的原型，继承
+    *
+    * */
+
+    function Dog () {
+        this.wow =function() {
+            console.log('qqq')
+        }
+        this.yelp = function() {
+            var self = this
+            setTimeout(function() {
+                self.wow()
+            },500)
+
+        }
+    }
+    function a () {
+        this.yelp = function() {
+            var self = this;
+            setInterval(function() {
+                self.wow()
+            },1000)
+        }
+    }
+    var Dog1 = new Dog();
+    Dog1.yelp();
+    a.prototype = new Dog();
+    var b = new a();
+//    b.yelp();
+    /*
+    * 利用原生的js书写模仿实现jQuery的选择器功能
+    *
+    * */
+    function Tquery(str) {
+        var ss ;
+        //去掉所有的空格。以保证slice有效果
+        var str = str.replace('/\s/g','');
+        //第一步关键点怎么根据三种不同的传入值判断哪一个是对应的要去调用哪一个函数
+        if(str.slice(0,1) == '#') {
+                ss = document.getElementById(str.slice(1))
+        }else if(str.slice(0,1) == '.') {
+                ss = document.getElementsByClassName(str.slice(1))
+        } else {
+                ss = document.getElementsByTagName(str);
+        }
+        return ss;
+    }
+    console.log(Tquery('#div1'));
+    console.log(Tquery('.ul'));
+    console.log(Tquery('input'));
+    /*
+    *
+    * 用原生的js写一个绑定事件的方法，兼容所有的浏览器
+    *
+    * */
+    function addEvent (ele,type,handler) {
+        if(typeof window.addEventListener === 'function') {//判断浏览器是支持的哪一种绑定方式
+
+        }else {//ie浏览器
+
+
+        }
+    }
+   /*
+   * 定义一个log方法，让他可以代理console.log的方法
+   *
+   * */
+    function log (msg) {
+        console.log(msg);
+    }
+    log('ff');
+    function log1 () {
+        console.log.apply(console,arguments);
+    }
+    log1(1,2,3,4,5);
+    /*
+    * 在js中如何将维数组转换成真正的数组
+    * Array.prototype.slice.call(arguments)   Array.from(arr)
+    * */
+    /*
+    * 如何确保调用者在掉函数的时候this的指向永远指向定义是的那个函数
+    *
+    * */
+    var User = {
+        count: 1,
+
+        getCount: function() {
+            return this.count;
+        }
+    };
+//    console.log(User.getCount()); // what?
+//    var func = User.getCount ;
+//    console.log(func()); // what?
+
+    Function.prototype.bind = Function.prototype.bind || function(context) {
+        var self = this;
+        return function() {
+            return self.apply(context, arguments);
+        };
+    }
+    var func = User.getCount.bind(User);
+    console.log(func());
+    //页面右下角恋恋不舍的广告,使用定时器实现有一个平缓的过程,一般清除之后就要顺带手要把节点删除        
+    var div2 = document.getElementById('div2');
+    var n = 0,op = 1;
+    var time = window.setInterval(function() {//说明一个问题，此函数一直在循环执行自己的这部分，如果是循环的定时器他会一直在里面循环
+        n-=10;
+        op -=0.1;
+        div2.style.bottom = n+'px';
+        div2.style.opacity = op;
+        if(n <= -100) {
+            clearInterval(time);
+        }
+    },1000);
+
+</script>
+</body>
+</html>

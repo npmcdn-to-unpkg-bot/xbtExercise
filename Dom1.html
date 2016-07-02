@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>DOM正式复习</title>
+</head>
+<body>
+<div id="div">
+    <i id="d1">1</i>
+
+    <p id="d2">2</p>
+
+    <p id="d3">3</p>
+
+    <p id="d4">4</p>
+</div>
+<table border="1" width="100px" height="100px" class="table">
+    <tr>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>1</td>
+    </tr>
+</table>
+<script>
+    var p1 = document.getElementById('div');//此种方式查找节点的速度没有DOM树查找快，只会找到第一个满足的节点
+    console.log(p1.innerHTML);
+    //可以发现innerHtml是把当前节点的内部内容全部读取出来
+    //可以发现innerText是返回正真的内部文本，不会带着节点信息
+//    p1.innerText = '爱你哦'
+    var p2 =p1.getElementsByTagName('i');
+    console.log(p2);
+     var tr= document.getElementsByTagName('tr');
+    for(var i = 0;i<tr.length;i++) {
+        if(i%2 == 0) {
+            tr[i].style.backgroundColor = '#afa';
+            tr[i].style.color = '#fff'
+        }else {
+            tr[i].setAttribute ('bgcolor','#aaa')
+            tr[i].style.color = '#12f'
+        }
+    }
+    //此时这里的tr就是类数组对象，利用ES6的新属性将其转换为真正的数组
+    var z = [1,2,3],e = [1,3,5]
+//    var newTr  = Array.prototype.slice.apply(tr);//传统的类数组转成数组的方式
+    var newTrTr = Array.from(tr);
+    var newTr1 = Array.prototype.push.apply(e,z);
+//    var newTr2 = newTr.concat(z);
+    console.log(newTrTr);
+    console.log(newTr1);//返回的是拼接后的长度
+    console.log(e);
+//    console.log(newTr2);
+    //我们发现document.getElementsByName不适用于非表单元素，其他元素不能用此方法找到节点，此方法用的比较少
+//    var table1 = document.getElementsByName('table');
+//    console.log(table);
+    var table2 = document.getElementsByClassName('table');
+    var table3  = document.querySelectorAll('.table')
+    console.log(table2);
+    console.log(table3);
+
+
+    //测试箭头函数
+    /*方法一是以前支持的方法，在内部回调函数里想要访问外部函数，就要把指针赋值保存起来，才能传递使用*/
+    function Person () {
+        this.age = 0;
+        var self = this;
+        setTimeout(function() {
+            console.log(self.age++);
+        },1000);
+    }
+    var p = new Person();
+    /*方法二护理用ES6的新属性箭头函数可以获得必报的指向对象*/
+    function Person1 () {
+        this.name  = 1;
+        setTimeout(()=>{console.log(this.name++)},2000)
+    }
+    var p1 = new Person1();
+    var qq = [1,2,3,4];
+    console.log(qq.map(str=>str+'111'))
+    //练习利用Callee函数实现递归调用，完成阶乘的工作，此方法可以写在一个立即调用的秘密函数里
+    var a =(function (n) {
+        if(n>1)  return n*arguments.callee(n-1);
+        return  n;
+    })(5);
+    console.log(a);
+    //扩展运算符 ...
+    let some1 = [1,2,3],some2 = [3,2,1]
+    let some3 = [...some1, 2,...some2]
+    console.log(some3);
+    (function(a,b,c) {
+        console.log(a+b+c);
+    })(...some1);
+    //解构
+    let[x,y] = [1,2];
+    console.log([y,x]);
+    //es6中的一个新属性就是类，此处练习类的定义声明，
+    var Foo = class {
+        constructor() {//在类的实例化阶段即可运行，不需要额外的单独调用
+            console.log('这是构造器里的内容');
+        }
+        bar() {
+            console.log("我是一般的类里的函数") ;
+        }
+        static a () {//可以发现这个函数虽然定义在类里面，但是对他的调用不要对类进行实例化操作，只需要直接调用即可
+            console.log('我是静态类里的内容')
+        }
+    };
+    Foo.a();
+    var instance = new Foo();
+    instance.bar(); // "Hello World!"
+    var Foochild = class extends Foo {
+        super() {}
+
+    }
+    Foochild.a();
+    var child = new Foochild();
+    child.bar();
+//下面练习genertor函数的语法
+    function * foo1 () {
+        var i =10;
+        while(i>7){
+            yield  --i;
+        }
+
+    }
+    var foo1 = foo1();
+    console.log(foo1.next());
+    console.log(foo1.next());
+    console.log(foo1.next());
+    console.log(foo1.next());
+    function* foo(){
+        var index = 0;
+        while (index <= 2)
+            yield index++;
+    }
+    var iterator = foo();
+    console.log(iterator.next()); // { value: 0, done: false }
+    console.log(iterator.next()); // { value: 1, done: false }
+    console.log(iterator.next()); // { value: 2, done: false }
+    console.log(iterator.next()); // { value: undefined, done: true }
+
+
+    //对象声明练习
+    /*1.函数对象声明*/
+    function aa () {
+        console.log(111);
+    }
+    aa();
+    var b = function() {
+        console.log(222);
+    }
+    b();
+    var c = new Function('a','console.log(333)')
+    c();
+    /*密名函数*/
+    var a = [11,2,3];//如果sort函数不传入参数，它是根据每个值的unicode码值来进行比较的
+    a.sort(function(a,b){return a-b});
+    console.log(a);
+    (function() {console.log('这是自调函数哦')})()
+    //下面是利用不同的方法创建对象生成圆形链
+    /*直接量定义对象*/
+    var name = 'xbt',age = 18;
+    var hmm = {
+        name:'hmm1',
+        age: '10',
+        intr:function(school,sex) {
+            console.log('大家好。我的名字叫：'+this.name+'我今年：'+this.age+'我的母校是'+school+'我的性别是：'+sex);
+        }
+    };
+    var hmm1 = {
+        name:'Hmm1',
+        age :'20'
+    }
+    hmm.intr('盐城中学','不男不女');
+    var xbt = hmm.intr;
+    xbt('盐城一中','狗男女');
+    hmm.intr.call(hmm1,'盐城二中','四男四女');
+    hmm.intr.apply(hmm1,['盐城三中','三男三女']);
+    hmm.intr.bind(hmm1,'盐城四中','吴楠舞女')();
+    /*newObject的方式去创建对象*/
+    var lilei  = function () {
+    this.name = 'xxbbtt';
+    this.mother = 'mother';
+    this.intr = function() {
+          a = 111;
+          return  1
+    }
+    };
+    var lilei1 = new lilei;
+    console.log(lilei1.intr);
+//    lilei1.intr();
+    //关于this的问题，下面的这例子可以展示出this只会指向它当前的上一级对象，尽管上一级对象还被另外的对象给调用着
+    var o = {
+        a:10,
+        b:{
+            // a:12,
+            fn:function(){
+                console.log(this.a); //undefined
+            }
+        }
+    }
+    o.b.fn();
+    function fn1()
+    {
+        this.user = '追梦子';
+        return {user:111,name:222,age:333};
+    }
+    var a = new fn1;
+    console.log(a.name); //追梦子
+
+
+    //使用构造函数声明对象,使用他来声明时，不可以自己掉自己内部的函数，大概其意思就是图片上的手抓饼只是用来看的，并没有实际的意义
+    function people(people,name) {
+        this.people = people;
+        this.name = name;
+        this.intr = function() {
+            console.log('今天早上又搞到了12点，主要是为了学习this的指向问题，还花了半个小时写了一篇鼓励自己的心灵鸡汤'+this.people+'=---'+this.name)
+        }
+    }
+    var people1 = new people(11,11);
+    people1.intr();
+    //原型是用来集中存储多个对象共用的属性和方法的父对象，每个函数都有一个prototype属性指向自己的原型
+</script>
+</body>
+</html>

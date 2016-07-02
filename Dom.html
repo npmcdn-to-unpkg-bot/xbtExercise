@@ -93,7 +93,7 @@
       var wgd1 = new Student1('wgd1');
       wgd1.intr();
       //通过构造函数的原型方法去获得属性并对其进行操作
-//      Student1.prototype.age -=1;
+      Student1.prototype.age -=1;
       console.log(wgd1);
       console.log(Student1.prototype.age);
       //获得对象属性，我们可以修改原型函数上的属性Object.getPrototypeOf()的方式去修改。记得括号里传入的是对象函数名而不是字符串

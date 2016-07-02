@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>dom复习第三天</title>
+    <style>
+        * {
+            list-style: none;
+            text-decoration: none;
+            color:#000;
+        }
+        .ul1  ul li {
+            width:100px;
+            height:30px;
+            border:1px solid #8877ff;
+            text-align: center;
+            line-height: 30px;
+        }
+
+         span  {
+            display: inline-block;
+
+        }
+        .span1 {
+            background-color: #8877ff;
+            width:100px;
+            height:50px;
+        }
+        .span3 {
+            background-color: #aaffff;
+            width:100px;
+            height:50px;
+        }
+        .tab {
+            margin-top: 50px;
+            position: relative;
+            letter-spacing: -9px;
+        }
+        .tab a {
+            display: inline-block;
+            width:80px;
+            height:30px;
+            letter-spacing: 0;
+            line-height: 30px;
+        }
+        .tab div{
+            width:400px;
+            height:200px;
+            position:absolute;
+            left:0;
+            top:30px;
+            line-height: 200px;;
+            letter-spacing: 0;
+        }
+        .show {
+            display:inline-block;
+        }
+        .hide {
+            display: none;
+        }
+        .tab .show {
+            display:inline-block;
+        }
+       .tab  .hide {
+            display: none;
+        }
+        /*#div1:target, #div2:target, #div3:target {*/
+            /*z-index:1;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div id="div">
+    <p></p>
+    <p></p>
+</div>
+<ul class="ul1 ">
+    <li >
+        <a href="javascript:void(0)" class="a">新闻管理</a>
+        <ul class="hide">
+            <li><a href="javascript:void(0)">添加新闻</a></li>
+            <li><a href="javascript:void(0)">删除新闻</a></li>
+            <li><a href="javascript:void(0)">查看新闻</a></li>
+        </ul>
+    </li>
+    <li >
+        <a href="javascript:void(0)" class="a">娱乐新闻</a>
+        <ul class=" hide">
+            <li><a href="javascript:void(0)">娱乐好看</a></li>
+            <li><a href="javascript:void(0)">娱乐好看1</a></li>
+            <li><a href="javascript:void(0)">娱乐好看2</a></li>
+        </ul>
+    </li>
+    <li >
+        <a href="javascript:void(0)" class="a">综艺节目</a>
+        <ul class=" hide">
+            <li><a href="javascript:void(0)">综艺节目</a></li>
+            <li><a href="javascript:void(0)">综艺节目1</a></li>
+            <li><a href="javascript:void(0)">综艺节目2</a></li>
+        </ul>
+    </li>
+</ul>
+<select name="provice"  style="width:100px" id="provice">
+
+</select><br/><br/>
+<button class="btn" style="width: 100px;height:50px">读取报表</button>
+<div  class="door">
+    <span class="span1 ">左边内容</span>
+    <span ><a href="javascript:void(0)" class="span2">>></a></span>
+    <span class="span3 ">右边内容</span>
+</div>
+<!--<div class="tab">
+    <a href="#div1" class="span11"  style="background-color: #8877ff">10元套餐</a>
+    <a  href="#div2" class="span12" style="background-color: #aaffff">20元套餐</a>
+    <a  href="#div3" class="span13" style="background-color: #9A6133">30元套餐</a>
+    <div  id='div1' class="div1 " style="background-color: #8877ff">套餐1的详情</div>
+    <div  id='div2' class="div2 " style="background-color: #aaffff">套餐2的详情</div>
+    <div  id='div3' class="div3 " style="background-color: #9A6133">套餐3的详情</div>
+</div>-->
+<div class="tab">
+    <a href="javascript:void(0)" class="span11"  style="background-color: #8877ff">10元套餐</a>
+    <a  href="javascript:void(0)" class="span12" style="background-color: #aaffff">20元套餐</a>
+    <a  href="javascript:void(0)" class="span13" style="background-color: #9A6133">30元套餐</a>
+    <div  id='div1' class=" show" style="background-color: #8877ff">套餐1的详情</div>
+    <div  id='div2' class=" hide" style="background-color: #aaffff">套餐2的详情</div>
+    <div  id='div3' class=" hide" style="background-color: #9A6133">套餐3的详情</div>
+</div>
+</body>
+<script>
+    var a = document.querySelectorAll('.tab a');
+    var divs = document.querySelectorAll('.tab div');
+    for(var k=0;k< a.length;k++) {
+        (function(k) {
+            a[k].addEventListener('click',function(event) {
+                var src = event.target||eventSrcElement;
+                var n = src.getAttribute('class').slice(-1);
+                var div = document.getElementById('div'+n);
+                for(var x = 0;x<divs.length;x++) {
+                    divs[x].removeAttribute('class');
+                    divs[x].setAttribute('class','hide');
+                }
+                console.log(div)
+                div.setAttribute('class','show');
+                console.log(k);
+            })
+        })(k)
+    }
+    var btn = document.getElementsByClassName('btn')[0];
+    btn.addEventListener('mouseover',function() {
+        if( btn.innerHTML == '<img src="img/ball.png">') {
+            btn.innerHTML ='读取报表'
+        } else {
+            btn.innerHTML = '<img src="img/ball.png">'
+        }
+    });
+    btn.addEventListener('mouseout',function() {
+        btn.innerHTML ='读取报表'
+    })
+    var span2 = document.getElementsByClassName('span2')[0];
+    var span3 = document.getElementsByClassName('span3')[0];
+    span2.addEventListener('click',function() {
+        if(span2.innerHTML == '&gt;&gt;') {
+            span2.innerHTML = '&lt;&lt;';
+            span3.removeAttribute('class')
+            span3.setAttribute('class','span3  hide')
+
+        }else {
+            span2.innerHTML = '&gt;&gt;';
+            span3.removeAttribute('class')
+            span3.setAttribute('class','span3  show')
+        }
+    })
+    var div = document.getElementById('div')
+    var a1 = document.getElementsByTagName('img');
+    var a2 = document.querySelector('.img');
+    var img = new Image();
+    img.src = 'img/airplane2.png';
+    img.height = '200';
+    img.width = '200';
+    img.className = 'img';
+    div.appendChild(img);
+    console.log(a1);
+    console.log(a2);
+    var a = document.getElementsByClassName('a');
+    for (var i = 0;i< a.length;i++) {
+        (function(i) {
+            a[i].addEventListener('mouseenter',function(event) {
+                var src  = event.srcElement||event.target;
+               var uls = document.querySelectorAll('.ul1>li>ul');
+                for(var j=0;j<uls.length;j++) {
+                    uls[j].removeAttribute('class');
+                    uls[j].setAttribute('class','hide')
+                }
+                var value = a[i].nextElementSibling.removeAttribute('class');
+                a[i].nextElementSibling.setAttribute('class','show');
+                //下面是处理其他节点的问题,确保点击时候只有一个展示
+            })
+        })(i)
+
+    }
+    var provice = document.getElementById('provice');
+    provice.innerHTML='';
+    console.log(provice);
+    provice.innerHTML='<option value="201">杭州市1</option>'+
+                        '<option value="202">杭州市2</option>'+
+                        '<option value="203">杭州市3</option>'+
+                        '<option value="204">杭州市4</option>';
+
+
+
+</script>
+</html>

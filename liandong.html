@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>联动下拉列表</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<h1>元素的删除和替换</h1>
+<h2>二级联动列表</h2>
+<span>请选择省份：</span>
+<select name="s1" id="s1">
+    <option value="-1">--请选择--</option>
+</select>
+&nbsp;&nbsp;
+<span>请选择市</span>
+<select name="s2" id="s2">
+    <option value="-1">--请选择--</option>
+</select>
+<button class="btn">开始猜数字游戏</button>
+</body>
+<script>
+    window.name = '1111'
+    var cities = [
+        ['盐城市','扬州市','南京市'],
+        ['临沂市','青岛市','日照市'],
+        ['芜湖市','合肥市','马鞍山'],
+        ['杭州市','义乌市','萧山市']
+    ]
+
+   var s1 = document.getElementById('s1');
+   var s2 = document.getElementById('s2');
+   var frg = document.createDocumentFragment();
+   var option0 = document.createElement('option');
+   option0.setAttribute('value','0');
+   option0.innerHTML = "江苏省"
+   var option1 = document.createElement('option');
+   option1.setAttribute('value','1');
+   option1.innerHTML = "山东省"
+   var option2 = document.createElement('option');
+   option2.setAttribute('value','2');
+   option2.innerHTML = "安徽省"
+   var option3 = document.createElement('option');
+   option3.setAttribute('value','3');
+   option3.innerHTML = "浙江省"
+   frg.appendChild(option0);
+   frg.appendChild(option1);
+   frg.appendChild(option2);
+   frg.appendChild(option3);
+   s1.appendChild(frg);
+//    window.close();
+//    console.log(window.screenWidth);
+    var height = 400,width =400,left =300,top=200;
+//    window.open('https://www.hao123.com/?tn=95470842_hao_pg','_blank','height='+height+',width='+width+',left='+top+',top = '+left+'');//当前窗口中打开
+//    window.open('demo1.html','_blank');//在空白窗口中打开
+//    window.open('demo2.html','_parent');//在空白窗口中打开
+//    window.open('demo3.html','_top');//在空白窗口中打开
+
+   s1.addEventListener('change',function(event) {
+       //删除已有的市级的节点
+      s2.innerHTML = '<option value="-1">--请选择--</option>';
+        var src = event.target||event.secElement;
+        var val = src.value;//这个可以获取到用户选择的那个option的value
+       if(val == -1) {
+           s2.innerHTML = '<option value="-1">--请选择--</option>';
+           return;
+       }
+        var frg1 = document.createDocumentFragment();
+        for (var i = 0;i<cities[val].length;i++) {
+            var city0 = document.createElement('option');
+            city0.setAttribute('value',i);
+            city0.innerHTML = cities[val][i];
+            frg1.appendChild(city0);
+        }
+       s2.appendChild(frg1);
+    })
+    var btn = document.getElementsByClassName('btn')[0];
+    btn.addEventListener('click',function() {
+        var b= Math.floor(Math.random()*(10))*10;
+        console.log(b);
+        while(true) {
+            var a = window.prompt('请输入一个数字：');
+            if(b==a) {
+                window.confirm('猜对了。')
+                break;
+            }else {
+                window.alert('输入错误');
+            }
+        }
+
+    })
+    function a (name) {
+        this.name = name;
+        this.intr = function () {
+            console.log(this.name);
+
+        }
+    }
+        function b (name) {
+            a.call(this,name);
+
+        }
+        var c = new b(111);
+        c.intr()
+
+</script>
+</html>

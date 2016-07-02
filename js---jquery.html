@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>原生js实现jQuery的一些方法</title>
+</head>
+<body>
+<input type="text"/>
+<input type="checkbox"/>
+<input type="checkbox"/>
+<div id="div1">
+
+</div>
+<span class="ul"></span>
+<script>
+    //css选择器
+    function Tquery(str) {
+        var ss ;
+        //去掉所有的空格。以保证slice有效果
+        var str = str.replace('/\s/g','');
+        //第一步关键点怎么根据三种不同的传入值判断哪一个是对应的要去调用哪一个函数
+        if(str.slice(0,1) == '#') {
+            ss = document.getElementById(str.slice(1))
+        }else if(str.slice(0,1) == '.') {
+            ss = document.getElementsByClassName(str.slice(1))
+        } else {
+            ss = document.getElementsByTagName(str);
+        }
+        return ss;
+    }
+    console.log(Tquery('#div1'));
+    console.log(Tquery('.ul'));
+    console.log(Tquery('input'));
+</script>
+</body>
+</html>
