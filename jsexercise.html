@@ -327,7 +327,7 @@
     }
     var func = User.getCount.bind(User);
     console.log(func());
-    //页面右下角恋恋不舍的广告,使用定时器实现有一个平缓的过程,一般清除之后就要顺带手要把节点删除        
+    //页面右下角恋恋不舍的广告,使用定时器实现有一个平缓的过程,一般清除之后就要顺带手要把节点删除
     var div2 = document.getElementById('div2');
     var n = 0,op = 1;
     var time = window.setInterval(function() {//说明一个问题，此函数一直在循环执行自己的这部分，如果是循环的定时器他会一直在里面循环
@@ -339,7 +339,89 @@
             clearInterval(time);
         }
     },1000);
+/*
+*
+*闭包的练习
+*
+* */
+    var num = 10;
+    function closer() {
+        ++num
+        return function() {
+            return  ++num;
+        }
+    }
+    var newcloser = closer();
+    console.log(newcloser())
+    console.log(window.num);
 
+
+
+    var xsw =100;
+    function xsw1 (xsw) {
+        return  ++xsw;
+    }
+    console.log(xsw1(xsw))
+    console.log(xsw)
+
+
+    //实现斐波那契数列
+    function fee (num) {
+        var result  ;
+        if(num == 1) {
+            return 1
+        } else if(num == 2) {
+            return 1
+        }else {
+            return result = arguments.callee(num-1)+arguments.callee(num-2);
+        }
+        return result;
+    }
+    console.log(fee(5));
+    //函数克隆问题，同样也是涉及到递归算法
+    function double (str) {
+        var obj ;
+        var result = style(str);
+        if( result ==='object') {
+            obj = {};
+        }else if(result === 'array') {
+            obj = [];
+        }else if(result === 'null'){
+            return   null;
+        }else if(result === 'undefined'){
+            return   undefined;
+        } else {
+            return str
+        }
+        for(var key in str) {
+            var copy = str[key];
+            if(style(copy) === 'object') {
+                obj[key] = arguments.callee(copy);
+            } else if(style(copy) ==='array'){
+                obj[key] = arguments.callee(copy);
+            } else {
+                 obj[key] = copy;
+            }
+
+        }
+        return obj
+    }
+    function style(num ) {
+        if(Object.prototype.toString.call(num).slice(8,-1) ==='Object') {
+            return "object";
+        }else if(Object.prototype.toString.call(num).slice(8,-1) ==='Array') {
+            return "array";
+        }else if(num === null) {
+            return 'null'
+        } else if(num === undefined) {
+            return  'undefined'
+        }else{
+            return 'ok'
+        }
+    }
+    console.log(double({name:1,fun:function() {},fun2:{fun3:{age:11} }}));
+    console.log(double(null))
+    console.log(double(undefined))
 </script>
 </body>
 </html>
