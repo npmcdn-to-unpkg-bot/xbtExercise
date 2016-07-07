@@ -116,6 +116,9 @@
     <!--<input type="submit" value="1111" />-->
 <!--</form>-->
 <script>
+    window.onload = function (event) {
+        console.log(event)
+    }
     /*1.判断某变量是否为数组类型*/
     //1.instance of
     var arr = [1,4,3];
@@ -511,7 +514,22 @@
     }
     console.log(double({name:1,fun:function() {},fun2:{fun3:{age:11} }}));
     console.log(double(null))
-    console.log(double(undefined))
+    console.log(double(undefined));
+    var count  = [1,11,1,2,2,3,3,4,5,6,6,6,7,7,78,8,8,8,8,4,9,9];
+//    var count = ['a','s','e','a','s','e','a']
+    function count1(count) {
+        var s = [];//这个s已经是每个出现的元素
+        for(var i = 0;i<count.length;i++) {
+            if(s[count[i]]) {
+                s[count[i]]  +=1;
+            }else {
+                s[count[i]] = 1;
+            }
+        }
+
+        return s
+    }
+    console.log(count1(count));
 </script>
 </body>
 </html>

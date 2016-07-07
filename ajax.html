@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>原生js实现ajax</title>
+        <style>
+        input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0px 1000px white inset;
+            border: 1px solid #CCC!important;
+        }
+        </style>
+    </head>
+    <body>
+        <h1>给出设计图实现HTML/CSS/js 实现表单ajax提交并刷新页面。</h1>
+        <form class="ajax" action="index.html" method="post">
+            用户名：<input type="text" name='userName'class='userName'><br><br>
+            密码：<input type="password" name='passWord'class='passWord'><br><br>
+            <input type="button"value='提交表单' class="btn">
+        </form>
+        <script type="text/javascript">
+            var form = document.getElementsByClassName('ajax');
+            var userName = document.getElementsByClassName('userName')[0];
+            var passWord = document.getElementsByClassName('passWord')[0];
+            var btn = document.getElementsByClassName('btn')[0];
+            var data =[{}];
+            if(document.all) {
+                btn.attachEvent('onclick',a1)
+            }else {
+                btn.addEventListener('click',a1)
+            }
+            function a1(event) {
+                var src = event.target||event.srcElement;
+                data.userName = userName.value;
+                data.passWord = passWord.value;
+                userName.value = userName.value+'11';
+                passWord.value = passWord.value+'11';
+            }
+            //第一步创建ajax
+            var xhr = null ;
+            	if(  window.XMLHttpRequest ){   //普通浏览器
+            		xhr = new XMLHttpRequest( );
+            	}else{  //老IE浏览器
+            		xhr =  new ActiveXObject('Microsoft.XMLHTTP');
+            }
+        //第二步监听句柄含数
+            xhr.onreadystatechange = function(){
+			if(xhr.readyState===4){	//接收了所有的响应数据
+				if(xhr.status===200){
+        //响应成功，可以处理响应主体数据了...xhr.responseText
+        //假设响应成功，后台返回的也是json格式的数据xhr.responseText = [{ userName: "1111", passWord: "1111"}]
+        //假设这里的刷新是实现对表单的刷新；
+                    userName.value = xhr.responseText[0].userName+'123';
+                    passWord.value = xhr.responseText[0].passWord+'123';
+        //或者是对当前页面的整个刷新
+                    location.reload();
+				}else{
+					console.log('此次连接不成功')
+				}
+			}
+		}
+        //创建http连接
+        xhr.open('POST', 'xxx.php', true);
+        xhr.setRequestHeader('Content-Type',  'application/x-www-form-urlencoded');
+        xhr.responseType = 'json';
+        // //发送创建好的连接,此处我们将数据已json的格式发送
+        xhr.send(data);
+        </script>
+    </body>
+</html>
