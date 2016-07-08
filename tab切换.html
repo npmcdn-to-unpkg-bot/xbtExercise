@@ -102,6 +102,67 @@ var xh21= {
     }
     window.a1(n);
     console.log(n);
+    //密名函数的this指向问题
+    // var obj = {  a : 1,
+    //      func : function () {
+    //          (function () {  a = 2;  })()
+    //     }
+    // };
+    // obj.func();
+    // console.log(obj.a)
+    // console.log(a)
+    //如果要修改this的指向我们应该
+    var obj = {
+         a11 : 1,
+         func : function () {
+             console.log(this.a11);
+             (function () {  this.a11 = 2;  }).call(this)//注意此处的this指的就是obj
+        }
+    };
+    obj.func();
+    console.log(obj.a11)
+    // console.log(a11) undefined
+//或者外层的this值保存到一个变量中去然后我们传到里面函数
+var obj = {
+     a2 : 1,
+     func : function () {
+         var self = this;
+         (function () {  self.a2 = 2;  })()
+    }
+};
+obj.func();
+console.log(obj.a2)
+// console.log(a2)  undefined
+//密名函数的this指向练习
+function fn(){
+    this.user = '追梦子';
+    this.a =  function() {
+        (function() {console.log(this)}).call(this)
+    }
+}
+var fn1 = new fn();
+fn1.a();
+function bbb() {
+    console.log(this.negative.platform)
+}
+
+//回调函数的this指向问题
+function getUrl() {
+    console.log(this.document.URL);
+}
+var pseudoWindow = {
+    document: {
+        URL: "I'm fake URL"
+    },
+    getUrl1: getUrl,
+    getUrl2: function (callback) {
+        callback();//执行时没有人调用。就是指向全局window
+        this.func = callback;//相当于在调用的对象身上又加了一个属性getURL
+        this.func();//这个this指向了pseudoWindow
+    }
+}
+pseudoWindow.getUrl2(getUrl)
+console.log(pseudoWindow)
 </script>
 </body>
 </html>

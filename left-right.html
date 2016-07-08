@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>各种实现左右自适应展示的方法</title>
+        <style media="screen">
+        /*li:last-child {
+            background-color: lime;
+        }*/
+        li:last-of-type {
+            background-color: lime;
+        }
+        .column {
+            width: 31.5%;
+            background-color: green;
+            float: left;
+            margin: 0 1%;
+        }
+        /*  Establishing a new block formatting
+            context in the last column */
+        .column:last-child {
+            float: none;
+            overflow: hidden;
+        }
+        .container1 {
+            background-color: red;
+            overflow: hidden; /* creates a block formatting context */
+        }
+        .container1  p {
+            background-color: lightgreen;
+            margin: 10px 0;
+        }
+        .new {
+            display: inline-block;;
+        }
+        * {padding:0;margin: 0; text-align: center;}
+        .wrapper {margin:30px;width: 450px;border:1px solid red;}
+        .small-box {width: 50px;height: 50px;margin: 10px;background: #9cc;}
+        .middle-box {width: 100px;height: 100px;margin: 20px;background: #99c;}
+        .big-box {width: 120px;height: 120px;margin: 20px;background: #33e;}
+        .floatL {float: left;}
+        .floatR {float: right;}
+        .clear {clear: both;}
+        .posA {position: absolute;}
+        .overHid{overflow: hidden;}
+        .red {background: #f00;}
+        .green {background: #0f0;}
+        .blue {background: #00f;}
+        </style>
+    </head>
+
+    <body>
+        <!--1.用绝对定位布局示例-->
+        <div style="width: 100px;height: 100px;background-color: #ccc;position: absolute;">左侧宽度100px</div>
+        <div style="width: auto; height: 100px;background-color:blue;">*******右侧宽度自适应*******</div>
+        <div style="width: 100px;height: 100px;background-color: grey;position: absolute;">左侧宽度100px</div>
+        <div style="width: auto; height: 100px;background-color:yellow;margin-left:100px ;">*******右侧宽度自适应*******</div>
+        <!--2.用 浮动 布局示例-->
+        <div style="width: 100px;height: 100px;background-color: yellowgreen;float: left;">左侧宽度100px</div>
+        <div style="width: auto; height: 100px;background-color:lightgrey;">*******右侧宽度自适应*******</div>
+        <!-- 3.利用负边距布局示例-->
+        <div style="width:100px;height:100px;background-color:brown;float:left;">左侧宽度100px
+        </div>
+        <div style="width:100%;height: 100px;">
+            <div style="margin-left:100px;height:100px;background-color: wheat;">
+                *******右侧宽度自适应*******
+            </div>
+        </div>
+        <!-- list-of-type   nth-child -->
+        <ul class="ul">
+          <li>This item is not limed.</li>
+          <li>Also not this one.</li>
+          <li>This item is! :)</li>
+        </ul>
+        <!-- 在多列布局中使用BFC -->
+        <div class="container">
+            <div class="column">column 1</div>
+            <div class="column">column 2</div>
+            <div class="column">column 3</div>
+        </div>
+        <!-- 外边距折叠 -->
+        <div class="container1">
+            <p>Sibling 1</p>
+            <p>Sibling 2</p>
+            <div class="new">
+                <p>Sibling 3</p>
+            </div>
+        </div>
+        <!-- 浮动和绝对定位不与任何元素产生 margin 折叠 -->
+        <div class="wrapper overHid">
+            <div class="big-box">non-float</div>
+            <div class="middle-box green floatL">float left</div>
+            <div class="middle-box red clear" style="margin-top:40px;">clear</div>
+        </div>
+    </body>
+
+</html>

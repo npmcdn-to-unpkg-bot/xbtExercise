@@ -12,17 +12,18 @@
             float: left;
             width: 300px;
             height: 200px;
-            background: #f00;
+            background-color: #f00;
         }
         .right{
             /*左侧定高定宽，右侧则要利用padding补偿的方法来实现宽高自适应*/
             padding-bottom: 9999px;
             margin-bottom: -9999px;
-            background: #000;
+            background-color: #000;
         }
     </style>
 </head>
 <body>
+    <!-- 主要示范的是两个div其中一个会随着另一个变化还变化 -->
 <div class="main">
     <div class="left">left</div>
     <div class="right">right</div>
