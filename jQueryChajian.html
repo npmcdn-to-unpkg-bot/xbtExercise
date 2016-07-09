@@ -1,0 +1,230 @@
+<html>
+  <head >
+    <meta charset="UTF-8">
+    <tittle>jQuery插件</tittle>
+    <link rel="stylesheet" href="">
+    <style media="screen">
+        .div{
+          display:table-cell;
+          width:550px;
+          height:550px;
+          vertical-align:middle;
+        }
+        .pager {
+          display: inline-block;
+          font: 12 px/21px "宋体";
+          margin-top: 20px;
+          }
+        .pager a, .pager .flip, .pager .curPage {
+          border: 1px solid #e3e3e3;
+          display: inline-block;
+          height: 22px;
+          line-height: 22px;
+          text-align: center;
+         }
+        .pager a {
+          background: none repeat scroll 0 0 #fff;
+          color: #010101;
+          text-decoration: none;
+          width: 26px;
+         }
+        .pager a:hover {
+          background: none repeat scroll 0 0 #f1f1f1;
+        }
+        .pager .noPage {
+          color: #a4a4a4;
+         }
+        .pager .curPage {
+          background: none repeat scroll 0 0 #49abde;
+          color: #ffffff;
+          width: 26px;
+         }
+        .pager .flip {
+          width: 75px;
+        }
+    </style>
+    <script type="text/javascript" src='js/jquery-1.11.3.js'></script>
+    </head>
+  <body>
+    <div class="div" >
+      <p>
+        我在用jQuery来制作插件，一共有三个方法，但是我们一般只用到前两个方法就好，但是第一个方法还是有点问题，适用范围不广泛，因此我们经常利用方式二来创建插件，这样可以充分的利用到jquery的选择器这个优良的属性
+      </p>
+    </div>
+    <div class="pager">
+      <span class="flip noPage">上一页</span>
+      <span class="curPage">1</span>
+      <a page="1" href="javascript:;">2</a>
+      <a page="2" href="javascript:;">3</a>
+      <a page="3" href="javascript:;">4</a>
+      <span>...</span>
+      <a href="javascript:;" page="8">9</a>
+      <a page="1" href="javascript:;" class="flip">下一页</a>
+    </div>
+    <script type="text/javascript">
+      // 仅仅是在jQuery命名空间或者理解成jQuery身上添加了一个静态方法而//$.extend({xx,xx})
+      $.extend({
+        //扩展函数第一个sayHello
+        sayHello: function(name) {
+            console.log('Hello,' + (name ? name : 'Dude') + '!');
+        },
+        //扩展函数第二个log
+        log: function(message) {
+            var now = new Date(),
+                y = now.getFullYear(),
+                m = now.getMonth() + 1, //！JavaScript中月分是从0开始的
+                d = now.getDate(),
+                h = now.getHours(),
+                min = now.getMinutes(),
+                s = now.getSeconds(),
+                time = y + '/' + m + '/' + d + ' ' + h + ':' + min + ':' + s;
+            console.log(time + ' My App: ' + message);
+        }
+      })
+      //我们可以发现在函数进行调用的时候我只需要利用$来调用即可
+      $.sayHello(); //调用
+      $.sayHello('Wayou'); //带参调用
+      $.log('initializing...'); //调用
+      /* 但这种方式无法利用jQuery强大的选择器带来的便利，要处理DOM元素以及将插件更好地运用于所选择的元素身上*/
+      //第二种方法基本上就是往$.fn上面添加一个方法，名字是我们的插件名称
+      $.fn.myPlugin = function() {
+      //在这里面,this指的是用jQuery选中的元素
+      //example :$('a'),则this=$('a')
+        this.css({'background-color': 'red','text-align':'center',});
+      }
+      //转化成jquery对象
+      var $div = $(document.getElementsByTagName('div')[0]);
+      $div.myPlugin();
+      //用户可以自己传递参数近来，如果没有传递参数，我们一般是有自己的默认的初始化字点函数
+      $.fn.myPlugin = function(options) {
+        //编写者定义的默认值，一般写成字点函数的格式
+        var defaults = {
+            'color': 'blue',
+            'fontSize': '12px'
+        };
+      /*  此处利用方法将用户传递进来的参数和默认的扩展覆盖，原来已经存在的将会被覆盖掉没有的话就是使用新的,此处还要记得对合并前的默认字典选项的保护，我们将合并后的传入到一个新的对象中去*/
+       var settings = $.extend({},defaults, options);
+        return this.css({
+            'color': settings.color,
+            'fontSize': settings.fontSize
+        });
+      }
+    /* 我们可以发现我们传入的可选项必是和字典函数定义的一样是一个对象的形式，这样有利于我们在后面进行更好的扩充*/
+      // $('p').myPlugin({color:'#aaf',fontSize:'19px'});
+      /*开发一个功能复杂的插件时我们可以使用面向对象的方法来实现整体的包装，就是实现一个插件可以有好多的功能集群管理
+      定义Beautifier的构造函数*/
+
+      /*
+        首先定义一个面向对象的构造函数，里面有属性和原型上的方法，用户在调用
+
+      */
+      var Beautifier = function(ele, opt) {
+          this.$element = ele,
+          this.defaults = {
+              'color': '#aff',
+              'fontSize': '12px',
+              'textDecoration':'none'
+          },
+          this.options = $.extend({}, this.defaults, opt)
+      }
+      //定义Beautifier的方法
+      Beautifier.prototype = {
+          beautify: function() {
+              return this.$element.css({
+                  'color': this.options.color,
+                  'fontSize': this.options.fontSize,
+                  'textDecoration': this.options.textDecoration
+              });
+          }
+      }
+      //在插件中使用Beautifier对象
+      $.fn.myPluginer = function(options) {
+          //创建Beautifier的实体，实例化对象，调用时要将当前的对象穿进去。而我们的this就是指向我们的dom对象
+          var beautifier = new Beautifier(this, options);
+          //调用其方法
+          return beautifier.beautify();
+      }
+      $('p').myPluginer({color:'#000',fontSize:'22px'});
+      //我们还可以写成若下的形式，即为页面加载时就执行
+      // $(function() {
+      //     $('p').myPluginer({
+      //         'color': '#2C9929',
+      //         'fontSize': '20px'
+      //     });
+      // })
+      /* 我们知道JavaScript中无法用花括号方便地创建作用域，但函数却可以形成一个作用域，域内的代码是无法被外界访问的。如果我们将自己的代码放入一个函数中，那么就不会污染全局命名空间，同时不会和别的代码冲突。*/
+      /*
+        为了得到没有被修改的undefined，我们并没有传递这个参数，但却在接收时接收了它，因为实际并没有传，所以‘undefined’那个位置接收到的就是真实的'undefined'了
+      */
+      ;(function($,window,document,undefined) {
+        //这样做的好处就是我们可以省去声明一个全局变量Beautifier
+
+        //定义Beautifier的构造函数
+        var Beautifier = function(ele, opt) {
+            this.$element = ele,
+            this.defaults = {
+                'bgcolor': '#ffa',
+                // 'box-shadow': '0 0  0 12px  # aaa inset',
+                'textDecoration': 'none'
+            },
+            this.options = $.extend({}, this.defaults, opt)
+        }
+        //定义Beautifier的方法
+        Beautifier.prototype = {
+            beautify: function() {
+                return this.$element.css({
+                    'background-color': this.options.bgcolor,
+                    'fontSize': this.options.fontSize,
+                });
+            }
+        }
+        //在插件中使用Beautifier对象
+        $.fn.myPluginer1 = function(options) {
+            //创建Beautifier的实体
+            var beautifier = new Beautifier(this, options);
+            //调用其方法
+            return beautifier.beautify();
+        }
+    })(jQuery,window,document);
+
+    /*
+    window等系统变量在插件内部就有了一个局部的引用，可以提高访问速度，会有些许性能的提升最后我们得到一个非常安全结构良好的代码
+    */
+    $(function() {
+        $('div').myPluginer1({
+            'fontSize': '20px'
+        });
+    })
+
+    /*
+      利用下午所学习的知识来实现密名函数自调的插件创建
+    */
+    ;(function(jquery,window,document,undefined) {
+      var xbt = function(ele,element) {//向构造函数里传入节点，和默认的参数值
+        this.ele = ele
+        this.op1 = {
+          'color':'#12a',
+          'font-size':'30px',
+          'width':'90px'
+        }
+        this.options = $.extend({},this.op1,element)
+      }
+      xbt.prototype = {
+          beautify:function() {
+            return  this.ele.css({
+              'color':this.options.color,
+              'font-size':this.options.fontSize,
+              'width':this.options.width
+            })
+          },
+      }
+      //实例话我们自己创建的函数方法
+      $.fn.myPluginer = function(options) {
+        var xbeauty = new xbt(this,options)
+        return xbeauty.beautify()
+      }
+    })($,window,document)
+    $('.pager a').myPluginer();
+  </script>
+  </body>
+</html>
