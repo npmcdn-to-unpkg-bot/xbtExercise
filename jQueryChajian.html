@@ -46,6 +46,30 @@
     <script type="text/javascript" src='js/jquery-1.11.3.js'></script>
     </head>
   <body>
+    <fieldset>
+      <legend>sesssionStorage</legend>
+      用户名：<input type="text" id="username" class="key"><br><br>
+      密码：<input type="password" id="password" class="val"><br><br>
+      <button class="btn">保存</button>
+      <button class="read">读取</button>
+      <button class="del">删除</button>
+      <button class="clear">清除</button>
+    </fieldset>
+    <br>
+    <br>
+    <br>
+    <fieldset>
+      <legend>localStorage</legend>
+      用户名：<input type="text"name="username1" class="key1"><br><br>
+      密码：<input type="password"name="password" class="val1"><br><br>
+      <button class="btn1">保存</button>
+      <button class="read1">读取</button>
+      <button class="del1">删除</button>
+      <button class="clear1">清除</button>
+    </fieldset>
+    <br>
+    <br>
+    <br>
     <div class="div" >
       <p>
         我在用jQuery来制作插件，一共有三个方法，但是我们一般只用到前两个方法就好，但是第一个方法还是有点问题，适用范围不广泛，因此我们经常利用方式二来创建插件，这样可以充分的利用到jquery的选择器这个优良的属性
@@ -61,6 +85,9 @@
       <a href="javascript:;" page="8">9</a>
       <a page="1" href="javascript:;" class="flip">下一页</a>
     </div>
+    <br>
+    <br>
+    <div class='click'style="width:300px;height:300px;background-color#aaf">点我呀</div>
     <script type="text/javascript">
       // 仅仅是在jQuery命名空间或者理解成jQuery身上添加了一个静态方法而//$.extend({xx,xx})
       $.extend({
@@ -225,6 +252,208 @@
       }
     })($,window,document)
     $('.pager a').myPluginer();
+    /*
+      100开始，每一秒减1，减到0的时候停止
+    */
+    // (function () {
+    //   var a = 100;
+    //   var c = window.setInterval(function(){
+    //       console.log(a--);
+    //       if(a<0) {
+    //         clearInterval(c);
+    //       }
+    //   },1000)
+    // })()
+    //本地存储有两种解决方式
+    /*
+      cookie 64k   userData 微软64k   flash共享对象 sharedobject 100kb
+      gear 谷歌 sqlite无限容量   webstorage
+      sessionStorage    localStorage
+      1.保存方法setItem(key,value) 读取方法getItem(key)//一般根据key值来进行读取
+    */
+    var btn = document.getElementsByClassName('btn')[0];
+    btn.addEventListener('click',function() {
+      var key = $('.key').val();
+      var val = $('.val').val();
+      sessionStorage.setItem(key,val);
+    })
+    var read = document.getElementsByClassName('read')[0];
+    read.addEventListener('click',function() {
+      console.log(sessionStorage);
+    for(var i = 0;i<sessionStorage.length;i++) {
+      //sessionStorage.key(i)可通过数字索引得到文字索引,这是一个固定定的可以获得key值的方法
+      var key = sessionStorage.key(i);
+      // console.log(key)
+      var val = sessionStorage.getItem(key);
+      console.log(val)
+    }
+    })
+    //sessionStorage.removeItem()删除某条记录
+    var del = document.getElementsByClassName('del1')[0];
+    del.addEventListener('click',function() {
+      var key = $('.key1').val();
+      sessionStorage.removeItem(key);
+    })
+    var clear  = document.getElementsByClassName('clear1')[0];
+    clear.addEventListener('click',function() {
+      sessionStorage.clear();
+    })
+
+
+    var btn1 = document.getElementsByClassName('btn1')[0];
+    btn1.addEventListener('click',function() {
+      var key = $('.key1').val();
+      var val = $('.val1').val();
+      localStorage.setItem(key,val);
+    })
+    var read1 = document.getElementsByClassName('read1')[0];
+    read1.addEventListener('click',function() {
+      console.log(localStorage);
+    for(var i = 0;i<localStorage.length;i++) {
+      //sessionStorage.key(i)可通过数字索引得到文字索引,这是一个固定定的可以获得key值的方法
+      var key = localStorage.key(i);
+      // console.log(key)
+      var val = localStorage.getItem(key);
+      console.log(val)
+    }
+    })
+    //sessionStorage.removeItem()删除某条记录
+    var del1 = document.getElementsByClassName('del1')[0];
+    del1.addEventListener('click',function() {
+      var key = $('.key1').val();
+      localStorage.removeItem(key);
+    })
+    var clear1  = document.getElementsByClassName('clear1')[0];
+    clear1.addEventListener('click',function() {
+      localStorage.clear();
+    })
+    /*
+    继承问题练习回顾
+    */
+    /*
+    1.原型继承问题
+    */
+    function foo (name) {
+      this.name = name;
+    }
+    foo.prototype.intr = function() {
+      colsole.log(this.name);
+    }
+    var  a = new foo('大狼狗');
+    console.log( a.hasOwnProperty('name'))//true 在a自己的身上
+    console.log( a.hasOwnProperty('intr'))//false 在原型上
+    /*
+    2.借用构造函数继承
+    */
+    function fox (name) {
+      this.name = name;
+    }
+    fox.prototype.eat = function() {
+      console.log(this.name)
+    }
+    function cat (name,score) {
+      fox.call(this,name);
+      this.score = score;
+    }
+    cat.prototype = new fox('可爱的小姑娘');
+    cat.prototype.say = function() {
+      console.log(this.score);
+    }
+    var dog = new cat('wgd',2000);
+    console.log(dog);
+    console.log(dog.hasOwnProperty('name'))//false
+    console.log(dog.hasOwnProperty('score'))//true
+    console.log(dog.hasOwnProperty('eat'))//false
+    console.log(dog.hasOwnProperty('say'))//false
+    console.log('定位cat里面是否有say的方法')
+    console.log(cat.hasOwnProperty('say'))//false
+    console.log(dog.score);
+    console.log(dog.name);
+    console.log('eat' in dog)//true
+    dog.eat()
+    console.log('say' in dog)//false
+    console.log('定位cat里面是否有say的方法')
+    dog.say();
+    /*
+    第三种create的方法
+    */
+    function pig(name) {
+      this.name = name;
+    }
+    pig.prototype.ok = function() {
+      console.log(this.name);
+    }
+    function chiken (score) {
+      this.score = score
+    }
+    chiken.prototype = Object.create(pig.prototype);
+    var xbt = new chiken('aaa');
+    xbt.name = '111'
+    console.log(xbt);
+    console.log(xbt.score);
+    console.log(xbt.name);
+    xbt.ok();
+    /*
+    复习昨天所学知识，利用jQuery创建插件，一般我们的插件都会在一个立即调用的命名空间中实现，只会对外部提供必要的接口
+    */
+    ;(function(jquery,window,document,undefined) {
+      var chajian = function(ele,options) {
+        this.ele = ele;
+        this.defaults = {
+          'color':'#aff',
+          'font-family':'XXX',
+          'bgcolor':'red',
+          'font-size':'19px',
+        }
+        this.op = $.extend({},options,this.defaults);
+      }
+      chajian.prototype = {
+        aaa:function() {
+          return  this.ele.css({
+            'color':this.op.color,
+            'font-family':this.op.font-family,
+            'bgcolor':this.op.bgcolor
+          });
+        }
+      }
+      $.fn.pluginer2 = function (options){
+         var xbt = new chajian(this,option);
+         return xbt.aaa()
+      }
+    })($,window,document);
+    //cookie练习
+  </script>
+  <hr>
+  <script>
+  //谷歌无法读取本地打开的cookie，此条实例我们可以用ff来读取
+  document.cookie = 'domain=tom; expires='+new Date().toGMTString();
+  document.write(document.cookie)
+  document.write(typeof(document.cookie))
+  //sessionStorage localStorage 的常用方法
+/*  setItem(key,value)
+  getItem(key)
+  sessionStorage.key(i)   sessionStorage.length
+  removeItem(key)
+  clear()*/
+  $('.click').on('click',function() {
+    var width = Math.random()*1000;
+    var height = Math.random()*1000;
+    $('.click').css({
+      'width':width,
+      'height':height
+    })
+    //此处的localStorage一旦设置。我们其他页面就会监听到
+    localStorage.setItem('width',width)
+    localStorage.setItem('height',height)
+  })
+window.addEventListener('storage',function(e) {
+    if(e.key === 'width') {
+      $('.click').css({'width':e.newValue})
+    }else {
+      $('.click').css({'height':e.newValue})
+    }
+
+  },false)
   </script>
   </body>
 </html>
