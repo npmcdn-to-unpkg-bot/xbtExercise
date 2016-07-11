@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>随机生成颜色的函数</title>
+  </head>
+  <body>
+    <div style="width:200px;height:200px;border:1px solid #5d497d">
+      这里是要展现颜色的地方
+    </div>
+  </body>
+  <script src='js/jquery-1.11.3.js'>  </script>
+  <script src='js/underscore.js'></script>
+  <script>
+    $(function() {
+      function color() {
+        //方法一只有rgb
+/*      var r = Math.floor(Math.random()*255).toString(16);
+        var g = Math.floor(Math.random()*255).toString(16);
+        var b = Math.floor(Math.random()*255).toString(16);
+        var a = Math.round(Math.random());
+        return  '#'+r+g+b;*/
+        //方法二：带上透明度的rgba
+        var r = Math.floor(Math.random()*255);
+        var g = Math.floor(Math.random()*255);
+        var b = Math.floor(Math.random()*255);
+        var a = Math.random().toFixed(1);
+        return  'rgba('+r+','+g+','+b+','+a+')';
+      }
+      //网上的神奇答案
+      function renderColour() {
+         return "#"+(~~(Math.random()*(1<<24))).toString(16);
+      }
+      $('div').on('click',function(event){
+          var src = event.target||event.srcElement;
+          // var newcolor = color();
+          var newcolor = renderColour();
+          console.log(newcolor);
+          $('div').css('backgroundColor',newcolor)
+      })
+      /*
+        数组乱序问题，给一个数组输入，输出随机乱序后的数组
+      */
+      function lx (arr) {
+            for(var i =0,s = 0,newArr = [];i<9;i++) {
+              //注意此处应该利用下取整，这样可以保证在最后只剩一个的时候取得是0，而不是1
+              s = Math.floor(Math.random()*arr.length);
+              newArr.push(arr[s]);
+              arr.splice(s,1);
+            }
+            return newArr;
+      }
+      console.log(lx([1,2,3,4,5,6,7,8,9]))
+      //方法二。利用sort,这尼玛没看懂
+      function shuffle(a) {
+        return a.concat().sort(function(a, b) {
+          return Math.random() - 0.5;
+        });
+      }
+      console.log(shuffle([1,2,3,4,5,6,7,8]))
+    })
+  </script>
+  <script>
+  // 定义一个JavaScript内置对象
+  var jsData = {
+    name : 'data'
+  }
+
+  // 通过_()方法将对象创建为一个Underscore对象
+  // underscoreData对象的原型中包含了Underscore中定义的所有方法，你可以任意使用
+  var underscoreData = _(jsData);
+  // 通过value方法获取原生数据, 即jsData
+  console.log(underscoreData.value());
+  var lxData = [1,2,3,45,6,7];//成us对象
+  console.log(_.shuffle(lxData));
+  //根据us的中心思想，我们总结出乱序问题就是要遍历数组，将某个元素与其后任意位置上的元素交换位置
+  function jh (arr) {
+    var length = arr.length;
+    for(var i = 0,temp;i<length;i++) {
+      var s = Math.floor(Math.random()*arr.length);//上取整，生成出来的那个数据不包含自己
+      temp = arr[i];
+      arr[i] =arr[s];
+      arr[s] = temp;
+    }
+    return arr
+  }
+  console.log(jh([1,2,3,4,5,6]));
+  //韩子迟总结出来的方法
+  function hshuffle(a) {
+    var length = a.length;
+    var shuffled = Array(length);
+
+    for (var index = 0, rand; index < length; index++) {
+      rand = ~~(Math.random() * (index + 1));
+      if (rand !== index)
+        shuffled[index] = shuffled[rand];
+      shuffled[rand] = a[index];
+    }
+
+    return shuffled;
+  }
+    console.log(hshuffle([10,20,30,40,50,60]));
+    //es6的新属性解决方案
+    function unique(a) {
+      return Array.from(new Set(a));
+    }
+    var a = [{name: "hanzichi"}, {age: 30}, new String(1), new Number(1)];
+    var ans = unique(a);
+    console.log(ans);
+  </script>
+
+</html>

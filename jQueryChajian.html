@@ -88,6 +88,9 @@
     <br>
     <br>
     <div class='click'style="width:300px;height:300px;background-color#aaf">点我呀</div>
+    <div class='wgd'>
+      这是我要调用插件生成css样式的地方
+    </div>
     <script type="text/javascript">
       // 仅仅是在jQuery命名空间或者理解成jQuery身上添加了一个静态方法而//$.extend({xx,xx})
       $.extend({
@@ -454,6 +457,33 @@ window.addEventListener('storage',function(e) {
     }
 
   },false)
+  //2016-7-11 10:17:48 再次练习利用jquery来创建原型上的插件
+  ;(function($,window,document,undefined) {
+    console.log($)
+    function xbt (ele,options) {
+      this.ele = ele;
+      this.defaults = {
+        'backgroundColor':'#11d',
+        'width':'500px',
+        'height':'500px'
+      }
+      this.op = $.extend({},this.defaults,options);
+    }
+    xbt.prototype = {
+      xbt1:function() {
+        return this.ele.css({
+          'backgroundColor':this.op.color,
+          'width':this.op.width,
+          'height':this.op.height
+        })
+      }
+    }
+    $.fn.pluginer3 = function (options){
+       var xbt11= new xbt(this,options);
+       return xbt11.xbt1()
+    }
+  })($,window,document);
+  $('.wgd').pluginer3();
   </script>
   </body>
 </html>
