@@ -484,6 +484,225 @@ window.addEventListener('storage',function(e) {
     }
   })($,window,document);
   $('.wgd').pluginer3();
+
+
+</script>
+<script type="text/javascript">
+
+
+  /*
+    2016年7月12日07:53:20 早晨练习昨天所学知识点
+    1.cookie:key-value    domain   path   expires   httponly    secure
+    cookie是一段存储在本地电脑里的字符串，每次都必须要发送到后台，这是http协议的一部分大小只有4k  userData   flash   gear
+    谷歌浏览器不可以读取本地的cookie 要放在服务器上。ff可以读取，我们可以打开网页上的cookie进行浏览删除等操作。
+    2.webstorage  （同一个页面程序打开两次后，其中一个变化，另一个也跟着变化就是利用window去监听storage事件）
+    localStorage    浏览器永久会话存储数据，在页面关闭过后仍然纯在，同一窗口里的不同页面之间可以相互访问，可以用来实现任务管理的小功能，即保存为localStorage就可以在不同的时候将其值读取出来进行增删改查。
+    sessionStorage   这是浏览器的临时会话存储，同一个窗口不同页面不可以共享，页面关闭即消失
+    setItem(key,value)  getItem(value) removeItem(key) clear()
+    storage事件 、存储空间每次发生变化时，都会触发此事件，所以可以通过此事件来通知同一程序的每个窗口。storage事件有key,oldValue ,newValue,url
+    3.websocket  全双供连接类型的网络协议（实时，高效，使用在聊天室）
+    为了实现实时聊天室。客户端，服务器之间通过4个事件    2个方法    1个属性
+    onopen  onclose  onerror   onmessage
+    send()    close()
+    readyState  代表当前连接的状态 connecting open closing closed
+    可以利用faye-webSocket-node,来实现交互过程，模拟演练
+
+    4.拖拽API（Drag && Drop）可以实现图片从一个框拖拽到另外一个框并且放下
+    原生的H5共有7个事件来支持这个效果
+    dragStart   drag     dragEnd
+    dragEnter    dragOver   dragLeave   drop
+    利用拖拽对象的dataTransfer来传递参数 drag的时候利用e.dataTransfer.setData('imgSrc',$('#img').attr('src'));
+    在drop的时候利用e.dataTransfer.getData('imgSrc');  再新生成一个img标签，把他的src设置成我们通过key读取到的value   注意点是我们要记得去取消目标框元素那里的默认行为是不允许   我们利用e.preventDefault 来搞定
+    5.  webWorker 讲一讲要用到的场景，可以解决的问题，可以实现多线程同时工作
+      在创建webWorker的时候我们必须要把子线程的路径写在里面，形如下面的形式
+      var worker = new Worker('zixiancheng.js');
+      处理子线程给我们发回来的消息
+      worker.onmessage = function(e) {
+        console.log(e);
+      }
+      子线程给主线程发送消息，子线程也可以接受到主线程的消息
+      self.postMessage(new Date().getTime()-timer);
+      终止线程 worker.terminate()
+    6.geolocation  可以实现获取位置消息，实现定位，可以利用谷歌api   百度API 来实现
+      getCurrentPosition watchPosition clearWatch
+      7.对象的类的定义
+      Object.prototype.toString.call('xxx').slice(8,-1)
+      8.类数组对象转换成数组
+      普通方法：Array.prototype.slice.call('arguments'),
+      es6的新方法：Array.from(arguments)
+      数组拼接问题
+      Array.prototype.concat.apply(arr1,arr2)
+      arr1.concat.apply([],arr2);
+      Math.max.apply(math,a)
+      Math.min.apply(math,a)
+  */
+  /*函数继承的方式*/
+  function ok (name,score) {
+    this.name = name;
+    this.score = score;
+    this.intr = function() {
+      console.log(this.name +'---'+this.score)
+    }
+  }
+  var good = new ok('xbt','10000');
+  console.log('name' in good);
+  console.log('score' in good);
+  console.log('intr' in good);
+  console.log(good.hasOwnProperty('name'));
+  console.log(good.hasOwnProperty('score'));
+  console.log(good.hasOwnProperty('intr'));
+  good.intr();
+  console.log('我们可以发现这种方式继承实例中都将会有和构造函数一模一样的属性和方法');
+  /*借用构造函数继承*/
+  function no (name,score) {
+    this.name = name;
+    this.score = score;
+    this.intr = function() {
+      console.log(this.name +'---'+this.score)
+    }
+  }
+  no.prototype.say = function() {
+    console.log('我是原型上的方法')
+  }
+  function bad (name,score,age) {
+    no.call(this,name,score);
+    this.age = age;
+  }
+  var long = new bad('wgd','2000',18);
+  console.log(long)
+  console.log('name' in long);
+  console.log('score' in long);
+  console.log('age' in long);
+  console.log('intr' in long);
+  console.log('say' in long);
+  console.log(long.hasOwnProperty('name'));
+  console.log(long.hasOwnProperty('score'));
+  console.log(long.hasOwnProperty('age'));
+  console.log(long.hasOwnProperty('intr'));
+  console.log(long.hasOwnProperty('say'));
+  long.intr();
+  console.log('我们可以发先借用构造函数式继承只可以继承复函数的实例，原型上的方法我们是不能够继承的')
+  /*原型继承+借用构造函数继承*/
+  function family (name,score) {
+    this.name = name;
+  }
+  family.prototype = {
+    score:'21',
+    intr:function() {
+      console.log('这是原型上的intr方法'+this.name+'----'+score)
+    }
+  }
+  function father (name,score,age) {
+    family.call(this,name,score);
+    this.age = age;
+  }
+
+  father.prototype = new family('点点豆豆', 111111);
+  father.prototype.say = function () {
+    console.log('我是father里的方法')
+  }
+  var child= new father('wgdwgd','xiaodoudou',100000);
+  console.log(child);
+  console.log('name' in child);
+  console.log('age' in child);
+  console.log('score' in child);
+  console.log('intr' in child);
+  console.log('say' in child);
+  console.log('---------')
+  console.log( child.hasOwnProperty('name'))
+  console.log( child.hasOwnProperty('age'))
+  console.log( child.hasOwnProperty('score'))
+  console.log( child.hasOwnProperty('intr'))
+  console.log( child.hasOwnProperty('say'))
+  console.log('下面是利用create方式来实现继承')
+  /*create方式的继承*/
+  var a = {name:'xbt'};
+  var b = Object.create(a);
+  console.log(b);
+  console.log('name' in b);
+  console.log(b.hasOwnProperty('name'));
+  function ht(name,score) {
+    this.name = name;
+    this.score = score;
+  }
+  ht.prototype = {
+    a:function() {
+      console.log('a');
+    },
+    b:function() {
+      consoel.log('b');
+    }
+  }
+  function hz (age) {
+    this.age = age;
+  }
+  hz.prototype = Object.create(ht.prototype);
+  var xb = new hz('18');
+  console.log(xb)
+  console.log('检查属性')
+  console.log('name' in xb)
+  console.log('score' in xb)
+  console.log('a' in xb)
+  console.log('b' in xb)
+  console.log('age' in xb);
+  console.log('检查自有属性')
+  console.log(xb.hasOwnProperty('name'))
+  console.log(xb.hasOwnProperty('score'))
+  console.log(xb.hasOwnProperty('a'))
+  console.log(xb.hasOwnProperty('b'))
+  console.log(xb.hasOwnProperty('age'))
+  /*es6的类方法来实现继承*/
+   var a = class{
+    constructor() {
+      console.log('这是构造器');
+    }
+    static a() {
+      console.log('我是静态方法')
+    }
+    xxx(a) {
+
+      console.log('我是父类中自定义的方法'+a)
+    }
+  }
+  a.a();//静态类不需要实例化
+  var wgxb = new a ();//此时类中的构造器在实例化的时候就会被调用了
+  wgxb.xxx(1);//一般的类中的方法只会在实例化过后在调用的时侯再执行
+  var xbxb = class extends a {
+    super() {};
+  }
+  xbxb.a();
+  var newxbxb = new xbxb ();
+
+  /*
+  终极练习插件
+  */
+  ;(function($,window,document,undefined) {
+    var arr = function (ele,options) {
+      this.ele = ele;
+      this.defaults = {
+        'width':'300px',
+        'height':'300px',
+        'color':'red'
+      }
+      this.options = $.extend({},this.defaults,options)
+    }
+    arr.prototype = {
+      arr1:function() {
+        return this.ele.css({
+          'width':this.options.width,
+          'height':this.options.height,
+          'color':this.options.color
+        })
+      },
+      a:function() {
+        console.log(this.defaults)
+      }
+    }
+    $.fn.pluginer3 = function(options) {
+      var b = new arr(this,options)
+      return b.arr1();
+    }
+  })($,window,document)
   </script>
   </body>
 </html>

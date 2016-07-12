@@ -19,12 +19,13 @@
     var $divs = $('div')
     var i = 0;
     for(var div of $divs) {
+      console.log(div)
      div.id = 'div-' + i++;
   }
   $divs.each(function(key,value) {
-    console.log(key);//从打印结果可以看出key是我们便利的下标
-    console.log(value);//value是我们的对应的每一项内容,并且是一个dom对象
-    console.log($(value).addClass('a'))
+    // console.log(key);//从打印结果可以看出key是我们便利的下标
+    // console.log(value);//value是我们的对应的每一项内容,并且是一个dom对象
+    // console.log($(value).addClass('a'))
   })
   </script>
 </html>
