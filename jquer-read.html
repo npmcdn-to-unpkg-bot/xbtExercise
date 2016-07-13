@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>jquery源码分析之初始化设计</title>
+  </head>
+  <body>
+    <div></div>
+    <script type="text/javascript">
+    console.log(document.getElementsByTagName('div'))
+    var aQuery = function(selector, context) {
+           return  aQuery.prototype.init();
+    }
+    aQuery.prototype = {
+        init: function() {
+            this.age = 18;//这句话相当于在原来的构造函数上加上了age的属性
+            return this;
+        },
+        name: function() {},
+        age: 20
+    }
+    console.log(aQuery().age)
+    console.log(aQuery());
+
+
+    var aQ = function(selector, context) {
+           return  new aQ.prototype.init();
+    }
+    aQ.prototype = {
+        init: function() {
+            this.age = 18;//这句话相当于在原来的构造函数上加上了age的属性
+            return this;
+        },
+        name: function() {return this },
+        age: 20
+    }
+    aQ.prototype.init.prototype = aQ.prototype;
+    aQ.prototype.init.prototype.say = function() {
+      return this;
+    }
+    console.log(aQ())
+    // console.log(aQ().name())根本就不会找到这个name方法。因为this的指向已经变成了init
+    console.log(aQ().init().name().say())//有了原型的传递就解决了this指向init之后找不到name这个方法，可以在他的原型上找到
+    var m = new Map();
+    m.set(true,11);
+    m.set(function(){},11);
+    console.log(m)
+    </script>
+  </body>
+</html>

@@ -8,6 +8,12 @@
     <div>jquery3.0特性测试</div>
     <div>jquery3.0特性测试</div>
     <div>jquery3.0特性测试</div>
+    <p class="unwrap">
+      <input type="text">
+      <input type="text">
+      <input type="text">
+      <input type="text">
+    </p>
     <br><br>
   </body>
   <script src='js/jquery3.js'></script>
@@ -23,9 +29,21 @@
      div.id = 'div-' + i++;
   }
   $divs.each(function(key,value) {
-    // console.log(key);//从打印结果可以看出key是我们便利的下标
-    // console.log(value);//value是我们的对应的每一项内容,并且是一个dom对象
-    // console.log($(value).addClass('a'))
+    console.log(key);//从打印结果可以看出key是我们便利的下标
+    console.log(value);//value是我们的对应的每一 项内容,并且是一个dom对象
+    console.log($(value).addClass('a'))
   })
+  var str = 'OhelloWorldO';
+  //  str = str.match(/o/i);
+  //  str = str.match(/o/gi);
+   //全局匹配的不会输出位置，单个匹配的会输出位置和内容
+  //  str = str.search(/o/gi)//会输出位置，而且是只找一个，就算加上g也只是找一个而已
+  var reg = /o/gi;
+  var arr = null;
+  while((arr = reg.exec(str) )!== null){
+    console.log(arr[0] +'---'+reg.lastIndex)//下一次开始的位置
+  }
+   console.log($('.unwrap').unwrap('input'))  ;
+   alert( 'You are running jQuery version: ' + $.fn.jquery );
   </script>
 </html>
