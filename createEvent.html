@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>js的自定义事件</title>
+  </head>
+  <body>
+    <div class="div1" style="">
+    <div class="div2" style="width:100px;visibility:hidden"> </div>
+    </div>
+    <script type="text/javascript">
+      console.log(document.getElementsByClassName('div2').offsetWidth)
+      function * step1() {
+        yield 1;
+        yield 2;
+      }
+      function *step2() {
+        yield step1();
+      }
+      console.log((step2().next()).value.next().value);
+      var agent = {};
+      var fn = function(agent) {console.log(this)};fn();
+      (function () {console.log(this)})(agent);
+      (function () {console.log(this)}.bind(agent))();
+      (function () {console.log(this)}.call({},agent));
+      (function () {console.log(this)}.apply(agent));
+      agent.fn = function(agent) {console.log(this)};agent.fn()
+    </script>
+    <script type="text/javascript">
+      //首先定义一个函数，并定义一个对象，里面存放共用属性
+      var definedEvent = function() {
+        this.events = {};
+      }
+      /*
+        我们开始定义事件并且定义事件的触发和删除机制
+      */
+      definedEvent.prototype ={
+        constructor:definedEvent,
+        addEvent:function(type,event) {
+          if(typeof this.events[type] == 'undefined') {
+            this.events[type] = new Array();
+          }
+          this.events[type].push(event)
+        },
+        removeEvent:function (type,event) {
+          if(this.events[type] instanceof Array) {
+            var events = this.events[type];
+            for(var i = 0,len = events.length;i<len;i++) {
+              if(events[i] == event) {
+                events.splice(i,1);
+                break;
+              }
+            }
+          }
+        },
+        fire:function(paramas) {
+          if(!paramas.target) {
+            paramas.target = this;
+          }
+          if(this.events[paramas.type] instanceof Array){
+            var e=this.events[paramas.type];
+            for(var i=0,len=e.length;i<len;i++){
+              e[i](paramas);
+            }
+          }
+        }
+      }
+      var a = new definedEvent();
+      //此处的here的作用类似于一个回调函数
+      function here(parama) {
+        alert('这是自定义的方法'+parama)
+      }
+      a.addEvent('myEvent',here);
+      a.fire({type:"myEvent",paramas:"myEvent"});
+      a.removeEvent('myEvent',here)
+      //实现一个events模块实现自定义事件的添加，触发，移除
+
+      function Events () {
+        this.events = {};
+      }
+      Events.prototype = {
+        constructor:Event,
+        on:function(obj) {
+          //判断事件处理集里面有没这个处理事件，没有就要新增,
+           obj = typeof obj === "object"? obj : {};
+           for(var key in obj) {
+             this.events[key] = new Array();
+             this.events[key].push(obj[key]);
+           }
+            /*此处实现事件的新增*/
+        },
+        trigger:function(type) {
+          if(type instanceof Array ) {
+            for(var i = 0;i<type.length;i++) {
+                //根据传递进来的参数触发执行绑定的事件，
+                this.events[type[i]][0](type[i])
+            }
+          }
+        },
+        off:function(type) {
+          if(this.events[type] instanceof Array ) {
+            for(var i = 0;i<this.events[type].length;i++) {
+              if(this.events[type][i] === type) {
+                this.events[type].splice(i,1);
+                break;
+              }
+            }
+          }
+        }
+      }
+      var callback = {
+        callback1:function () {
+          alert('i want sleep')
+        },
+        callback2:function () {
+          alert('i want walking')
+        },
+        callback3:function () {
+          alert('i want swiming')
+        },
+        callback4:function () {
+          alert('i want dancing')
+        },
+      }
+      var object = new Events();
+      object.on({
+        'sleep':callback.callback1,
+        'walking':callback.callback2,
+        'swimming':callback.callback3,
+        'dancing':callback.callback4
+      });
+      object.trigger(['sleep','walking','swimming','dancing']);
+      object.off('sleep');
+      /*阿里笔试观察者基类*/
+
+    </script>
+  </body>
+</html>
