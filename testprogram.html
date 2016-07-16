@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>校园编程笔试题</title>
+    <script type="text/javascript" src='js/jquery-1.11.3.js'>
+
+    </script>
+    <style media="screen">
+      .table tr:nth-child(2n){
+        background-color: #aff
+      }
+      .table tr:nth-child(2n+1){
+        background-color: #a2f
+      }
+      .table tr:hover {
+        background-color: #12f
+      }
+      .father {
+        display: flex;
+        width:100%;
+
+      }
+      .father div {
+        width:30%;
+        height: auto;//这个可以实现其他的两个的高度随着定高定宽的改变
+        margin: 10px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <!--百度笔试题-->
+    <table border='1' width='400px' class="table">
+      <tr>
+        <th>姓名</th>
+        <th class="h1 up">力量</th>
+        <th class="h2 up">敏捷</th>
+        <th class="h3 up">智力</th>
+        <th class="h4 up">得分</th>
+      </tr>
+      <tr>
+        <td>徐宝婷</td>
+        <td class="h1">4</td>
+        <td class="h2">2</td>
+        <td class="h3">1</td>
+        <td class="h4">4</td>
+      </tr>
+      <tr>
+        <td>徐宝婷</td>
+        <td class="h1">7</td>
+        <td class="h2">11</td>
+        <td class="h3">3</td>
+        <td class="h4">6</td>
+      </tr>
+      <tr>
+        <td>徐宝婷</td>
+        <td class="h1">3</td>
+        <td class="h2">1</td>
+        <td class="h3">2</td>
+        <td class="h4">9</td>
+      </tr>
+    </table>
+    <div class="father">
+      <div style = 'width:200px;height:500px'></div>
+      <div></div>
+      <div></div>
+    </div>
+    <script type="text/javascript">
+      $('table').css({'height':'200px','text-align':'center'});
+      $('table').on('click','th',function(event) {
+        var src = event.target||event.srcElement;
+        if($(src).hasClass('h1') && $(src).hasClass('up')){
+          var arr = $('.h1');
+          foo(arr,src,'up')
+        }else if($(src).hasClass('h1') && $(src).hasClass('down')){
+          var arr = $('.h1');
+          foo(arr,src,'down')
+        }
+        if($(src).hasClass('h2') && $(src).hasClass('up')){
+          var arr = $('.h2');
+          foo(arr,src,'up')
+        }else if($(src).hasClass('h2') && $(src).hasClass('down')){
+          var arr = $('.h2');
+          foo(arr,src,'down')
+        }
+        if($(src).hasClass('h3') && $(src).hasClass('up')){
+          var arr = $('.h3');
+          foo(arr,src,'up')
+        }else if($(src).hasClass('h3') && $(src).hasClass('down')){
+          var arr = $('.h3');
+          foo(arr,src,'down')
+        }
+        if($(src).hasClass('h4') && $(src).hasClass('up')){
+          var arr = $('.h4');
+          foo(arr,src,'up')
+        }else if($(src).hasClass('h4') && $(src).hasClass('down')){
+          var arr = $('.h4');
+          foo(arr,src,'down')
+        }
+      })
+      function foo (arr,src,defaults) {
+        var a = [];
+        arr.splice(0,1);
+        for(var i = 0;i<arr.length;i++) {
+          a.push(Number(arr[i].innerText))
+        }
+        if(defaults === 'up') {
+          a.sort(function (a,b) {
+            return a-b
+          })
+          for(var k = 0;k<arr.length;k++) {
+            arr[k].innerText = a[k]
+          }
+          $(src).removeClass('up').addClass('down');
+        }else {
+          a.sort(function (a,b) {
+            return -(a-b)
+          })
+          for(var k = 0;k<arr.length;k++) {
+            arr[k].innerText = a[k]
+          }
+          $(src).removeClass('down').addClass('up');
+        }
+      }
+      /*var ali = document.getElementsByTagName('tr');
+      for(var i = 0;i<ali.length;i++) {
+        if(i%2 == 0) {
+          ali[i].style.backgroundColor = '#aff'
+        }else {
+          ali[i].style.backgroundColor = '#faf'
+        }
+      }*/
+      /*该函数的功能用来输出页面宽度高度大于50像素的节点*/
+      ;(function($,window,document) {
+          function traverse(dod) {
+            var obj = [];
+            var body = dod||document.body;
+            if (body.style) {//利用style只能找到设置过行内样式的元素
+              var nwidth = window.parseInt(body.style.width,10)||0;
+              var nheight = window.parseInt(body.style.height,10)||0;
+              if(nwidth >50 &&  nheight>50) {
+                obj.push(body)
+              }
+            }
+            var nodes = body.childNodes;
+            if(nodes.length>0) {
+              for(var i = 0;i<nodes.length;i++) {
+                obj = obj.concat(traverse(nodes[i]))
+              }
+            }
+            return obj
+          }
+          console.log(traverse(document))
+      }) ($,window,document)
+    </script>
+  </body>
+</html>
