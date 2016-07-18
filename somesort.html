@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>总结下新学习的6种排序算法</title>
+  </head>
+  <body>
+    <script>
+      /*排序法1：冒泡排序*/
+      ;(function() {
+        function git (arr) {
+          for(var j =0;j<arr.length;j++) {
+            for(var i = 0;i<arr.length-j;i++) {
+              if(arr[i] >arr[i+1]) {
+                var temp = arr[i+1];
+                arr[i+1] = arr[i];
+                arr[i] = temp
+              }
+            }
+          }
+          return arr;
+        }
+        console.log(git([9,8,7,6,5,4,3,2,1]))
+      })()
+      /*2.选择排序*/
+      ;(function () {
+        function git (arr) {
+          for(var j = 0;j<arr.length;j++) {
+            var index = 0;
+            for(var i = 1;i<arr.length;i++) {
+              if(arr[index]>arr[i]) {
+                var temp = arr[i];
+                arr[i] = arr[index];
+                arr[index] = temp;
+                index = i;
+              }
+            }
+          }
+          return arr;
+        }
+        console.log(git([9,8,7,6,5,4,3,2,1]))
+      })();
+      /*3.插入排序*/
+      ;(function () {
+        function git (arr) {
+          for(var i = 1;i<arr.length;i++) {
+            var temp = arr[i];
+            var j = i-1;
+            while(j>= 0 && temp<arr[j]) {
+              arr[j+1] = arr[j];
+              j -=1;
+            }
+            arr[j+1] = temp;
+          }
+          return arr
+        }
+        console.log(git([9,8,7,6,5,4,3,2,1]))
+      })();
+      /*4.希尔排序*/
+      ;(function () {
+        function git (arr) {
+          var length = arr.length;
+          var gap = ~~(length/2);
+          while(gap>0) {
+            for(var i = gap; i<length;i++) {
+              var temp = arr[i];
+              var j = i-gap;
+              while(j>=0 && temp<arr[j]) {
+                arr[j+gap] = arr[j];
+                j -= gap;
+              }
+              arr[j+gap] = temp
+            }
+            gap = ~~(gap/2);
+          }
+          return arr
+        }
+        console.log(git([1,4,7,2,8,4,3,9,1,0]))
+        console.log(git([9,8,7,6,5,4,3,2,1]))
+      })();
+      /*5.快速排序*/
+      ;(function () {
+        function git (arr) {
+          if(arr.length <= 1) return arr;
+          var index = ~~(arr.length/2),middle = arr.splice(index,1)[0],left = [],right = [];
+          arr.forEach(function (item) {
+            if(item <= middle) {
+              left.push(item)
+            }else {
+              right.push(item)
+            }
+          })
+          var _left = arguments.callee(left);
+          var _right = arguments.callee(right);
+          return _left.concat(middle,_right);
+        }
+        console.log(git([9,8,7,6,5,4,3,2,1]))
+      })();
+      /*6.归并排序*/
+      ;(function () {
+        function git (left,right) {
+          var temp = [];
+          while(left.length && right.length) {
+            if(left[0] <right[0]) {
+              temp.push(left.shift());
+            } else {
+              temp.push(right.shift());
+            }
+          }
+          return temp.concat(left,right)
+        }
+        function mergeSort(a) {
+          if(a.length === 1)  {return a;}
+          for (var i = 0, work = [],len = a.length; i < len; i++) {work.push([a[i]]);}
+          work.push([]); // 如果数组长度为奇数
+          for (var lim = len; lim > 1; lim = (lim + 1) / 2) {
+            var j = 0;
+          for (var  k = 0; k < lim;  k += 2) {
+            work[j] = git(work[k], work[k + 1]);
+            j++;
+          }
+            work[j] = []; // 如果数组长度为奇数
+        }
+         return work[0];
+        }
+        console.log(mergeSort([9,8,7,6,5,4,3,1]))
+      })()
+      /*归并排序的速成方法*/
+      ;(function () {
+        function merge(left, right) {
+        var tmp = [];
+        while (left.length && right.length) {
+          if (left[0] < right[0])
+            tmp.push(left.shift());
+          else
+            tmp.push(right.shift());
+        }
+        return tmp.concat(left, right);
+      }
+      function mergeSort(a) {
+        if (a.length === 1)
+          return a;
+        var mid = ~~(a.length / 2)
+          , left = a.slice(0, mid)
+          , right = a.slice(mid);
+        return merge(mergeSort(left), mergeSort(right));
+      }
+      console.log(mergeSort([2,4,6,1,3,8]))
+      })()
+      /*堆排序*/
+      ;(function() {
+        function heapSort(array) {
+          if (Object.prototype.toString.call(array).slice(8, -1) === ‘Array’) {
+             //建堆
+            var heapSize = array.length, temp;
+            for (var i = Math.floor(heapSize / 2); i >= 0; i–) {
+            heapify(array, i, heapSize);
+             }
+            //堆排序
+            for (var j = heapSize – 1; j >= 1; j–) {
+            temp = array[0];
+            array[0] = array[j];
+            array[j] = temp;
+            heapify(array, 0, –heapSize);
+             }
+           } else {
+            return ‘array is not an Array!’;
+           }
+        }
+      })()
+    </script>
+  </body>
+</html>

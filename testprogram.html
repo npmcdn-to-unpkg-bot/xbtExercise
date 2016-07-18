@@ -498,7 +498,7 @@
           console.log(git('sourceid = chrome-instant&ion = 1 & espv=2 & ie=UTF-8&ie=UTF-7'))
         })()
         /*解析一个完整的url,返回Object包含域与window.location相同有一个逆天的正则表达式*/
-        /*快速排序*/
+        /*冒泡排序*/
         ;(function () {
           function git (arr) {
             for(var j = 0; j<arr.length;j++) {
@@ -514,6 +514,188 @@
           }
           console.log(git([9,8,7,6,5,4,34]))
         })()
+        /*快速排序*/
+        ;(function () {
+          function git(arr) {
+            for(var i = 0;i<arr.length;i++) {
+              var index = i;
+              for(var j=i+1;j<arr.length;j++) {
+                if(arr[index]>arr[j]) {
+                  var temp = arr[index];
+                  arr[index] = arr[j];
+                  arr[j] = temp;
+                  index = j;
+                }
+              }
+            }
+            return arr
+          }
+          console.log(git([9,0,3,4,7,1,2,3]))
+        })()
+        /*插入排序算法的中心思想是当前插入的那一个和前一个比较，如果他比之前的小，就交换位置，一直比较到他比之前的那个大停止*/
+        ;(function () {
+          function git(arr) {
+            var b =[arr[0]]
+            for(var i =1;i<arr.length;i++) {
+              b.push(arr[i])
+              for(var k = b.length-1;k<b.length;k--) {
+                if(b[k-1]>b[k]) {
+                  var temp = b[k-1];
+                  b[k-1] = b[k];
+                  b[k] = temp;
+                }else {
+                  break;
+                }
+              }
+            }
+            return b
+          }
+          console.log(git([33,56,12,43,0,1,98,100,2]))
+          console.log(git([5,4,3,2,1]))
+        })()
+        /*韩子池的插入排序方法*/
+        ;(function () {
+          function insertionSort(array) {
+            var _array = array.concat();
+            for (var i = 0, len = _array.length; i < len; i++) {
+              // 储存当前位置的值
+              var item = _array[i];
+              // 和前面已经有序的部分，比较，交换
+              for (j = i - 1; j > -1 && _array[j] > item; j--)
+                _array[j + 1] = _array[j];
+                _array[j+1] = item;
+            }
+            return _array;
+          }
+          var a = [1, 5, 2, 4, 3];
+          var ans = insertionSort(a);
+          console.log(ans); // [1, 2, 3, 4, 5]
+        })()
+        /*希尔排序*/
+        ;(function() {
+          // 希尔排序：先将整个待排序记录序列分割成若干个子序列
+          // 在序列内分别进行直接插入排序，待整个序列基本有序时，
+          // 再对全体记录进行一次直接插入排序
+          function shellSort(array){
+            var len = array.length
+              , gap = ~~(len >> 1);
+            // 克隆数组
+            var result = array.concat();
+            while (gap > 0) {
+              for(var i = gap; i < len; i++) {
+                var tmp = result[i];
+                var j = i - gap;
+                while (j >= 0 && tmp < result[j]) {
+                  result[j + gap] = result[j];
+                  j -= gap;
+                }
+                result[j + gap] = tmp;
+              }
+              gap = ~~(gap >> 1);
+            }
+            return result;
+          }
+          var a = [6, 5, 2, 4, 3,9,7,8,10,11];
+          var ans = shellSort(a);
+          console.log(ans); // [1, 2, 3, 4, 5]
+        })();
+        /*根据理解的思路理清楚希尔排序的行文构造,重新书写插入排序的思想*/
+        ;(function() {
+          function git (arr) {
+            var results = arr.concat();
+            for(i = 1;i<results.length;i++) {
+              var j = i-1;
+              var temp = results[i]
+              while(j>=0 && temp<results[j]) {
+                results[j+1] = results[j];
+                j -=1;
+              }
+              results[j+1] = temp;
+            }
+            return results;
+          }
+          console.log(git([9,8,7,6,6,5,4,4]))
+        }) ();
+        /*再次根据韩子池的思想书写希尔排序*/
+        ;(function () {
+          function git (arr) {
+            var results = arr.concat();
+            var len = arr.length;
+            var gap = ~~(len >> 1);
+            while(gap>0) {
+              for(var i = gap ; i<len;i++) {
+                var temp = results[i],j = i-gap;
+                while(j>=0 && temp < results[j]) {
+                  results[j+gap] = results[j];
+                  j -= gap;
+                }
+                results[j+gap] = temp;
+              }
+              gap = ~~(gap >> 1);
+            }
+            return results;
+          }
+        console.log(git([99,8,7,66,6,5,94,994]))
+        }) ()
+        /*下面简介归并排序的算法思路
+        申请空间，使其大小为两个已经排序序列之和，该空间用来存放合并后的序列
+        设定两个指针，最初位置分别为两个已经排序序列的起始位置
+        比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置
+        重复步骤3直到某一指针达到序列尾
+        将另一序列剩下的所有元素直接复制到合并序列尾
+        */
+        function merge(left, right) {
+          var result = [];
+          while (left.length && right.length) {
+            if (left[0] < right[0])
+              result.push(left.shift());
+            else
+              result.push(right.shift());
+          }
+          return result.concat(left, right);
+        }
+        function mergeSort(a) {
+          if (a.length === 1)
+            return a;
+          var work = [];
+          for (var i = 0, len = a.length; i < len; i++){
+            work.push([a[i]]);
+          }
+          work.push([]); // 如果数组长度为奇数
+          for (var i = len; i > 1; i = (i + 1) / 2) {
+            var j = 0;//j就是用来计数的和控制循环没有关系
+            for (var k = 0; k < i; k += 2) {
+              work[j] = merge(work[k], work[k + 1]);
+              j++;
+            }
+            work[j] = []; // 如果数组长度为奇数
+          }
+          return work[0];
+        }
+        console.log(mergeSort([9,8,7,6,5,4,3,1]));
+        /*快速排序*/
+        /*
+        在需要排序的数组中，任选一个元素作为“基准”
+        将小于“基准”和大于“基准”的元素分别放到两个新的数组中，等于“基准”的元素可以放在任一数组
+        对于两个新的数组不断重复第一步第二步，直到数组只剩下一个元素，这时step2的两个数组已经有序，排序结果也很容易得到了（leftArray+基准元素+rightArray）
+        */
+        ;(function () {
+          function git (arr) {
+            if(arr.length <= 1) return arr;
+            var index = ~~(arr.length/2),midItem = arr.splice(index, 1)[0],left = [],right = [];
+            arr.forEach(function(item) {//记住教训foreach循环里遍历出来的已经是value，用这种方法是得不到key的
+              if(item > midItem) {
+                right.push(item);
+              }else {
+                left.push(item);
+              }
+            })
+            var _left = arguments.callee(left)
+            var _right = arguments.callee(right)
+            return _left.concat(midItem,_right)
+          }
+          console.log(git([9,8,7,6,5,4,3,2,1]))
+        })();
 
     </script>
   </body>
