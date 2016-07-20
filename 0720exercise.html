@@ -36,8 +36,269 @@
       12.写一个兼容的事件监听对象
 
     </span>
-<script type="text/javascript">
+    <script type="text/javascript">
+    /*冒泡排序*/
+    ;(function () {
+      function git (arr) {
+        for(var i = 0;i<arr.length;i++) {
+          for(var j = 0;j<arr.length-i;j++) {
+            if(arr[j]>arr[j+1]) {
+              var temp = arr[j+1];
+              arr[j+1] = arr[j];
+              arr[j] = temp;
+            }
+          }
+        }
+        return arr;
+      }
+      console.log(git([4,3,5,6,7,1,2,0]))
+    })()
+    /*选择排序 内层循环每次都会选择出一个最小的元素，退出内层循环时要将每次轮下来的最小值赋值给外层循环*/
+    ;(function () {
+      function git (arr) {
+        for(var j = 0;j<arr.length;j++) {
+          var min = arr[j];
+          for(var i = j+1;i<arr.length;i++){
+            if(arr[i] < min)  {
+              var temp = min;
+              min = arr[i] ;
+              arr[i] = temp;
+              }
+          }
+          arr[j] = min;
+        }
+        return arr;
+      }
+      console.log(git([4,3,5,6,7,1,2,0]))
+    })()
+    /*插入排序*/
+    ;(function () {
+      function git (arr) {
+        for (var i = 1;i<arr.length;i++) {
+          var result = arr[i];
+          var j = i-1;
+          while(j>=0 && result<arr[j]) {
+            arr[j+1] = arr[j];//这里太绕了，要体会清楚
+            j -=1;
+          }
+          arr[j+1] = result;
 
-</script>
+        }
+        return arr;
+      }
+      console.log(git([4,3,5,6,7,1,2,0]))
+    })()
+    /*希尔排序 ，是插入排序的一种变异*/
+    ;(function () {
+      function git (arr) {
+        var gap = ~~(arr.length/2);
+        while(gap >0) {
+          for(var i = gap; i<arr.length;i++) {
+            var result = arr[i];
+            var j = i-gap;
+            while(j>=0 && result<arr[j]) {
+              arr[j+gap] =arr[j];
+              j -= gap;
+            }
+            arr[j+gap] = result;
+          }
+          gap = ~~(gap/2);
+        }
+        return arr;
+      }
+      console.log(git([4,3,5,6,7,1,2,0]))
+    })()
+    /*快速排序*/
+    ;(function () {
+      function git (arr) {
+        if (arr.length <= 0) return arr;
+        var i = ~~(arr.length/2)
+        var index = arr.splice(i,1)[0],left = [],right = [];
+        arr.forEach(function(item) {
+          if(item > index) {
+            right.push(item);
+          }else {
+            left.push(item);
+          }
+        })
+        var _left = arguments.callee(left);
+        var _right = arguments.callee(right);
+        return _left.concat(index,_right);
+      }
+      console.log(git([4,3,5,6,7,1,2,0]))
+    })()
+    /*归并排序*/
+    ;(function () {
+      function git (left,right) {
+        var result = [];
+        while(left.length && right.length) {
+          if(left[0] > right[0]) {
+            result.push(right.shift())
+          }else {
+            result.push(left.shift())
+          }
+        }
+        return result.concat(left,right);
+
+      }
+      function hit (arr) {
+        var result = [];
+        for(var i = 0;i<arr.length;i++) {
+          result.push([arr[i]])
+        }
+        result.push([])
+        for(var i =arr.length;i>1;i= (i+1)/2) {
+          var j = 0;
+          for(k = 0; k<i ; k+=2) {
+             result[j] = git(result[k],result[k+1]);
+             j ++;
+          }
+          result[j] = [];
+        }
+        return result[0];
+      }
+      console.log(hit([4,3,5,6,7,1,2,0]))
+    })()
+    ;(function () {
+      function git () {
+        this.event = {};
+      }
+      git.prototype = {
+        add : function (type,callback) {
+          if(typeof this.event[type] === 'undefined') {
+            this.event[type]  = new Array();
+            this.event[type].push(callback)
+          }
+        },
+        trigger : function (type) {
+          if(this.event[type].length && this.event[type]) {
+            this.event[type][0]()
+          }
+        },
+        off : function (type) {
+          if(this.event[type].length && this.event[type]) {
+            delete this.event[type]
+          }
+        }
+      }
+      var a = new git();
+      var callbacks = function () {
+        console.log('我今天代码敲得好少呀')
+      }
+      a.add('sleep',callbacks);
+      a.trigger('sleep');
+      a.off('sleep')
+    })()
+    ;(function () {
+      function git (ele,options) {
+        this.ele = ele;
+        this.defaults = {
+          'color':'red'
+        };
+        this.options = $.extend({},this.defaults,options);
+      }
+      git.prototype = {
+        git : function() {
+          return this.ele.css({'color':this.options.color})
+        }
+      }
+      $.fn.plunger = function (option) {
+        var a = new git(this,option);
+        return a.git();
+      }
+      $('span').plunger();
+    }) ()
+    ;(function () {
+      function git (name) {
+        this.name = name;
+        this.intr = function () {
+          console.log(this.name);
+        }
+      }
+      var a = new git ('xbt');
+      a.intr();
+    })()
+    ;(function () {
+      function git (name) {
+        this.name = name;
+        this.intr = function () {
+          console.log('我是实例部分的函数')
+        }
+      }
+      git.prototype.say1 = function() {
+        console.log(this.name);
+      }
+      function hit (score) {
+        git.bind(this)('111');
+        this.score = score;
+      }
+      hit.prototype.say2 = function () {
+        console.log(this.score)
+      }
+      var b = new hit(1000);
+      console.log(b);
+      b.intr();
+      // b.say1();//我们可以发现利用借用构造函数的方法我们不能继承原型上的方法，只可以继承实力上的属性和方法
+      b.say2();
+    }) ()
+    ;(function () {
+      function git (name) {
+        this.name = name;
+      }
+      git.prototype.intr = function () {
+        console.log(this.name)
+      }
+      function hit (score) {
+        git.call(this,'wgd');
+        this.score = score;
+      }
+      hit.prototype = git.prototype;
+      hit.prototype.say = function () {
+        console.log(this.score)
+      }
+      var a = new hit ('1000')
+      console.log(a)
+      a.intr();
+      a.say();
+    }) ()
+    ;(function () {
+      name= 'wgd';
+      age = '18';
+      newer = {
+        name:'点点豆豆1314520',
+        age:'1'
+      }
+     var a = {
+       name:'xbt',
+       age:'18',
+       intr:function (school) {
+         console.log('这是我的学校-'+school+'-这是我的姓名-'+this.name+'-这是我的年龄-'+this.age);
+       }
+     }
+     a.intr('盐城一中');
+     var a = a.intr;
+     a('平邑一中');
+     a.call(newer,'皇家邮电学院');
+     a.apply(newer,['大帝国首都']);
+     a.bind(newer)('盐都区公安局')
+    })()
+    ;(function () {
+      function git (str) {
+        var obj = [];
+        if(str === null || str ==='undefined' || str ==='') {
+          str = location.href;
+        }
+        str = str.slice(str.indexOf('?')+1);
+        str.replace(/([^&=]*)=([^&=]+)/g,function (all,$1,$2) {
+          var key = encodeURIComponent($1);
+          var value = encodeURIComponent($2);
+          obj[key] = value;
+          return all;
+        })
+        return obj;
+      }
+      console.log(git('http://mail.163.com/js6/main.jsp?sid=BCPvflLLtWaAiSEgRpLLcutopcsBWoZx&df=webmail163#module=welcome.WelcomeModule%7C%7B%7D'))
+    }) ()
+    </script>
   </body>
 </html>
