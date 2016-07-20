@@ -8394,7 +8394,8 @@
 						"throws": true
 					});
 				}
-			}); jQuery.fn.extend({
+			});
+			jQuery.fn.extend({
 				wrapAll: function(html) {
 					if (jQuery.isFunction(html)) {
 						return this.each(function(i) {

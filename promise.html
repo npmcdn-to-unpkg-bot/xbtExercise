@@ -47,6 +47,59 @@
     testPromise();
     testPromise();
     testPromise();
+    /*利用promise对象写出原生的ajax请求过程*/
+    function getURL(URL) {
+      return new Promise(function (resolve, reject) {
+        var req = null;
+        if (window.XMLHttpRequest) {
+          var req = new XMLHttpRequest();//此处仍然要记得做浏览器的兼容性判断
+        }else {
+          req = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+          req.open('GET', URL, true);
+          req.onload = function () {//代表着readystate的状态已经到了4
+              if (req.status === 200) {
+                  resolve(req.responseText);
+              } else {//代表着状态到4但是响应状态码不是200
+                  reject(new Error(req.statusText));
+              }
+          };
+          req.onerror = function () {//代表着readyState的状态没有到4
+              reject(new Error(req.statusText));
+          };
+          req.send();
+      });
+  }
+    // 运行示例
+    var URL = "http://httpbin.org/get";
+    getURL(URL).then(function onFulfilled(value){
+        console.log(value);
+    }).catch(function onRejected(error){
+        console.error(error);
+    });
+    /*deferred实现ajax的原生态包裹*/
+    function getURL(url) {
+      var deferred = new Deferred();
+      var req = new XMLHttpRequest();
+      req.open('GET', url, true);
+      req.onload = function() {
+          if(req.status === 200) {
+              deferred.resolve(req.responseText);
+          }else {
+              deferred.reject(new Error(req.statusText));
+          }
+      }
+      req.onerror = function() {
+          deferred.reject(new Error(req.statusText));
+      }
+      req.send();
+      return deferred.promise;//这里和promise对象调用的区别
+    }
+    getURL("http://httpbin.org/get").then(function(value) {
+        console.log(value);
+    }).catch(function(error) {
+        console.error(error);
+    });
 </script>
 </body>
 </html>

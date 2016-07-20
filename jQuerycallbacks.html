@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>jquery的callbacks对象介绍实现</title>
+    <script type="text/javascript" src='js/jquery-1.11.3.js'></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+    function fn1( value ) {
+      console.log( value );
+    }
+    function fn2( value ) {
+      fn1("fn2 says: " + value);
+      return false;
+    }
+    var callbacks = $.Callbacks();
+    console.log($.fn.init())
+    console.log(callbacks);
+    // console.log($.ajax());
+    callbacks.add( fn1 );
+    callbacks.fire( "foo!" );
+    callbacks.add( fn2 );
+    callbacks.fire( "bar!" );
+    /*构建异步对象*/
+    function aaa(callback){
+      setTimeout(function(){
+        callback( 5 );
+      },1000);
+    }
+
+    function done(value){
+        console.log(value)
+    }
+
+    aaa(function(value){
+       done(value);
+    })
+    /*jquery的构建异步对象的写法*/
+    var defer = $.Deferred(); //构建异步对象
+    setTimeout(function(){
+      defer.resolve( 5 );
+    },1000);
+    var filtered  = defer.then(function( value ) {
+          return value * 2;
+    });
+    filtered.done(function( value ) {
+        console.log('打印出值',value)
+    });
+    </script>
+  </body>
+</html>
