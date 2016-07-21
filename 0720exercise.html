@@ -4,8 +4,111 @@
     <meta charset="utf-8">
     <title>0720exercise练习</title>
     <script type="text/javascript" src='js/jquery-1.11.3.js'>
-
     </script>
+    <style media="screen">
+      * {
+        margin:0;
+        padding:0;
+      }
+      .div1 {
+        width : 300px;
+        height: 300px;
+        background-color: rgba(123,125,21,.5);
+        margin:0 auto;
+        line-height: 300px;
+      }
+      .div2 {
+        width :600px;
+        height: 600px;
+        background-color: rgba(123,125,21,.5);
+        margin:0 auto;
+        display: table-cell;;
+        vertical-align: middle;
+      }
+      .father3 {
+        width:500px;
+        height:800px;
+        border: 1px solid #23a;
+        display: table-cell;
+        vertical-align:  middle;
+      }
+      .father3 img {
+        vertical-align: middle;
+      }
+      .father4 {
+        position: relative;
+        width:600px;
+        height:600px;
+        background-color: #98d;
+      }
+
+      .inner4 {
+        position: absolute;
+        width:50%;
+        height: 50%;
+        background-color: red;
+        left: 0;
+        top:0;
+        right:0;
+        bottom:0;
+        margin: auto;
+      }
+      .main {
+        background: #9A0069;
+        width: 100%;
+        height: 300px;
+      }
+      .middle {
+        padding: 0 100px;
+      }
+      .f1 {
+        float: left;
+      }
+      .left {
+        width:100px;
+        height:300px;
+        margin-left: -100%;
+        background-color: #aaf
+      }
+      .right {
+        width:200px;
+        margin-left: -200px;
+        background-color: #ffa;
+        height:300px;
+      }
+      .father6 {
+        overflow: hidden;
+      }
+      .left6 {
+        float:left;
+        width:100px;
+        height:100px;
+        background-color: #baf
+      }
+      .right6 {
+        padding-bottom: 9999px;
+        margin-bottom: -9999px;
+        background-color: #000;
+      }
+      .father7 {
+        position: relative;
+        color: #fff;
+      }
+      .left7{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 300px;
+        background: #f00;
+      }
+      .right7 {
+        height: 200px;
+        /*存在一个问题就是左边那个和右边那个根本就不在一个文档流，因此当左边那个缩小宽度时，会出现短片，如果去掉margin-left,那么就会出现一个内容被遮住看不见的问题*/
+        margin-left: 300px;
+        background: #000;
+      }
+    </style>
   </head>
   <body>
     <span>
@@ -34,8 +137,49 @@
       11.ajax原生态的书写
       <br><br>
       12.写一个兼容的事件监听对象
-
+      <br><br>
+      13.写一个方法可以让数组扁平化
+      <br><br>
+      14.求字符串的最大回文串
+      <br><br>
+      15.左边框固定宽高，右面自适应宽高
     </span>
+    <div class="div1">
+      只有一个框相对与页面的body的居中显示
+    </div>
+    <br>
+    <div class="father2">
+      <div class='div2'>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </div>
+    </div>
+    <div class="father3">
+      <img src="img/gwc.jpg" alt="1" />
+      <img src="img/iconlist_2.png" alt="1" />
+      <img src="img/vip.jpg" alt="1" />
+    </div>
+    <div class="father4">
+      <div class="inner4">
+
+      </div>
+    </div>
+<!--    <div class="father5">
+      <div class='main'>
+        <div class="middle f1">这是中间的部分</div>
+      </div>
+      <div class="left f1">左边</div>
+      <div class="right f1">右边</div>
+    </div>-->
+    <div class="father6">
+      <div class="left6"></div>
+      <div class="right6"></div>
+    </div>
+    <br>
+    <br>
+    <div class="father7">
+      <div class="left7">left</div>
+      <div class="right7">right</div>
+    </div>
     <script type="text/javascript">
     /*冒泡排序*/
     ;(function () {
@@ -289,16 +433,315 @@
           str = location.href;
         }
         str = str.slice(str.indexOf('?')+1);
-        str.replace(/([^&=]*)=([^&=]+)/g,function (all,$1,$2) {
-          var key = encodeURIComponent($1);
-          var value = encodeURIComponent($2);
+        str.replace(/([^?&=]+)=([^&=?]*)/g,function (all,$1,$2) {
+          var key = decodeURIComponent($1);
+          var value = decodeURIComponent($2);
           obj[key] = value;
           return all;
         })
         return obj;
       }
-      console.log(git('http://mail.163.com/js6/main.jsp?sid=BCPvflLLtWaAiSEgRpLLcutopcsBWoZx&df=webmail163#module=welcome.WelcomeModule%7C%7B%7D'))
+      console.log(git('http://mail.163.com/js6/main.jsp?sid=BCPvflLLtWaAiSEgRpLLcutopcsBWoZx&df=webmail163&module=welcome.WelcomeModule'))
     }) ()
+    /*昨天的排序做的像屎一样，今天再练习一会*/
+    /*冒泡排序*/
+    ;(function () {
+      function git (arr) {
+        for (var i = 0;i<arr.length;i++) {
+          for(var k = 0;k<arr.length-i;k++) {
+            if(arr[k] > arr[k+1]) {
+              var temp = arr[k+1];
+              arr[k+1] = arr[k];
+              arr[k] = temp;
+            }
+          }
+        }
+        return arr
+      }
+      console.log(git ([9,5,0,1,3,6]))
+    })()
+    /*选择排序*/
+    ;(function () {
+      function git (arr) {
+        for(var i = 0;i<arr.length;i++) {
+          var min = arr[i];
+          for(var k = i+1; k<arr.length;k++) {
+            if(arr[k] < min ) {
+              var temp = min;
+              min = arr[k];
+              arr[k] = temp;
+            }
+          }
+          arr[i] = min;
+        }
+        return arr
+      }
+      console.log(git ([9,5,0,1,3,6]))
+    })()
+    /*插入排序*/
+    ;(function () {
+      function git (arr) {
+        for(var i = 1;i<arr.length;i++) {
+          var temp = arr[i];
+          var j = i-1;
+          while(j>=0 && arr[j]>temp) {
+            arr[j+1] = arr[j];
+            j -=1;
+          }
+          arr[j+1] = temp;
+        }
+        return arr
+      }
+      console.log(git ([9,5,0,1,3,6]))
+    })()
+    /*希尔排序*/
+    ;(function () {
+      function git (arr) {
+        var gap = ~~(arr.length/2);
+        while (gap >0) {
+          for(var i = gap; i<arr.length;i++) {
+            var temp = arr[i];
+            var j= i-gap;
+            while (j>=0 && arr[j] >temp) {
+              arr[j+gap] = arr[j];
+              j -= gap;
+            }
+            arr[j+gap] = temp;
+          }
+          gap = ~~(gap/2)
+        }
+        return arr
+      }
+      console.log(git ([9,5,0,1,3,6]))
+    })()
+    /*快速排序*/
+    ;(function () {
+      function git (arr) {
+        if(arr.length <= 0) return arr;
+        var index = ~~(arr.length/2);
+        var gap = arr.splice(index,1),left = [],right = [];
+        arr.forEach(function (item) {
+          if(item <gap) {
+            left.push(item);
+          }else {
+            right.push(item);
+          }
+        })
+        var _left = arguments.callee(left);
+        var _right = arguments.callee(right);
+
+        return _left.concat(gap,_right)
+      }
+      console.log(git ([9,5,0,1,3,6]))
+    })()
+    /*归并排序*/
+    ;(function () {
+      function git (left,right) {
+        var result = []
+        while (left.length && right.length) {
+          if(left[0] < right[0]) {
+            result.push(left.shift())
+          }else {
+            result.push(right.shift())
+          }
+        }
+        return result.concat(left,right);
+      }
+      function hit( arr) {
+        var work = [];
+        for(var i = 0;i<arr.length;i++) {
+          work.push([arr[i]]);
+        }
+        work.push([]);
+        for(var i = arr.length;i>1;i = (i+1)/2) {
+          var j = 0;
+          for(var k = 0;k<i;k+=2) {
+            work[j] = git(work[k],work[k+1]);
+            j +=1;
+          }
+          work[j] = [];
+        }
+        return work[0]
+      }
+      console.log(hit ([9,5,0,1,3,6]))
+    })();
+    /*深度克隆问题，我先书写我自己会的*/
+    ;(function () {
+      function git(arr) {
+        var obj = null;
+        str= match(arr);
+        if(str === 'Array') {
+          obj = [];
+        }else if(str === 'Object') {
+          obj = {};
+        } else {
+          return typeof(obj = arr);
+        }
+        for(var i in arr) {
+          var op = arr[i];
+          if(match(op)=== 'Array') {
+            obj[i] = arguments.callee(op)
+          } else if(match(op)=== 'Object'){
+            obj[i] = arguments.callee(op)
+          } else {
+            obj[i] = op;
+          }
+        }
+        return obj;
+      }
+      function match(arr) {
+        var str = Object.prototype.toString.call(arr).slice(8,-1);
+        if(str === 'Array') {
+          return 'Array'
+        }else if(str === 'Object'){
+          return 'Object'
+        } else {
+          return '';
+        }
+      }
+      console.log(git (new Function()))
+    })()
+    ;(function () {
+      var a = 'hello';
+      var n = []
+      for(var i = a.length-1;i>=0;i--) {
+         n.push(a[i])
+      }
+      console.log (n.join(''))
+    }) ()
+    /*递归阶乘*/
+    ;(function () {
+      function git(arr) {
+        if(arr > 1) {
+          return  arr*arguments.callee(arr-1)
+        }
+        return arr;
+      }
+      console.log(git(5))
+    })()
+    /*数兔子的斐波那契数列*/
+    ;(function () {
+      function git(arr) {
+        if(arr === 1 ||arr === 2) {
+          return arr;
+        }else {
+          if(arr > 1) {
+            return a = arguments.callee(arr-1)+arguments.callee(arr-2)
+          }
+        }
+        return a
+      }
+      console.log(git(3))
+    })();
+    /*ajax的原生匹配多浏览器的书写方式*/
+    ;(function () {
+      var xhr = null;
+      if(window.XMLHttpRequest) {
+        xhr = new XMLHttpRequest();
+      }else {
+        xhr = new ActiveXObject('Microsoft.XMLHTTP');
+      }
+      /*火狐退出了onload方法用来简化交互模型，用这个方法，就可以不用检查readyState的取值变化*/
+      xhr.onload = function () {
+        if(xhr.readyState === 4) {
+          if(xhr.state >= 200 && xhr.state < 300 || xhr.state == 304) {
+            var str = xhr.responseText()
+          }else {
+            console.log('此次连接不成功')
+          }
+        }
+      }
+      /*xhr.onreadystatechange = function () {
+        if(xhr.readyState === 4) {
+          if(state === 200) {
+            var str = xhr.responseText()
+          }else {
+            console.log('此次连接不成功')
+          }
+        }
+      }*/
+      // xhr.open('get','xxx.php',data);
+      xhr.onpress = function (event) {
+        var span = document.getElementsByTagName('span');
+        if(event.lengthComputable) {
+          span.innerHtml = '已经接受了' +event.position+ 'of'+event.totalSize+'bytes'
+        }
+      }
+      // xhr.setRequestHeader ('Content-Type',  'application/x-www-form-urlencoded');
+      // xhr.send(null)
+    })();
+    /*使用原生javascript给下面列表中的li节点绑定点击事件,点击时创建一个Object对象,兼容IE和标准浏览器*/
+    ;(function () {
+      var EventUtil = {
+        event:function (event) {
+          return event||window.event
+        },
+        src:function (event) {
+          return event.target||event.srcElement
+        },
+        addHandler:function (element,type,fn) {
+          if(element.addEventListener) {
+            element.addEventListener(type,fn,false);
+          }else if(element.attachEvent) {
+            element.attachEvent('on'+type,fn);
+          }else {
+            element['on'+type] = fn;
+          }
+        },
+        removeHandler:function (element,type,fn) {
+          if(element.removeEventListener) {
+            element.removeEventListener(type,fn,false);
+          }else if(element.detachEvent) {
+            element.detachEvent('on'+type,fn)
+          }else {
+            element['on'+type] = null;//移除一个事件监听器方法
+          }
+        },
+        preventDefault :function (event) {
+          if(event.preventDefault) {
+            event.preventDefault();
+          }else {
+            event.returnValue = false;
+          }
+        },
+        stopPropagation: function (event) {
+          if(event.stopPropagation) {
+            event.stopPropagation()
+          }else {
+            event.cancelBubble = true;
+          }
+        }
+      }
+    })()
+    /*数组乱序有两种方法：一个是生成随机下标交换位置，二个是生成随机下标将原数组里的数字截取出来放到新的数组中
+    为了保证不会有重复的问题，我们一般会把元素组进行截取，这样就不会有重复得问题存在
+    */
+    ;(function () {
+      function git (arr) {
+        for(var i = 0,len = arr.length;i <len;i++) {
+          var index = Math.floor(Math.random()*len);
+          var temp = arr[i];
+          arr[i] = arr[index];
+          arr[index] = temp;
+        }
+        return arr;
+      }
+      console.log(git([3,4,23,1,7,8,3,5]))
+    })()
+    /*数组扁平化操作的原理就是，遍历数组的每一个数值，直到类型是number就将其塞到新的数组中去*/
+    ;(function () {
+      function git (arr,result) {
+        for(var key in arr) {
+          if(Object.prototype.toString.call(arr[key]).slice(8,-1) === 'Number') {
+            result.push(arr[key])
+          }else {
+            arguments.callee(arr[key],result)
+          }
+        }
+        return result
+      }
+      console.log(git([1,[2,3,[5,87,[67,8,[12,34]]]]],new Array()))
+    })()
     </script>
   </body>
 </html>
