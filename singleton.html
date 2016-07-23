@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>单例模式学习</title>
+  </head>
+  <body>
+  <script type="text/javascript">
+    ;(function () {
+      var mySingleton = function () {
+        var privateVariable = 'something private';
+        function showPrivate() {
+          console.log(privateVariable);
+        }
+        return {
+          publicMethod :function () {
+            showPrivate();
+          },
+          publicValue:'这是一个对外展示的属性,可以通过创建的类来访问'
+        }
+      }
+      var single = mySingleton();
+      single.publicMethod();
+      console.log(single.publicValue);
+    }) ()
+    ;(function () {
+      var mySingleton = function () {
+        var a ;
+        function init() {
+          return {
+            publicMethod :function () {
+              console.log('我是内部的实例只能被用来掉');
+            },
+            publicValue:'这是一个对外展示的属性,可以通过创建的类来访'
+          }
+        }
+        return {
+          getInstance: function () {
+            if(!a) {
+              a = init();
+            }
+            return a;
+          }
+        }
+      }
+      mySingleton().getInstance().publicMethod()
+    })()
+    ;var git = (function () {
+      function Singleton(argus) {
+        var argus = argus || {};
+        this.name = 'xbt';
+        this.x = argus.x||6;
+        this.y = argus.y||6;
+      }
+      var a;
+      var _static = {
+        name:'wgd',
+        getInstance: function (argus) {
+          if(typeof a === 'undefined') {
+            a = new Singleton(argus)
+          }
+          return a;
+        }
+      }
+      return _static;
+    })()
+    var sTest = git.getInstance({x:10,y:10})
+    console.log(sTest.x+'---'+sTest.y);
+    ;(function () {
+      function universe() {
+        if(typeof universe.instance === 'object') {
+          return universe.instance;
+        }
+        this.start_time =0;
+        this.bang = 'Big';
+        universe.instance = this;
+      }
+      var a = new universe();
+      var b = new universe();
+      console.log(a === b);
+    })()
+  </script>
+  </body>
+</html>
