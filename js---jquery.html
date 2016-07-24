@@ -3,6 +3,9 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>原生js实现jQuery的一些方法</title>
+    <script type="text/javascript" src = 'js/jquery-1.11.3.js'>
+
+    </script>
 </head>
 <body>
 <input type="text"/>
@@ -31,6 +34,124 @@
     console.log(Tquery('#div1'));
     console.log(Tquery('.ul'));
     console.log(Tquery('input'));
+    /*0724复习实现js的小功能*/
+    ;(function () {
+      function git () {
+        var a = [2,3,4];
+        var b = a.reduce(function (pre,cur,index,arr) {
+          return pre*cur;
+        },1)
+        return b;
+      }
+      console.log(git())
+      ;(function () {
+        var a = [2,3,4,5];
+        var b = a.entries();
+        console.log(b.next().value) ;
+        console.log(b.next().value) ;
+        console.log(b.next().value) ;
+        console.log(b.next().value) ;
+        console.log(b.next()) ;
+      })()
+      ;(function () {
+        var a = [2,3,4,5];
+        var b = a.keys();
+        console.log(b.next().value) ;
+        console.log(b.next().value) ;
+        console.log(b.next().value) ;
+        console.log(b.next().value) ;
+        console.log(b.next()) ;
+      })()
+      ;(function () {
+        var a = [2,3,4,5];
+        var b = a.values();
+        console.log(b.next().value) ;
+        console.log(b.next().value) ;
+        console.log(b.next().value) ;
+        console.log(b.next().value) ;
+        console.log(b.next()) ;
+      })()
+      ;(function () {
+        var a = Array.of('1','xbt','wgd');
+        console.log(a);
+      })();
+      ;(function () {
+        var a  = [2,3,4,5];
+        var b = a.forEach(function (a) {
+          console.log(a+'forEach函数的功能哦');
+          if(a === 3) {
+            return false;
+          }
+        })
+      })()
+      ;(function () {
+        var a  = [2,3,4,5];
+        for(var key of a) {
+          if(key === 3) {
+            break;
+          }
+          console.log('这是for -- of循环'+key)
+
+        }
+      })()
+      ;(function () {
+        var a = [1,2,3,4];
+        var b = a.every(function (i) {
+          return i >3
+        })
+        console.log(b);
+      })()
+    })()
+    /*字符串的小功能实现*/
+    ;(function () {
+      var a = 'hello world';
+      console.log(a.slice(0,-3))
+      console.log(a.substring(0,2))
+      console.log(a.slice(0,3));
+      console.log(a.split(' '));
+      console.log(a.replace(/([\w]*)\s*([\w]*)/,function(all,$1,$2) {
+        var a = $1+'年',b = $2  + '月'
+        return  a+b
+      }))
+      console.log(a.search('o'));//只能找一个，可以利用循环让其找多个人
+      console.log(a.match(/[o]/g))//只会返回匹配的内容木有位置
+    })()
+    ;(function () {
+      var a = 'hello World',reg = /[o]/g;
+      while ((arr = reg.exec(a))) {
+        console.log('匹配的数值是'+arr[0]+'匹配的位置是'+arr.index)
+      }
+    })()
+    /*7.24号要学会重点的实现一些原生js可以实现的小功能*/
+    /*改写日期的格式*/
+    ;(function () {
+      function git () {
+        var s = setInterval(function() {
+
+          var d = new Date();
+          var year = d.getFullYear();
+          var month = d.getMonth()+1;
+          var date = d.getDate();
+          var day = d.getDay();
+          var a = ['日','一','二','三','四','五','六'];
+          for (var i = 0;i<a.length;i++) {
+            if(day === i) {
+              day = a[i];
+              break;
+            }
+          };
+          var hour = d.getHours();
+          var min = d.getMinutes();
+          var seconds = d.getSeconds();
+          $('div').html(' 年份 '+year+' 月份'+month+' 日期 '+date+' 星期 '+day+' 北京时间 '+hour+'分'+min+'   秒'+seconds);
+          // location.reload();
+        },1000)
+      }
+    git ()
+    })()
+    ;(function () {
+      var a = new Promise(executor: fn(resolve: fn(value: ?), reject: fn(reason: ?)))
+    })()
 </script>
 </body>
 </html>

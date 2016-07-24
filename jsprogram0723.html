@@ -107,7 +107,11 @@
       ;(function () {
         var a = [1,2,3,4];
         var b = a.keys();
-        console.log(b)
+        console.log(b.next());
+        console.log(b.next());
+        console.log(b.next());
+        console.log(b.next());
+        console.log(b.next());
         for(let key of b) {
           console.log(key)
         }
@@ -188,7 +192,7 @@
             return '这字符串的长度你给我弄出回文串啊'
           }
           var i = 0,left = 0,right = 0,flag = false,count = 0,max = 0;
-          while(i < str.length) {
+          while( i < str.length) {
             charOne = str.charAt(i);
             left = str.indexOf(charOne,i);
             if(!flag) {
@@ -206,7 +210,6 @@
         }
         console.log(git('1112abcwwcba3456'));
       })()
-
 
 
       /*蛇形数组*/
