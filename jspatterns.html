@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>js patterns 的几种常见的设计用法</title>
+    <script type="text/javascript" src = 'js/jquery-1.11.3.js'>
+
+    </script>
+  </head>
+  <body>
+    <span>1.单例模式</span>
+    <br><br>
+    <span>2.观察者模式</span>
+    <br><br>
+    <span>3.构造函数模式</span>
+    <br><br>
+    <span>4.模板模式</span>
+    <br><br>
+    <form id="target">
+      <select name="age">
+          <option value="aaa">aaa</option>
+          <option value="bbb" selected>bbb</option>
+      </select>
+      <select name="friends" multiple>
+          <option value="qiu" selected>qiu</option>
+          <option value="de">de</option>
+          <option value="qing" selected>qing</option>
+      </select>
+      <input name="name" value="qiudeqing">
+      <input type="password" name="password" value="11111">
+      <input type="hidden" name="salery" value="3333">
+      <textarea name="description">description</textarea>
+      <input type="checkbox" name="hobby" checked value="football">Football
+      <input type="checkbox" name="hobby" value="basketball">Basketball
+      <input type="radio" name="sex" checked value="Female">Female
+      <input type="radio" name="sex" value="Male">Male
+  </form>
+    <script type="text/javascript">
+      /*单例模式 想做到只有在使用的时候才初始化，为了节约资源的目的，我们可以另外一个构造函数里来初始化这些代码*/
+      ;(function () {
+        var a = (function () {
+          var b ;
+          function init() {
+            return {
+              publicMethod: function () {
+                console.log('1111');
+              },
+              publicValue: 'xbt'
+            }
+          }
+          return {
+            getInstance: function () {
+              if( !b) {
+                b =  init()
+              }
+              return b;
+            }
+          }
+        })();
+        a.getInstance().publicMethod();
+      })()
+      /*单例一般是用在系统间各种模式的通信协调上,要学会编写这些个单例的最强版本*/
+      ;(function () {
+        var a = (function () {
+          var b = null ;
+          function git (args) {
+            var args = args||{};
+            this.name = 'xbt';
+            this.pointX = args.pointX || 6;
+            this.pointY = args.pointY || 10;
+          }
+          return  {
+            name: 'wgd',
+            getInstance:function (args) {
+              if( true) {
+                //如果这里不做判断的化，我们发现他是每次都会来进行new的初始化操作
+                b = new git(args);
+              }
+              return b;
+            }
+          }
+        })()
+        /*经过下面的输出请求的答案我们可以看出，真的是只是只实例花了一次*/
+        console.log(a.getInstance({}).pointX)
+        console.log(a.getInstance({pointX:12}).pointX)
+        console.log(a.getInstance({}).pointY)
+        console.log(a.getInstance({}).pointX)
+      })()
+      /*订阅-发布模式。也就是经常用到的观察者模型，此种模型一般被用在DOM的事件机制当中，dom节点都是发布者，监听函数都是订阅者，当我们出发了dom节点，订阅的监听函数会收到消息，进入回调执行*/
+      ;(function () {
+        /*这里我们一般可以书写一个自定义事件*/
+        function git () {
+          this.ele = {};
+        }
+        git.prototype = {
+          on:function (callbacks) {
+            for(var key in callbacks) {
+              if( typeof this.ele[key] === 'undefined' ) {
+                this.ele[key] = new Array();
+              }
+              this.ele[key].push(callbacks[key])//将添加的所有的事件都绑定到我们的队列数组当中
+            }
+
+          },
+          fire:function (type) {
+            if (this.ele[type] && this.ele[type].length ) {
+              for(var i = 0;i<this.ele[type].length;i++) {
+                this.ele[type][i]();
+              }
+            }else {
+              console.log('你穿的什么参数，找不到这个事件')
+            }
+          },
+          off:function (type) {
+            if (this.ele[type] && this.ele[type].length) {
+              delete this.ele[type];
+            }else {
+              console.log('我没有找到有这个事件，你叫我删什么')
+            }
+          },
+        }
+        var hit = function () {
+          return {
+            sleep:function (){
+              console.log('我要睡了，你不要来打扰我')
+            },
+            walk:function () {
+              console.log('我在散步，不会带手机')
+            },
+            swim:function () {
+              console.log('虽然我不会游泳，但是我还是想去秀秀身材，可惜身材不咋地')
+            }
+          }
+        }
+        var xbt = new git();
+        xbt.on(hit());
+        xbt.fire('sleep');
+        xbt.off('swim');
+        xbt.off('sleep');
+        xbt.fire('sleep');
+        xbt.off('sleep');
+      } )()
+      /*工厂模式也叫模板模式，父类中放置了所有的思想骨架，子类来继承，也可以改写*/
+      ;(function () {
+        var git = function () {};
+        git.prototype.on1 = function () {
+          console.log('这是父类第一步')
+        }
+        git.prototype.on2 = function () {
+          console.log('这是父类第二步')
+          throw new Error('子类必须重写父类的方法')
+        }
+        git.prototype.on3 = function () {
+          console.log('这是父类第三步')
+          throw new Error('子类必须重写父类的方法')
+        }
+        git.prototype.tips = function () {
+          return true
+        }
+        git.prototype.init = function () {
+          this.on1();
+          this.on2();
+          this.on3();
+          if(this.tips()) {
+            console.log('我还要再调一次方法三')
+            this.on3();
+          }
+        }
+        var hit = function () {};
+        hit.prototype = new git();
+        hit.prototype.on2 = function () {
+          console.log('这是子类第二步')
+        }
+        hit.prototype.on3 = function () {
+          console.log('这是子类第三步')
+        }
+        hit.prototype.tips = function () {
+          return true
+        }
+        var a = new hit();
+        a.init();
+      })();
+      /*构造函数设计模式,最后确定了这个模式就是我们一开始学习时候的构造函数的方法*/
+      ;(function () {
+        function git (name,age,score) {
+          this.name = name;
+          this.age = age;
+          this.score = score;
+        }
+        git.prototype.say = function() {
+          console.log('我这个是原型上的方法哦，不在初始化后的实例对象上呢'+this.name+this.age+this.score)
+        }
+        var a = new git('xbt','18','1000');
+        a.say()
+      })();
+      /*练习终极继承的方式*/
+      ;(function () {
+        function git (name) {
+          this.name = name ;
+        }
+        git.prototype.intr = function () {
+          console.log('这是git函数上的方法'+this.name)
+        }
+        function hit (name,score) {
+          git.call(this,name);
+          this.score  = score;
+        }
+        hit.prototype = new git('xbt');
+        hit.prototype.say = function () {
+          console.log(this.score)
+        }
+        var a = new hit('wgd',1000);
+        console.log(a)
+        a.say();
+        a.intr();
+        function xbt (name) {
+          this.name = name;
+        }
+        xbt.prototype = Object.create(git.prototype);
+        var b = new xbt('wgd');
+        console.log(b);
+        var xbt = {
+          name:'angelaBaby',
+          score:'0',
+          age:'100',
+        }
+        var a = {
+          name:'xbt',
+          score:'1000',
+          age:'18',
+          say:function (school,num) {
+            console.log('我的名字'+this.name+'我的得分'+this.score+'我的年龄'+this.age+'我的母校'+school+'排名'+num)
+          }
+        }
+        a.say('盐城一中',100);
+        a.say.call(xbt,'南京邮电大学',1001)
+        a.say.apply(xbt,['南京邮电大学',1002])
+        a.say.bind(xbt)('美团',1000)
+        /*es6里面利用类来继承的写法练习*/
+        class meituan {
+          constructor () {
+            console.log('我是构造器，我是在new的时候就可以调用了')
+          }
+          static a  () {
+            console.log('我可以直接调用而不需要实例化')
+          }
+          b () {
+            console.log('我是最普通的函数，需要实例化以后在进行调用')
+          }
+          d() {
+            console.log('测试super调用函数的情况')
+          }
+        }
+        class xioamei extends meituan {
+          b() {
+            console.log('我继承了父类，要是输出的话，我应该一起输出两条记录')
+            super.d()
+          }
+        }
+        meituan.a();
+        var meimei = new meituan();
+        meimei.b();
+        console.log('------------------------------')
+        xioamei.a()
+        var damei = new xioamei();
+        damei.b()
+      })()
+      /*jQuery的设计思想*/
+      ;(function (window,document,undefined) {
+        function git () {
+          return new git.prototype.init();
+        }
+        git.prototype = {
+          init:function () {
+            this.name = 'xbt';
+            this.score = 1000;
+            return this;
+          },
+          css:function () {
+            this.age = '18';
+            console.log(this.name);
+            console.log(this.score);
+            return this;
+          },
+          hide:function () {
+
+            console.log(this.age);
+            return this;
+          }
+        }
+        git.prototype.init.prototype = git.prototype;
+        git().init().css().hide();
+      })(window,document);
+      /*利用jQuery的extern机制实现插件的扩展*/
+      ;(function ($,window,document,undefined) {
+        function git (ele,options) {
+          this.ele = ele;
+          this.defaults = {
+            'color':'#22f',
+            'fontSize':'40px',
+            'fontWeight':'bold'
+          };
+          this.options = $.extend({},this.defaults,options);
+        }
+        git.prototype = {
+          git:function () {
+              return this.ele.css({
+                'color':this.options.color,
+                'fontSize':this.options.fontSize,
+                'fontWeight':this.options.fontWeight
+              })
+          }
+        }
+        $.fn.plunger = function (options) {
+          var a = new git(this,options)
+          return a.git();
+        }
+        $('span').plunger();
+      })($,window,document);
+      /*再次练习坑爹的排序*/
+      ;(function () {
+        function git (arr) {
+          for(var i = 0;i<arr.length;i++) {
+            for(var k = 0;k<arr.length-i;k++) {
+              if(arr[k] > arr[k+1]) {
+                var temp = arr[k+1];
+                arr[k+1] = arr[k];
+                arr[k] = temp;
+              }
+            }
+          }
+        return arr;
+        }
+        console.log(git([2,4,56,1,9,4,0,5,2,3]))
+      } )()
+      ;(function () {
+        function git (arr) {
+        for(var i = 0;i<arr.length;i++) {
+          var min = arr[i];
+          for(var k = i+1;k<arr.length;k++) {
+            if(min >arr[k]) {
+              var temp = arr[k];
+              arr[k] = min;
+              min = temp;
+            }
+          }
+          arr[i] = min;
+        }
+        return arr;
+        }
+        console.log(git([2,4,56,1,9,4,0,5,2,3]))
+      } )()
+      ;(function () {
+        function git (arr) {
+          for(var i =1;i<arr.length;i++) {
+            var temp = arr[i];
+            var j = i-1;
+            while(i>=0 && temp<arr[j]) {
+              arr[j+1] = arr[j];
+              j -= 1;
+            }
+            arr[j+1] = temp
+          }
+        return arr;
+        }
+        console.log(git([2,4,56,1,9,4,0,5,2,3]))
+      } )()
+      ;(function () {
+        function git (arr) {
+          var gap = ~~(arr.length/2);
+          while(gap > 0) {
+            for(var i = gap;i<arr.length;i++) {
+              var temp = arr[i];
+              var j = i-gap;
+              while(j>=0 && arr[j] >temp) {
+                arr[j+gap] = arr[j];
+                j -= gap;
+              }
+              arr[j+gap] = temp;
+            }
+            gap = ~~(gap/2)
+          }
+        return arr;
+        }
+        console.log(git([2,4,56,1,9,4,0,5,2,3]))
+      } )()
+      ;(function () {
+        function git (arr) {
+          if(arr.length <=0) return arr;
+          var index = ~~(arr.length/2),middle = arr.splice(index,1),left = [],right = [];
+          arr.forEach(function (key) {
+            if(key >middle) {
+              right.push(key)
+            }else {
+              left.push(key)
+            }
+          })
+          var _left = arguments.callee(left);
+          var _right = arguments.callee(right);
+        return  _left.concat(middle,_right);
+        }
+        console.log(git([2,4,56,1,9,4,0,5,2,3]))
+      } )()
+      /*归并排序*/
+      ;(function () {
+        function git (left,right) {
+          var temp = [];
+          while(left.length && right.length) {
+            if(left[0] >right[0]) {
+              temp.push(right.shift())
+            }else {
+              temp.push(left.shift())
+            }
+          }
+          return temp.concat(left,right);
+        }
+        function hit(arr) {
+          var temp = [];
+          for(var i = 0;i<arr.length;i++) {
+            temp.push([arr[i]])
+          }
+          temp.push([]);
+          for(var k = arr.length;k>1;k= (k+1)/2) {
+            var j = 0;
+            for(var s = 0;s<k;s+=2) {
+              temp[j] = git(temp[s],temp[s+1]);
+              j++;
+            }
+            temp[j] = [];
+          }
+          return temp[0]
+        }
+        // console.log(hit([2,4,56,1,9,4,0,5,2,3]))
+      })()
+      /*手写原生的ajax请求*/
+      ;(function () {
+        var xhr = null;
+        if(window.XMLHttpRequest) {
+          xhr = new XMLHttpRequest();
+        }else {
+          xhr = ActiveXObject('Microsoft.XMLHTTP');
+          xhr.onreadystatechange= function () {
+            if(xhr.readyState === 4) {
+              if(xhr.status >=304 ||(xhr.status>=200 && xhr.status<300) ) {
+                alert(xhr.responseText)
+              }else {
+                alert('Request was unsuccessful:'+xhr.status)
+              }
+            }
+          }
+          var data = new FormData();
+          xhr.open('get','xxx.php');
+          /*这是表单上传的编码格式*/
+          xhr.setRequestheader('Content-Type','application/x-www-urlencoded')
+          /*如果是上传文件的话就要设置请求头部的编码格式*/
+          xhr.setRequestheader('Content-Type','multipart/form-data')
+          xhr.send(data)
+        }
+      })()
+      /*手写代码实现表单数据上传序列化*/
+      ;(function () {
+        function git (target) {
+          if(!target || target.nodeName.toUpperCase() !== 'FORM') {
+            return fasle;
+          }
+          var result = [],name ,type,key,value;
+          for(var i = 0;i<target.length;i++) {
+            key = target.elements[i];
+            name = key.name;
+            type = key.type;
+            if(key.disabled || !name) {return false;}
+            switch(type) {
+              case 'text':
+              case 'password':
+              case 'hidden':
+              case 'textarea':
+                result.push(encodeURIComponent(name)+'='+encodeURIComponent(key.value));
+                break;
+              case 'radio':
+              case 'checkbox':
+                if(key.checked) {
+                  result.push(encodeURIComponent(name)+'='+encodeURIComponent(key.value));
+                }
+                break;
+              case 'select-one':
+              case 'select-multiple':
+                for(var i = 0;i<key.options.length;i++) {
+                  if(key.selected) {
+                    result.push(encodeURIComponent(name)+'='+encodeURIComponent(key.options[i].value || key.options[i].text));
+                  }
+                }
+                break;
+            }
+          }
+          return result.join('&')
+        }
+        /*这里是利用最原生的获取到form表单后，利用nodeName，nodeType ,nodValue来进行编程*/
+        var target = document.getElementById('target');
+        console.log(git(target))
+      })()
+      ;(function () {
+        var xhr = null;
+        if(window.XMLHttpRequest) {
+          xhr = new XMLHttpRequest();
+        }else {
+          xhr = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        //使用onload方法就没有必要去检查readystate的值了
+        xhr.onload = function () {
+            if(xhr.state === 304 || xhr.state >= 200 && xhr.state <300) {
+                alert('请求响应已经成功处理了'+xhr.response.Text)
+            }else {
+                alert('请求相应的状态码不对，请根据状态码，做出对应的处理')
+            }
+
+        }
+        xhr.open('get','xxx.php',true);
+        //响应超时的处理方式，先设置一个超时的时间，然后在对他绑定处理函数
+        xhr.timeout 1000;
+        xhr.ontimeout = function () {
+          alert('Reque did not return in a second')
+        };
+        //progress的响应进度事件会接受到一个event对象，event对象包含三个属性
+        //还有lengthComputable 表示一个进度是否可用 position已经接受  totalSize预计的字节数
+        xhr.onprogress = function (event) {
+            if(event.lengthComputable) {
+              console.log(event.position+'---'+event.totalSize)
+            }
+        }
+        xhr.open();
+        xhr.send();
+      })()
+    </script>
+  </body>
+</html>
