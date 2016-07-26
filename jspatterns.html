@@ -6,6 +6,7 @@
     <script type="text/javascript" src = 'js/jquery-1.11.3.js'>
 
     </script>
+
   </head>
   <body>
     <span>1.单例模式</span>
@@ -34,7 +35,19 @@
       <input type="checkbox" name="hobby" value="basketball">Basketball
       <input type="radio" name="sex" checked value="Female">Female
       <input type="radio" name="sex" value="Male">Male
-  </form>
+    </form>
+    <br>
+    <br>
+    <br>
+
+
+
+
+  <br>
+  <br>
+  <br>
+  <div class="div" style="clear:both"></div>
+
     <script type="text/javascript">
       /*单例模式 想做到只有在使用的时候才初始化，为了节约资源的目的，我们可以另外一个构造函数里来初始化这些代码*/
       ;(function () {
@@ -507,16 +520,16 @@
         }
         //使用onload方法就没有必要去检查readystate的值了
         xhr.onload = function () {
-            if(xhr.state === 304 || xhr.state >= 200 && xhr.state <300) {
-                alert('请求响应已经成功处理了'+xhr.response.Text)
+            if(xhr.status === 304 || xhr.status >= 200 && xhr.status <300) {
+                console.log(xhr.responseText)
             }else {
                 alert('请求相应的状态码不对，请根据状态码，做出对应的处理')
             }
 
         }
-        xhr.open('get','xxx.php',true);
+        xhr.open('get','http://azu.github.io/promises-book/json/comment.json',true);
         //响应超时的处理方式，先设置一个超时的时间，然后在对他绑定处理函数
-        xhr.timeout 1000;
+        xhr.timeout =100000;
         xhr.ontimeout = function () {
           alert('Reque did not return in a second')
         };
@@ -527,9 +540,253 @@
               console.log(event.position+'---'+event.totalSize)
             }
         }
-        xhr.open();
-        xhr.send();
+        // xhr.open('get','xxx.php');
+        xhr.send(null);
       })()
+      /*es6的新属性promise generator*/
+      ;(function () {
+        //这是一个无穷自增的迭代器
+        function* gen () {
+          var i = 0;
+          while (true) {
+            yield i++;
+          }
+        }
+        var g = gen();
+        console.log(g.next().value)
+        console.log(g.next().value)
+        function* git (i) {
+          yield i+1;
+          yield i+2;
+          yield i+3;
+        }
+        console.log('----------------')
+        function* hit (i) {
+          yield i ;
+          yield i+2 ;
+          yield* git(i);//我们发现传递进去的入参就是外层函数传递进来的原值
+          yield i;
+          yield i+10;
+        }
+        var h = hit(10);
+        console.log(h.next().value);
+        console.log(h.next().value);
+        console.log(h.next().value);//进入函数调用的生成器
+        console.log(h.next().value);
+        console.log(h.next().value);
+        console.log(h.next().value);//我们发现他出来的时候居然是初始调用的值，姐就是说之前对他的一些操作的都是没有效果的
+        console.log(h.next().value);//通过输出可以发现他记住了原来的值，就是他进入内层函数和原值不影响，他只是把值传递进去而已
+      })()
+      /*下将MDN上的示例剥离不相关的，具体看看他和定时器放在一起时的效果*/
+/*      ;(function () {
+        var xbt = 1
+        var a = new Promise(function (reject,resolve) {
+          window.setTimeout(function () {
+            xbt++;
+            resolve(xbt);
+          },2000)
+        })
+        a.then(function (val) {
+          console.log(val)
+        })
+      })()*/
+      /*原来jQuery的ajax方法*/
+      $.ajax({
+        type:'GET',
+        url:'http://azu.github.io/promises-book/json/comment.json',
+        data:null,
+        success:function (value) {
+          console.log(value)
+        },
+        error:function(value) {
+          console.log(value);
+        }
+
+      })
+      /*promise处理ajax异步操作示例*/
+      function getURL(URL) {
+        return new Promise(function (resolve, reject) {
+            var req = new XMLHttpRequest();
+            req.open('GET', URL, true);
+            req.onload = function () {
+                if (req.status === 200) {
+                    resolve(req.responseText);
+                } else {
+                    reject(new Error(req.statusText));
+                }
+            };
+            req.onerror = function () {
+                reject(new Error(req.statusText));
+            };
+            req.send();
+        });
+      }
+      var request = {
+              comment: function getComment() {
+                  return getURL('http://azu.github.io/promises-book/json/comment.json').then(JSON.parse);
+              },
+              people: function getPeople() {
+                  return getURL('http://azu.github.io/promises-book/json/people.json').then(JSON.parse);
+              }
+          };
+      function main() {
+          return Promise.all([request.comment(), request.people()]);
+      }
+      // 运行示例
+      main().then(function (value) {
+          console.log(value);
+      }).catch(function(error){
+          console.log(error);
+      });
+      /*0726晨间练习*/
+      ;(function () {
+        //1.自定义函数，主要是由订阅发布。观察者模型而来
+        function git() {
+          this.ele = {};
+        }
+        git.prototype = {
+          on:function (callbacks) {
+            for(var key in callbacks) {
+              if(typeof this.ele[key] === 'undefined') {
+                this.ele[key] = new Array();
+              }
+              this.ele[key].push(callbacks[key])
+            }
+          },
+          hire:function (type) {
+            if(this.ele[type]  && this.ele[type].length) {
+              this.ele[type][0]()
+            }else {
+              console.log('找不到您要的事件，此事件没有被绑定');
+            }
+          },
+          off:function (type) {
+            if(this.ele[type]  && this.ele[type].length) {
+              delete this.ele[type]
+            }else {
+              console.log('not found')
+            }
+          },
+        }
+        function callbacks() {
+          return {
+            'sleep':function () {
+              console.log('我在睡觉')
+            }
+          }
+        }
+        var zidingyi = new git();
+        zidingyi.on(callbacks());
+        zidingyi.hire('sleep');
+        zidingyi.off('sleep');
+        /*单例模式的练习*/
+        var single = function (){
+          var instance;
+          function init (name) {
+            this.name = name || '木有传参哦';
+            this.say = function () {
+              console.log('单例模式调用展示+'+this.name)
+            }
+          }
+          return {
+            neibu:function  (name) {
+              if(!instance) {
+                instance =  new init(name);
+              }
+              return instance;
+            }
+          }
+        }
+        var single1 = single().neibu().say();
+        var single1 = single().neibu('xbt').say();
+        var single1 = single().neibu('wgd').say();
+        /*工厂模式练习*/
+        var factory = function (){};
+        factory.prototype.say1 = function () {console.log('这是步骤一')}
+        factory.prototype.say2 = function () {console.log('这是步骤二')}
+        factory.prototype.say3 = function () {console.log('这是步骤三')}
+        factory.prototype.say4 = function () {console.log('这是步骤四')}
+        factory.prototype.init = function () {
+          this.say1()
+          this.say2()
+          this.say3()
+          this.say4()
+        }
+        var child = function () {};
+        child.prototype = new factory();
+        //如果这里的某一个对应的方法不写的话就会去原型链上寻找，会输出对应的工厂里的步骤
+        child.prototype.say1 = function () {console.log('这是分公司的步骤一')}
+        child.prototype.say2 = function () {console.log('这是分公司的步骤二')}
+        child.prototype.say3 = function () {console.log('这是分公司的步骤三')}
+        child.prototype.say4 = function () {console.log('这是分公司的步骤四')}
+        var xiaobao = new child();
+        xiaobao.init();
+        /*构造函数的方式，就是我们一开始接触原型上的最原始的方法*/
+        var hmm = function (name,age) {
+          this.name = name;
+          this.age = age;
+        }
+        hmm.prototype.intr = function () {
+          console.log('我的名字叫：'+this.name+'--我的年龄'+this.age)
+        }
+        var lilei = function (name,age,score) {
+          this.score = score;
+          hmm.call(this,name,age);
+        }
+        lilei.prototype = new hmm();
+        lilei.prototype.say = function () {
+          console.log('我的得分是'+this.score)
+        }
+        var xli = new lilei('xli',18,1000)
+        xli.intr();
+        xli.say();
+      })()
+      /*练习利用promise来书写ajax,为了方便这里就不做浏览器兼容性的判断了*/
+      var  p = new Promise(function(resolve,reject) {
+        var  xhr1 = new XMLHttpRequest();
+        xhr1.addEventListener('load',function () {
+          if(xhr1.status === 304 ||(xhr1.status >=200 && xhr1.status <300)) {
+            resolve(xhr1.responseText)
+          }else {
+            reject(xhr1.status)
+          }
+        })
+        xhr1.onerror = function () {
+          reject(new Error())
+        }
+        xhr1.open ('get','http://azu.github.io/promises-book/json/comment.json',true);
+        xhr1.send(null);
+      })
+      p.then(function(value) {
+        console.log(value)
+      }).catch(function (value) {
+        console.log(value)
+      })
+      /*生成器函数练习*/
+      ;(function () {
+        function* generator (i) {
+          yield i+1;
+          yield i+2;
+          yield i+3;
+        }
+        function* father (i) {
+          yield i+2;
+          yield* generator(i);
+          yield i+1;
+          yield i+2;
+          yield i+4;
+        }
+        var a = father(10);
+        console.log(a.next().value)
+        console.log(a.next().value)
+        console.log(a.next().value)
+        console.log(a.next().value)
+        console.log(a.next().value)
+        console.log(a.next().value)
+      })()
+      /*练习tab标签页的切换效果*/
+      //方法：这类文题都是利用js实现效果
+
     </script>
   </body>
 </html>

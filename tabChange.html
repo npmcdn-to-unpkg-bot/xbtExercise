@@ -3,9 +3,39 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>无js的tab切换问题</title>
-    <link rel="stylesheet" href="css/tab切换.css" type="text/css"/>
+    <link rel="stylesheet" href="css/tabChange.css" type="text/css"/>
 </head>
 <body>
+  <div class="tab">
+  <ul class="ul">
+    <li class="li0">这是套餐一</li>
+    <li class="li1">这是套餐二</li>
+    <li class="li2">这是套餐三</li>
+  </ul>
+  <div class="li01 show">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+  <div class="li11 hide">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+  <div class="li21 hide">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
 <div class="tablist">
     <ul class="tabmenu">
         <li><a href="#tab1">标签一</a></li>
@@ -19,9 +49,106 @@
     <div id="tab3" class="tab_content"><p style="font-size:24px;">高质量设计文章分享平台</p><p>欢迎加设计达人Q群：50063010<br />设计达人以原创和分享一些高质量的设计文章为主，希望喜欢</p>
         <!-- end tab3 content--></div>
 </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div id='select'></div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!-- 焦点轮播图 大概的布局已经完成了，我们后续可以添加点挤事件来完成对ul的左右移动 -->
+<div class='outer'>
+  <ul class="inner">
+    <li><img src=" img/p_small_001.jpg" alt=""></li>
+    <li><img src=" img/p_small_002.jpg" alt=""></li>
+    <li><img src=" img/p_small_003.jpg" alt=""></li>
+    <li><img src=" img/p_small_004.jpg" alt=""></li>
+    <li><img src=" img/p_small_005.jpg" alt=""></li>
+    <li><img src=" img/p_small_006.jpg" alt=""></li>
+  </ul>
+</div>
+<!-- 幻灯片效果，利用css3动画 -->
+<div class="action" >
+<!--如果是利用css3去实现幻灯片的效果，就是只有一个视口，在不同的时间点，我们是去更换内部图片的url-->
+</div>
+<script>
+  var select1 = document.getElementById('select');
+  var p = ['北京市','江苏省','山东省','安徽省'];
+  var c = [['北一','北二','北三'],['江一','江二','江三'],['山一','山二','山三'],['安一','安二','安三']];
+  var frg = document.createDocumentFragment();
+  var select = document.createElement('select');
+  var selectC = document.createElement('select');
+  select.setAttribute('class','s');
+  var option1 = new Option ('请选择下拉的元素',-1);
+  selectC.setAttribute('class','s');
+  var optionC = new Option ('请选择下拉的元素',-1);
+  select.add(option1)
+  selectC.add(optionC)
+  for(var i = 0;i<p.length;i++) {
+    var option = new Option(p[i],i);
+    select.add(option)
+  }
+
+  select.addEventListener('change',function (e) {
+    var src = e.target || e.srcElement;
+    for(var k = 0;k< c.length;k++) {
+      if(k === src.value) {
+        for(var j = 0;j<c[k].length;j++) {
+          var optionC1 = new Option(c[k][j],j);
+          selectC.add(optionC1)
+        }
+      }
+    }
+  })
+  frg.appendChild(select);
+  frg.appendChild(selectC);
+  select1.appendChild(frg);
+  select.appendChild(frg);
+</script>
+<script type="text/javascript">
+  var ul = document.getElementsByTagName('ul')[0];
+  ul.addEventListener('click',function (event) {
+    var src = event.target||event.srcElement;
+    var className = src.getAttribute('class');
+    var index = className.split(' ')[0].slice(-1);
+    var divs = document.querySelectorAll('.tab div');//这是所有的div
+    for(var i = 0 ;i < divs.length ; i++) {
+      divs[i].removeAttribute('class');
+      if(i != Number(index)) {
+        divs[i].setAttribute('class',className+'1  hide');
+      }else {
+        divs[i].setAttribute('class',className+'1  show');
+      }
+    }
+  })
+</script>
 <script>
   var a = {
-      name:'xbt'
+      name:'徐宝婷'
   }
     var hmm = {
         name : 'hmm',
@@ -30,13 +157,13 @@
         }
     }
     hmm.intro.bind(a,'好好努力，让世界看到最好的你')();
-  hmm.intro.call(a,'实验小学');
+  hmm.intro.call(a,'我是正宗的白富美');
 //    var xbt = hmm.intro;
 //    xbt();
   var b = {
-      name:'wgd'
+      name:'吴广东'
   };
-    hmm.intro.call(b,'山东狗狗')
+    hmm.intro.call(b,'我是山东狗狗')
 
 
 

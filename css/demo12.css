@@ -66,7 +66,7 @@
     height:70px;
     border:1px solid #d0e4c2;
     margin:0 auto;
-    -webkit-animation: powerPoint 20s linear forwards infinite;
+    -webkit-animation: powerPoint 10s linear forwards infinite;
 }
 @-webkit-keyframes   powerPoint{
     from {
