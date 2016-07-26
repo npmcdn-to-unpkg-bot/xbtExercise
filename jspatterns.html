@@ -784,9 +784,52 @@
         console.log(a.next().value)
         console.log(a.next().value)
       })()
-      /*练习tab标签页的切换效果*/
-      //方法：这类文题都是利用js实现效果
+    </script>
+    <script >
+    /*js实现二分查找，要求数组是有序的，在进信查找的是我们可以先利用简单的冒泡排序排序。有递归的味道里面*/
+    ;(function () {
+      function heapSort(items){
+        items = array2heap(items); //将数组转化为堆
+        for(var i = items.length - 1; i >= 0; i--){
+           items = swap(items, 0, i); //将根和位置i的数据交换(用于将最大值放在最后面)
+           items = moveDown(items, 0, i - 1); //数据交换后恢复堆的属性
+        }
+        return items;
+      }
 
+      function array2heap(items){
+        for(var i = Math.ceil(items.length / 2) - 1; i >= 0; i--){
+          items = moveDown(items, i, items.length - 1); //转换为堆属性
+        }
+        return items;
+      }
+
+      function moveDown(items, first, last){
+        var largest = 2 * first + 1;
+        while(largest <= last){
+         if(largest < last && items[largest] < items[largest + 1]){
+           largest++;
+         }
+         if(items[first] < items[largest]){
+            items = swap(items, first, largest); // 交换数据
+            first = largest;   //往下移
+            largest = 2 * first + 1;
+         } else{
+
+            largest = last + 1; //跳出循环
+         }
+      }
+      return items;
+      }
+
+      function swap(items, index1, index2){
+        var tmp = items[index1];
+        items[index1] = items[index2];
+        items[index2] = tmp;
+        return items;
+      }
+      console.log(heapSort([1,2,54,2,1,76,53,,23]))
+    })()
     </script>
   </body>
 </html>
