@@ -830,6 +830,121 @@
       }
       console.log(heapSort([1,2,54,2,1,76,53,,23]))
     })()
+    /*0727js的程序练习*/
+    ;(function (){
+      /*1.二分查找*/
+      function git (arr,num,start,end) {
+        start = start || 0;
+        end = end || arr.length-1;
+        var index = ~~((start+end)/2);
+        if(arr[index] === num) {
+          return index;
+        }else if( arr[index] > num ) {
+          return arguments.callee(arr,num,start,index-1)
+        }else {
+          return arguments.callee(arr,num,index+1,end)
+        }
+      }
+      console.log(git ([1,2,3,4,5,6],6))
+    })()
+    /*2.生成器*/
+    ;(function () {
+      function* gen (u) {
+        yield u;
+        yield u+1;
+        yield u+2;
+      }
+      function* Gen (i) {
+        yield i;
+        yield* gen(i);
+        yield i*10;
+      }
+      var a = Gen(10);
+      console.log(a.next().value)
+      console.log(a.next().value)
+      console.log(a.next().value)
+      console.log(a.next().value)
+      console.log(a.next().value)
+
+    })()
+    /*3.promise封装ajax的请求*/
+    ;(function () {
+      var p = new Promise(function (resolve,reject) {
+        var xhr = null;
+        if(window.XMLHttpRequest) {
+          xhr = new XMLHttpRequest();
+        }else {
+          xhr = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        xhr.open('get','xxx.php',true)
+        xhr.onload = function () {
+          if(xhr.status === 304 || xhr.status>= 200 && xhr.status<300) {
+            resolve(xhr.responseText)
+          }else {
+            reject(xhr.responseText)
+          }
+        }
+        xhr.onerror = function () {
+          reject(xhr.responseText)
+        }
+        xhr.setRequestHeader('Content-Type','application/x-www-urlencoded')
+        // xhr.send(null)
+      })
+      p.then(function (value){
+        console.log(value);
+      }).catch(function (value) {
+        console.log(value);
+      })
+    })()
+    /*快速排序*/
+    ;(function () {
+      function git (arr) {
+        if(arr.length <=0) return arr;
+        var index = ~~(arr.length/2),middle = arr.splice(index,1)[0],left = [],right = [];
+          arr.forEach(function(key) {
+            if(key <middle) {
+              left.push(key);
+            }else {
+              right.push(key)
+            }
+         })
+         var _left = arguments.callee(left);
+         var _right = arguments.callee(right);
+         return  _left.concat(middle,_right)
+      }
+      console.log(git([1,5,2,3,7,89,54,23]))
+    })()
+    /*归并排序，这就是能搞死人的东西*/
+    ;(function () {
+      function git (left,right) {
+        var result = [];
+        while(left.length && right.length) {
+          if(left[0] > right[0]) {
+            result.push(right.shift())
+          }else {
+            result.push(left.shift())
+          }
+        }
+        return result.concat(left,right)
+      }
+      function hit (arr) {
+        var result = [];
+        for(var i = 0;i<arr.length;i++) {
+          result.push([arr[i]])
+        }
+        result.push([]);
+        for(var s = arr.length;s>1;s=(s+1)/2) {
+          var j = 0;
+          for(var k = 0 ; k<s ; k+=2) {
+            result[j] = git(result[k],result[k+1])
+            j++;
+          }
+          result[j] = [];
+        }
+        return result[0]
+      }
+      console.log(hit([1,5,2,3,7,23,98,89,80]))
+    })()
     </script>
   </body>
 </html>
