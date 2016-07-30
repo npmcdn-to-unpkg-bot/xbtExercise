@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>underscore基础知识了解学习</title>
+    <script src='js/underscore.js'></script>
+    <style>
+      * {
+        margin:0;
+        padding:0;
+      }
+/*      .parent {
+        overflow: hidden;
+      }
+      .side {
+        float:left;
+        width:200px;
+        height:200px;
+        background:red;
+      }
+      .main {
+        width:100%;
+        height:200px;
+        margin-left: 210px;
+        background:blue;
+      }*/
+      .parent {
+        display: flex;
+      }
+      .side {
+        width:200px;
+        height:200px;
+        background:red;
+      }
+      .main {
+        width:100%;
+        height:200px;
+        margin-left: 10px;
+        background:blue;
+      }
+      .wrap {
+        position:relative;
+        width:400px;
+        height:200px;
+        overflow:hidden;
+      }
+      .pic {
+        width:1200px;
+      }
+      .pic>div {
+        float:left;
+        width:400px;
+        height:200px;
+        background:#5dd94e;
+      }
+      #position{
+        position :absolute;
+        bottom:0;
+        right:0;
+        background:#000;
+        opcity:0.4;
+        width:400px;
+        text-align: center;;
+      }
+      #position li {
+        width:10px;
+        height:10px;
+        margin:0 2px;
+        display:inline-block;
+        border-radius: 5px;
+        background-color: #AFAFAF;
+      }
+    </style>
+  </head>
+  <body>
+    <div class='parent'>
+      <div class='side'>侧栏</div>
+      <div class='main'>主栏</div>
+    </div>
+    <div class='wrap'>
+      <div class='pic'>
+        <div><a href="javascript"><img src="img/p_small_001.jpg" alt="1"></a></div>
+        <div><a href="javascript"><img src="img/p_small_002.jpg" alt="2"></a></div>
+        <div><a href="javascript"><img src="img/p_small_003.jpg" alt="3"></a></div>
+      </div>
+    </div>
+    <ul id = 'position'>
+      <li class='cur0'></li>
+      <li class='cur1'></li>
+      <li class='cur2'></li>
+    </ul>
+
+  <script>
+  /*怎么感觉这个功能函数库实现的小功能，在es6的数组上都有实现*/
+  var a = _.each([1, 2, 3],function (num) {return num});
+  console.log(a);
+  var b = _.map([1, 2, 3], function(num){ return num * 3; });
+  console.log(b);
+  var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 10);
+  console.log(sum);
+  /*我们可以发现这个展开拼接的功能只能展开一层，并不是所有的都可以*/
+  var list = [[0, 1], [2, [123,321]], [4, 5]];
+  var list1= _.reduceRight(list,function(a,b) {return a.concat(b)});
+  console.log(list1);
+  /*运用此函数我们可以发现find只是找到第一个满足条件值用来输出显示*/
+  var list2 = [1,2,3,45,67,856,2];
+  var list22 = _.find(list2,function (a) {return a>2})
+  console.log(list22);
+  /*效果同array原生的过滤方法*/
+  var list3 = [1,2,3,4,5,6];
+  var list33 = _.find(list3,function(a) {return a%2 ===0});
+  var list333 = list3.filter(function (a) {return a>4})
+  console.log(list33);
+  console.log(list333);
+  /*where函数的测试失败*/
+  var list4 = {author: "Shakespeare", year: 1611,'xbt':12}
+  var list44 = _.where(list4,{author: "Shakespeare", year: 1611})
+  console.log(list44);
+  /*invoke函数*/
+  var list5 = [[23,1,2],[32,311,1]]
+  var list55 = _.invoke(list5,'sort',1);
+  console.log(list55);
+  /*pluck函数用法根据指定的入参，筛选出符合条件的value*/
+  var list6 = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+  var list66 = _.pluck(list6,'name');
+  console.log(list66);
+  /*max,对json格式的数据进行最大值求解*/
+  var list7 = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 160}];
+  var list77 = _.max(list7,function(key) {return key.age})
+  console.log(list77);
+  /*min,这个函数的功能同max的功能哦，可以取出json格式中指定的value的最小值*/
+  var list8 = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 160}]
+  var list88 = _.min(list8,function (key) {return key.age})
+  console.log(list88);
+  /*sortBy*/
+  var list9 = [1,2,3,4,5,7,2,3,1];
+  var list99 = _.sortBy(list9,function (a,b) {return -(a-b)});
+  console.log(list99)
+  </script>
+  <script type="text/javascript">
+    ;(function () {
+      function git (num,s,l) {
+        var x = Math.floor(l/(s+1));
+        return Math.ceil(num/x)
+      }
+      console.log(git (7,2,6) )
+    })()
+  </script>
+  <script>
+    function Scope() {};
+    Scope.prototype.clone = function () {
+      if(Object.prototype.toString.call(this).slice(8,-1)   === 'Object') {
+        ob = {};
+        for(var key in this) {
+          var  op = this[key];
+          if(Object.prototype.toString.call(op).slice(8,-1)   !== 'Object') {
+            ob[key] = op;
+          }
+        }
+      }
+      return ob;
+    }
+    var scopeA = new Scope();
+    scopeA.title = 'My title';
+    var scopeB = scopeA.clone();
+    console.log(scopeB)
+    console.log(scopeB.title === 'My title')
+    scopeA.title = 'Home title';
+    console.log(scopeB.title === 'Home title')
+    scopeB.title = 'scopeB title';
+    console.log(scopeA === 'Home title')
+  </script>
+  </body>
+</html>
