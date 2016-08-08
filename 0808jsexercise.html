@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>阿里交叉面试前的练习</title>
+    <script type="text/javascript" src ="js/jquery-1.11.3.js">
+
+    </script>
+  </head>
+  <body>
+    <div>
+      这是在练习插件的书写
+    </div>
+  <script>
+  ;(function (){
+    function git (arr) {
+      for(var i = 0;i<arr.length;i++) {
+        for(var j = 0;j<arr.length-i;j++) {
+          if(arr[j]>arr[j+1]) {
+            var temp = arr[j+1];
+            arr[j+1] = arr[j];
+            arr[j] = temp
+          }
+        }
+      }
+      return arr;
+    }
+    console.log(git([9,2,3,1,4,5,2,6]))
+  })()
+  ;(function () {
+    function git (arr) {
+      for(var i = 0;i<arr.length;i++) {
+        var min = arr[i];
+        for(var j = i+1;j<arr.length;j++) {
+          if(min > arr[j]) {
+            var temp = arr[j];
+            arr[j] = min;
+            min = temp;
+          }
+        }
+        arr[i] = min;
+      }
+      return arr;
+    }
+    console.log(git([9,2,3,1,4,5,2,6]))
+  })()
+  ;(function () {
+    function git (arr) {
+      for(var i = 1;i<arr.length;i++) {
+        var result = arr[i];
+        var j = i-1;
+        while(j>=0 && arr[j] > result) {
+          arr[j+1] = arr[j];
+          j -= 1;
+        }
+        arr[j+1] = result
+      }
+      return arr
+    }
+    console.log(git([9,2,3,1,4,5,2,6]));
+  })()
+  ;(function () {
+    function git (arr) {
+      var gap = ~~(arr.length/2);
+      while (gap >0) {
+        for (var i = gap ;i<arr.length;i++) {
+          var result = arr[i];
+          var j = i-gap;
+          while(j>=0 && arr[j] >result) {
+            arr[j+gap] = arr[j];
+            j -= gap;
+          }
+          arr[j+gap] = result;
+        }
+        gap = ~~(gap/2)
+      }
+      return arr;
+    }
+    console.log(git([9,2,3,1,4,5,2,6]))
+  })()
+  ;(function () {
+    function git(arr) {
+      if (arr.length <= 1) {
+        return arr;
+      }
+      var index = ~~(arr.length/2);
+      var  middle= arr.splice(index,1)[0],left = [],right = [];
+      arr.forEach(function (temp) {
+        if(temp<=middle) {
+           left.push(temp)
+        }else {
+           right.push(temp)
+        }
+      })
+      var _left = arguments.callee(left);
+      var _right = arguments.callee(right);
+      return _left.concat(middle,_right)
+    }
+    console.log(git([9,2,3,1,4,5,2,6]))
+  }) ()
+  /*归并排序就利用这个方法书写就好，之前的方法有问题*/
+  ;(function () {
+    function hit(left,right) {
+      var result = [];
+      while(left.length && right.length) {
+        if(left[0] <right[0]) {
+          result.push(left.shift())
+        }else {
+          result.push(right.shift())
+        }
+      }
+      return result.concat(left,right)
+
+    }
+    function git (a) {
+      if(a.length === 1)  {return a;}
+      var mid = ~~(a.length / 2)
+        , left = a.slice(0, mid)
+        , right = a.slice(mid);
+          return hit(git(left), git(right));
+    }
+    console.log(git([9,2,3,1,4,5,2,6]))
+  })()
+  ;(function ($,window,document,undefined) {
+    function git (ele,options) {
+      this.ele = ele;
+      this.defaults = {
+        'width':'320px',
+        'height':'200px',
+        'color':'#aff',
+        'border':'1px solid #000'
+      }
+      this.options = $.extend({},this.defaults);
+    }
+    git.prototype = {
+      git : function () {
+        return this.ele.css({
+          'width':this.options.width,
+          'height':this.options.height,
+          'color':this.options.color,
+          'border':this.options.border
+        })
+      }
+    }
+    $.fn.plunger = function (options) {
+      var a = new git(this,options);
+      return a.git();
+    }
+    $('div').plunger();
+  })($,window,document)
+  ;(function () {
+    function j() {
+      return new j.prototype.init();
+    }
+     j.prototype= {
+      init:function () {
+        this.name = 'xbt';
+        console.log(this.name);
+        return this;
+      },
+      say:function () {
+        this.score  = '1000';
+        console.log(this.name+'-----'+this.score);
+        return this;
+      }
+    }
+    j.prototype.init.prototype = j.prototype;
+    j().init().say().init();
+  })();
+  ;(function () {
+    function git(num) {
+      if(num === 1 || num === 2) return num;
+      if(num >=3) {
+         a = arguments.callee(num-1) + arguments.callee(num-2)
+      }
+      return a
+    }
+    console.log(git(3))
+  })()
+  ;(function () {
+    function git(sum) {
+      if(sum >1) {
+         return sum * arguments.callee(sum-1)
+      }
+      return sum
+    }
+    console.log(git(5))
+  })()
+  </script>
+  </body>
+</html>

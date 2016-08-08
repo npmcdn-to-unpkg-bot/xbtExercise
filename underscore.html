@@ -170,5 +170,34 @@
     scopeB.title = 'scopeB title';
     console.log(scopeA === 'Home title')
   </script>
+  <script>
+  /*原型继承问题联系*/
+  ;(function () {
+    var git  = function (name) {
+      this.name = name;
+      this.say = function (school) {
+        console.log(this.name+'----'+school)
+      }
+    }
+    git.prototype.intr = function () {
+      console.log(this.name);
+    }
+    var hit = new git ('xbt');
+    hit.say('盐城一中');
+    hit.intr();
+    /*call继承*/
+    var b = function (name,score) {
+      git.call(this,name);
+      this.score = score;
+    }
+    b.prototype = new git();
+    b.prototype.hello = function () {
+      console.log(this.score);
+    }
+    var c = new b('xbt11','1000');
+    c.intr();
+    c.hello();
+  })()
+  </script>
   </body>
 </html>

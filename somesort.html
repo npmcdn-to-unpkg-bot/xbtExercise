@@ -123,7 +123,7 @@
         }
          return work[0];
         }
-        console.log(mergeSort([9,8,7,6,5,4,3,1]))
+        console.log(mergeSort([9,2,3,1,4,5,2,6]))
       })()
       /*归并排序的速成方法*/
       ;(function () {
@@ -145,10 +145,10 @@
           , right = a.slice(mid);
         return merge(mergeSort(left), mergeSort(right));
       }
-      console.log(mergeSort([2,4,6,1,3,8]))
+      console.log(mergeSort([9,2,3,1,4,5,2,6]))
       })()
       /*堆排序*/
-      ;(function() {
+/*      ;(function() {
         function heapSort(array) {
           if (Object.prototype.toString.call(array).slice(8, -1) === ‘Array’) {
              //建堆
@@ -167,7 +167,7 @@
             return ‘array is not an Array!’;
            }
         }
-      })()
+      })()*/
     </script>
   </body>
 </html>

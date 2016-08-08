@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>0802练习部分</title>
+    <script type="text/javascript" src ='js/jquery-1.11.3.js'> </script>
+  </head>
+  <body>
+    <div class="div">
+      这是在练习自定义插件
+    </div>
+  <script>
+  /*自定义插件*/
+  ;(function ($,window,document,undefined) {
+    function git (ele,option) {
+      this.ele = ele;
+      this.defaults = {
+        'color':'red',
+        'width':'200px',
+        'height':'200px',
+        'border':'1px solid #faf',
+        'margin':'0 auto'
+      }
+      this.options = $.extend({},this.defaults,option)
+    }
+    git.prototype = {
+      git:function () {
+        return this.ele.css({
+          'color':this.options.color,
+          'width':this.options.width,
+          'height':this.options.height,
+          'border':this.options.border,
+          'margin':this.options.margin
+        })
+      }
+    }
+    $.fn.plugin = function (option) {
+      var a = new git(this,option);
+      return a.git()
+    }
+    $('.div').plugin({
+      'width':'500px'
+    });
+  })($,window,document)
+  </script>
+  </body>
+</html>
