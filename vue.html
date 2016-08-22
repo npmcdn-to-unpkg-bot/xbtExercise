@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>vue.js的学习</title>
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <h1>vue的helloworld新手入门</h1>
+    <div id="app">
+      {{ message }}
+    </div>
+    <hr>
+    <h1>vue的数据双向绑定,变与被变的两个标签要放在同一个id表示的区块里面</h1>
+    <div id="app1">
+      <p>{{ message }}</p>
+      <input type="text"  v-model="message">
+    </div>
+    <hr>
+    <h1>vue的渲染列表</h1>
+    <div id='app2'>
+      <ul>
+        <li v-for="todo in todos">
+          {{ todo.text }}
+        </li>
+        <ul>
+          <li v-for="todo in todos">
+            {{ todo.text }}
+          </li>
+          <ul>
+            <li v-for="todo in todos">
+              {{ todo.text }}
+            </li>
+            <ul>
+              <li v-for="todo in todos">
+                {{ todo.text }}
+              </li>
+            </ul>
+          </ul>
+        </ul>
+      </ul>
+    </div>
+    <hr>
+    <h1>处理用户输入</h1>
+    <div id='app3'>
+      <p>{{ message }}</p>
+      <button v-on:click="reverseMessage">Reverse Message</button>
+    </div>
+    <hr>
+    <h1>vue.js认识的基本练习</h1>
+    <div id="app4">
+      <input v-model="newTodo" v-on:keyup.enter="addTodo">
+      <ul>
+        <li v-for="todo in todos">
+          <span>{{ todo.text }}</span>
+          <button v-on:click="removeTodo($index)">X</button>
+        </li>
+      </ul>
+    </div>
+    <script type="text/javascript">
+    var example  = new Vue({
+      el: '#app',
+      data: {
+          message: 'Hello Vue.js!'
+      }
+    })
+    new Vue({
+      el: '#app1',
+      data: {
+          message: 'Hello Vue.js!,hello 羊肥肥'
+      }
+    })
+    new Vue({
+      el:'#app2',
+      data:{
+        todos:[{
+          text:'Learn JavaScript',
+        },{
+          text:'Lean vue.js',
+        },{
+          text:'Lean everything'
+        }]
+      }
+    })
+    new Vue({
+      el:'#app3',
+      data:{
+        message: 'Hello Vue.js!'
+      },
+      methods:{
+        reverseMessage: function() {
+          this.message = this.message.split('').reverse().join('')
+        }
+      }
+    })
+    new Vue({
+      el:'#app4',
+      data:{
+        newTodo: '',
+        todos: [
+          { text: 'Add some todos' }
+        ]
+      },
+      methods:{
+        addTodo:function () {
+          var text = this.newTodo.trim();
+          if (text) {
+            /*如果输入框里面有值那么我们就直接将输入的数值添加到下面的li中去*/
+            this.todos.push({ text: text })
+            this.newTodo = ''
+          }
+        },
+        removeTodo: function (index) {
+          /*此处是另外一个删除的按钮处理事件，主要就是完成点击删除*/
+           this.todos.splice(index, 1)
+        }
+      }
+    })
+    var vm = new Vue({
+      data: {
+        a: '羊肥肥'
+      },
+      created: function () {
+        // `this` 指向 vm 实例
+        console.log('a is: ' + this.a)
+      }
+    })
+    </script>
+  </body>
+</html>
